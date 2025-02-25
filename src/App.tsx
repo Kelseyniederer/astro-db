@@ -1,5 +1,7 @@
+import { Button } from "@chakra-ui/react";
+
 function App() {
-  return <div>Hello World!</div>;
+  return <Button colorPalette="blue">Click me</Button>;
 }
 
 export default App;
