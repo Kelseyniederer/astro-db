@@ -7,7 +7,7 @@ import { ColorModeProvider } from "./components/ui/color-mode";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider value={defaultSystem}>
-      <ColorModeProvider forcedTheme="light">
+      <ColorModeProvider>
         <App />
       </ColorModeProvider>
     </ChakraProvider>
