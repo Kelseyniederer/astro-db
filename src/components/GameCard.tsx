@@ -9,8 +9,8 @@ interface Props {
 }
 const GameCard = ({ game }: Props) => {
   return (
-    <Card.Root >
-      <Image src={getCroppedImageUrl(game.background_image)} />
+    <Card.Root>
+      <Image src={getCroppedImageUrl(game.background_image)} alt={game.name} />
       <Card.Body display={"flex"}>
         <Heading fontSize={"2xl"}>{game.name}</Heading>
         <HStack justifyContent={"space-between"}>
