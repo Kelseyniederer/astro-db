@@ -3,7 +3,7 @@ import { useState } from "react";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import NavBar from "./components/NavBar";
-import PlatformSelector from "./components/PlatformSelector";
+import SortSelector from "./components/SortSelector";
 import { Platform } from "./hooks/useGames";
 import { Genre } from "./hooks/useGenres";
 
@@ -40,12 +40,7 @@ function App() {
         />
       </GridItem>
       <GridItem area="main">
-        <PlatformSelector
-          onSelectPlatform={(platform) =>
-            setGameQuery({ ...gameQuery, platform })
-          }
-          selectedPlatform={gameQuery.platform}
-        />
+        <SortSelector></SortSelector>
         <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
