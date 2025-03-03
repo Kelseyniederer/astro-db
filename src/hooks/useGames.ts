@@ -22,9 +22,10 @@ const useGames = (gameQuery: GameQuery) =>
       params: {
         genres: gameQuery.genre?.id,
         parent_platforms: gameQuery.platform?.id,
+        search: gameQuery.searchText,
       },
     },
-    [gameQuery.genre?.id, gameQuery.platform?.id]
+    [gameQuery]
   );
 
 export default useGames;
