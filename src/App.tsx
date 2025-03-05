@@ -1,22 +1,20 @@
-import { Box, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
 import "./app.css";
-import GameGrid from "./components/GameGrid";
-import GameHeading from "./components/GameHeading";
 import GenreList from "./components/GenreList";
+import MovieGrid from "./components/MovieGrid";
 import NavBar from "./components/NavBar";
-import PlatformSelector from "./components/PlatformSelector";
-import { Platform } from "./hooks/useGames";
 import { Genre } from "./hooks/useGenres";
 
-export interface GameQuery {
+export interface MovieQuery {
   genre: Genre | null;
-  platform: Platform | null;
   searchText: string;
 }
 
 function App() {
-  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+  const [movieQuery, setMovieQuery] = useState<MovieQuery>({
+    searchText: "",
+  } as MovieQuery);
 
   return (
     <Grid
@@ -29,32 +27,28 @@ function App() {
         lg: "200px 1fr",
       }}
     >
+      {/* ✅ Pass onSearch function to NavBar */}
       <GridItem area="nav">
         <NavBar
-          onSearch={(searchText) => setGameQuery({ ...gameQuery, searchText })}
-        ></NavBar>
+          onSearch={(searchText) =>
+            setMovieQuery({ ...movieQuery, searchText })
+          }
+        />
       </GridItem>
+
       <GridItem
         area="aside"
         display={{ base: "none", lg: "block" }}
         paddingX={5}
       >
         <GenreList
-          selectedGenre={gameQuery.genre}
-          onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
+          selectedGenre={movieQuery.genre}
+          onSelectGenre={(genre) => setMovieQuery({ ...movieQuery, genre })}
         />
       </GridItem>
+
       <GridItem area="main">
-        <Box paddingLeft={2}>
-          <GameHeading gameQuery={gameQuery}></GameHeading>
-          <PlatformSelector
-            onSelectPlatform={(platform) =>
-              setGameQuery({ ...gameQuery, platform })
-            }
-            selectedPlatform={gameQuery.platform}
-          />
-          <GameGrid gameQuery={gameQuery} />
-        </Box>
+        <MovieGrid movieQuery={movieQuery} />
       </GridItem>
     </Grid>
   );
