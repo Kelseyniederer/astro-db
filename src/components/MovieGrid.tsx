@@ -8,25 +8,27 @@ import MovieCardSkeleton from "./MovieCardSkeleton";
 interface Props {
   movieQuery: MovieQuery;
 }
+
 const MovieGrid = ({ movieQuery }: Props) => {
   const { data, error, isLoading } = useMovies(movieQuery);
-  const skeletons = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-  ];
+  const skeletons = Array(16).fill(null); // ✅ Simplified Skeleton Array
 
   if (error) return <Text>{error}</Text>;
 
   return (
-    <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} padding={10} gap={6}>
+    <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} padding={7} gap={5}>
+      {/* ✅ Show loading skeletons */}
       {isLoading &&
-        skeletons.map((skeleton) => (
-          <MovieCardContainer key={skeleton}>
+        skeletons.map((_, index) => (
+          <MovieCardContainer key={index}>
             <MovieCardSkeleton />
           </MovieCardContainer>
         ))}
-      {data.map((movie) => (
-        <MovieCardContainer key={movie.id}>
-          <MovieCard movie={movie}></MovieCard>
+
+      {/* ✅ Show only movies or people */}
+      {data.map((item) => (
+        <MovieCardContainer key={item.id}>
+          <MovieCard movie={item} />
         </MovieCardContainer>
       ))}
     </SimpleGrid>

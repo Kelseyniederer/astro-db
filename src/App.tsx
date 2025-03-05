@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./app.css";
 import GenreList from "./components/GenreList";
 import MovieGrid from "./components/MovieGrid";
+import MovieHeading from "./components/MovieHeading";
 import NavBar from "./components/NavBar";
 import { Genre } from "./hooks/useGenres";
 
@@ -14,8 +15,10 @@ export interface MovieQuery {
 function App() {
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({
     searchText: "",
-  } as MovieQuery);
+    genre: null,
+  });
 
+  const resetQuery = () => setMovieQuery({ searchText: "", genre: null });
   return (
     <Grid
       templateAreas={{
@@ -33,6 +36,7 @@ function App() {
           onSearch={(searchText) =>
             setMovieQuery({ ...movieQuery, searchText })
           }
+          resetQuery={resetQuery}
         />
       </GridItem>
 
@@ -48,6 +52,7 @@ function App() {
       </GridItem>
 
       <GridItem area="main">
+        <MovieHeading movieQuery={movieQuery}></MovieHeading>
         <MovieGrid movieQuery={movieQuery} />
       </GridItem>
     </Grid>

@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import movieGenres from "../data/genres";
 import { Genre } from "../hooks/useGenres";
-import { useColorMode } from "./ui/color-mode";
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;
@@ -16,17 +15,14 @@ interface Props {
 }
 
 const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
-  const { colorMode } = useColorMode();
   return (
     <>
       <Heading as="h2" paddingBottom={1}>
         Genres
       </Heading>
       <List.Root listStyleType={"none"}>
-        {" "}
         {movieGenres.map((genre: Genre) => (
           <ListItem key={genre.id} paddingY="5px">
-            {" "}
             <HStack>
               {genre.icon && (
                 <Icon
@@ -34,9 +30,7 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
                   boxSize={6}
                   color={
                     genre.id === selectedGenre?.id
-                      ? colorMode === "light"
-                        ? "black" // ✅ Selected in Light Mode
-                        : "white" // ✅ Selected in Dark Mode
+                      ? "white" // ✅ Highlight selected genre
                       : "gray.500"
                   }
                 />
