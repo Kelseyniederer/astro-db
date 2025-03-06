@@ -1,8 +1,9 @@
-import { Card, Heading, HStack, Image, Text } from "@chakra-ui/react";
 import { Movie } from "@/hooks/useMovies";
+import { Card, Heading, HStack, Image } from "@chakra-ui/react";
+import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 import getCroppedImageUrl from "../services/image-url";
-import noImage from "../assets/no-image-placeholder-6f3882e0.webp"; // Fallback image
-import { FaUser } from "react-icons/fa"; // Icon for missing celebrity images
 import CriticScore from "./CriticScore";
 
 interface Props {
@@ -11,15 +12,41 @@ interface Props {
 
 const MovieCard = ({ movie }: Props) => {
   const displayTitle = movie.title || movie.name || "Untitled";
-  const isPerson = movie.media_type === "person";
+  const navigate = useNavigate();
 
-  // ✅ Use profile image for people, poster for movies
-  const imagePath = isPerson ? movie.profile_path : movie.poster_path;
+  const handleClick = () => {
+    const mediaType = movie.media_type || "movie"; // ✅ Default to "movie"
+
+    switch (mediaType) {
+      case "movie":
+        navigate(`/movie/${movie.id}`);
+        break;
+      case "tv":
+        navigate(`/tv/${movie.id}`);
+        break;
+      case "person":
+        navigate(`/person/${movie.id}`);
+        break;
+      default:
+        console.warn("Unknown media type:", movie);
+        navigate("/"); // ✅ Redirect to home if media type is unknown
+    }
+  };
+
+  // ✅ Ensure correct image selection
+  const imagePath =
+    movie.media_type === "person" ? movie.profile_path : movie.poster_path;
   const imageUrl = imagePath ? getCroppedImageUrl(imagePath) : noImage;
 
   return (
-    <Card.Root bg="gray.900" borderRadius="lg" overflow="hidden">
-      {isPerson && !movie.profile_path ? (
+    <Card.Root
+      bg="gray.900"
+      borderRadius="lg"
+      overflow="hidden"
+      onClick={handleClick}
+      cursor="pointer"
+    >
+      {movie.media_type === "person" && !movie.profile_path ? (
         <HStack
           justify="center"
           align="center"
@@ -27,10 +54,10 @@ const MovieCard = ({ movie }: Props) => {
           bg="gray.800"
           color="gray.500"
         >
-          <FaUser size={60} /> {/* User icon for missing profile images */}
+          <FaUser size={60} />
         </HStack>
       ) : (
-        <Image src={imageUrl} alt={displayTitle} />
+        <Image src={imageUrl} alt={displayTitle} title={displayTitle} />
       )}
 
       <Card.Body padding="4">
@@ -38,16 +65,8 @@ const MovieCard = ({ movie }: Props) => {
           <Heading fontSize="lg" fontWeight="bold" color="white" maxWidth="80%">
             {displayTitle}
           </Heading>
-
-          {/* ✅ Show score for movies, "Celebrity" for people */}
-          {!isPerson ? (
-            <Text fontSize="sm" color="gray.400">
-              <CriticScore score={movie.vote_average} />
-            </Text>
-          ) : (
-            <Text fontSize="sm" color="yellow.400">
-              Celebrity
-            </Text>
+          {movie.media_type === "movie" && (
+            <CriticScore score={movie.vote_average} />
           )}
         </HStack>
       </Card.Body>

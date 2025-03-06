@@ -1,10 +1,14 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./app.css";
 import GenreList from "./components/GenreList";
+import MovieDetails from "./components/MovieDetails";
 import MovieGrid from "./components/MovieGrid";
 import MovieHeading from "./components/MovieHeading";
 import NavBar from "./components/NavBar";
+import PersonDetails from "./components/PersonDetails";
+import TvDetails from "./components/TvDetails";
 import { Genre } from "./hooks/useGenres";
 
 export interface MovieQuery {
@@ -19,6 +23,7 @@ function App() {
   });
 
   const resetQuery = () => setMovieQuery({ searchText: "", genre: null });
+
   return (
     <Grid
       templateAreas={{
@@ -30,7 +35,6 @@ function App() {
         lg: "200px 1fr",
       }}
     >
-      {/* ✅ Pass onSearch function to NavBar */}
       <GridItem area="nav">
         <NavBar
           onSearch={(searchText) =>
@@ -40,6 +44,7 @@ function App() {
         />
       </GridItem>
 
+      {/* ✅ The "aside" only appears on the homepage */}
       <GridItem
         area="aside"
         display={{ base: "none", lg: "block" }}
@@ -51,9 +56,29 @@ function App() {
         />
       </GridItem>
 
+      {/* ✅ Ensure all pages render correctly in the "main" section */}
       <GridItem area="main">
-        <MovieHeading movieQuery={movieQuery}></MovieHeading>
-        <MovieGrid movieQuery={movieQuery} />
+        <Routes>
+          {/* Home Page */}
+          <Route
+            path="/"
+            element={
+              <>
+                <MovieHeading movieQuery={movieQuery} />
+                <MovieGrid movieQuery={movieQuery} />
+              </>
+            }
+          />
+
+          {/* Movie Details */}
+          <Route path="/movie/:id" element={<MovieDetails />} />
+
+          {/* TV Details */}
+          <Route path="/tv/:id" element={<TvDetails />} />
+
+          {/* Person Details */}
+          <Route path="/person/:id" element={<PersonDetails />} />
+        </Routes>
       </GridItem>
     </Grid>
   );
