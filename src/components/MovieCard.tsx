@@ -15,28 +15,34 @@ const MovieCard = ({ movie }: Props) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const mediaType = movie.media_type || "movie"; // ✅ Default to "movie"
+    let type = movie.media_type;
 
-    switch (mediaType) {
-      case "movie":
-        navigate(`/movie/${movie.id}`);
-        break;
-      case "tv":
-        navigate(`/tv/${movie.id}`);
-        break;
-      case "person":
-        navigate(`/person/${movie.id}`);
-        break;
-      default:
-        console.warn("Unknown media type:", movie);
-        navigate("/"); // ✅ Redirect to home if media type is unknown
+    // ✅ If media_type is missing, determine type based on available fields
+    if (!type) {
+      if (movie.title) type = "movie";
+      else if (movie.name) type = "tv";
+    }
+
+    if (type === "movie") {
+      navigate(`/movie/${movie.id}`);
+    } else if (type === "tv") {
+      navigate(`/tv/${movie.id}`);
+    } else if (type === "person") {
+      navigate(`/person/${movie.id}`);
+    } else {
+      console.error("Unknown media type:", movie);
+      navigate("/");
     }
   };
 
-  // ✅ Ensure correct image selection
-  const imagePath =
-    movie.media_type === "person" ? movie.profile_path : movie.poster_path;
-  const imageUrl = imagePath ? getCroppedImageUrl(imagePath) : noImage;
+  const imageUrl =
+    movie.media_type === "person"
+      ? movie.profile_path
+        ? getCroppedImageUrl(movie.profile_path)
+        : noImage
+      : movie.poster_path
+      ? getCroppedImageUrl(movie.poster_path)
+      : noImage;
 
   return (
     <Card.Root
@@ -57,7 +63,7 @@ const MovieCard = ({ movie }: Props) => {
           <FaUser size={60} />
         </HStack>
       ) : (
-        <Image src={imageUrl} alt={displayTitle} title={displayTitle} />
+        <Image src={imageUrl} alt={displayTitle} />
       )}
 
       <Card.Body padding="4">

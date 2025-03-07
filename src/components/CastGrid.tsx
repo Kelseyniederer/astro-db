@@ -1,7 +1,7 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import apiClient from "../services/api-client"; // ✅ Axios instance
-import CastCard from "./CastCard"; // ✅ Import CastCard
+import apiClient from "../services/api-client";
+import CastCard from "./CastCard";
 
 interface CastMember {
   id: number;
@@ -44,6 +44,7 @@ const CastGrid = ({ cast }: { cast: CastMember[] }) => {
       {castDetails.map((actor) => (
         <CastCard
           key={actor.id}
+          id={actor.id} // ✅ Pass the actor's ID
           name={actor.name}
           character={actor.character}
           profilePath={actor.profile_path}

@@ -3,11 +3,10 @@ import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
 import GenreList from "./components/GenreList";
+import Home from "./components/Home";
 import MovieDetails from "./components/MovieDetails";
-import MovieGrid from "./components/MovieGrid";
-import MovieHeading from "./components/MovieHeading";
 import NavBar from "./components/NavBar";
-import PersonDetails from "./components/PersonDetails";
+import PersonProfile from "./components/PersonProfile";
 import TvDetails from "./components/TvDetails";
 import { Genre } from "./hooks/useGenres";
 
@@ -56,28 +55,23 @@ function App() {
         />
       </GridItem>
 
-      {/* ✅ Ensure all pages render correctly in the "main" section */}
-      <GridItem area="main">
+      {/* ✅ Routes Section */}
+      <GridItem area="main" padding={5}>
         <Routes>
-          {/* Home Page */}
           <Route
             path="/"
             element={
-              <>
-                <MovieHeading movieQuery={movieQuery} />
-                <MovieGrid movieQuery={movieQuery} />
-              </>
+              <Home
+                movieQuery={movieQuery}
+                onSelectGenre={(genre) =>
+                  setMovieQuery({ ...movieQuery, genre })
+                }
+              />
             }
           />
-
-          {/* Movie Details */}
           <Route path="/movie/:id" element={<MovieDetails />} />
-
-          {/* TV Details */}
           <Route path="/tv/:id" element={<TvDetails />} />
-
-          {/* Person Details */}
-          <Route path="/person/:id" element={<PersonDetails />} />
+          <Route path="/person/:id" element={<PersonProfile />} />
         </Routes>
       </GridItem>
     </Grid>

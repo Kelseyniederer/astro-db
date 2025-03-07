@@ -1,8 +1,9 @@
 import { Image, Text, VStack } from "@chakra-ui/react";
-import noImage from "../assets/no-image-placeholder-6f3882e0.webp"; // ✅ Fallback image
-import useZodiacSign from "../hooks/useZodiacSign";
+import { Link } from "react-router-dom";
+import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 
 interface CastCardProps {
+  id: number;
   name: string;
   character: string;
   profilePath?: string;
@@ -10,15 +11,15 @@ interface CastCardProps {
 }
 
 const CastCard = ({
+  id,
   name,
   character,
   profilePath,
   birthday,
 }: CastCardProps) => {
-  const { formattedBirthday, zodiacSign } = useZodiacSign(birthday);
   return (
-    <>
-      <VStack width="140px" gap={2}>
+    <Link to={`/person/${id}`}>
+      <VStack width="140px" gap={2} cursor="pointer">
         <Image
           src={
             profilePath
@@ -32,19 +33,16 @@ const CastCard = ({
           objectFit="cover"
         />
         <Text fontSize="sm" fontWeight="bold" textAlign="center">
-          {name}
-        </Text>
-        <Text fontSize="xs" color="gray.400" textAlign="center">
           {character}
         </Text>
-        <Text fontSize="xs" color="gray.500" textAlign="center">
-          {formattedBirthday}
+        <Text fontSize="xs" color="gray.400" textAlign="center">
+          {name}
         </Text>
-        <Text fontSize="xs" color="yellow.400" textAlign="center">
-          {zodiacSign}
+        <Text fontSize="xs" color="gray.500" textAlign="center">
+          {birthday ? birthday : "N/A"}
         </Text>
       </VStack>
-    </>
+    </Link>
   );
 };
 
