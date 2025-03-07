@@ -1,67 +1,79 @@
 import { Box, Heading, Image, Spinner, Text, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import apiClient from "../services/api-client";
-import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
+import { Link, useParams } from "react-router-dom";
+import useData from "../hooks/useData";
+import usePersonMovies from "../hooks/usePersonMovies"; // ✅ New Hook
 
 interface Person {
   id: number;
   name: string;
-  biography: string;
-  profile_path?: string;
-  birthday?: string;
+  biography?: string;
+  profile_path?: string; // ✅ Profile image might be missing
   known_for_department?: string;
 }
 
 const PersonProfile = () => {
   const { id } = useParams();
-  const [person, setPerson] = useState<Person | null>(null);
-  const [loading, setLoading] = useState(true);
+  const personId = id ? parseInt(id) : undefined;
 
-  useEffect(() => {
-    const fetchPersonDetails = async () => {
-      try {
-        const response = await apiClient.get(`/person/${id}`);
-        setPerson(response.data);
-      } catch (error) {
-        console.error("Error fetching person details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data: person, isLoading: personLoading } = useData<Person>(
+    `/person/${id}`,
+    {},
+    [id]
+  );
 
-    fetchPersonDetails();
-  }, [id]);
+  const { data: movies, isLoading: moviesLoading } = usePersonMovies(personId);
 
-  if (loading) return <Spinner size="xl" />;
-  if (!person) return <Text>Person not found.</Text>;
+  if (personLoading || moviesLoading) return <Spinner />;
+  if (!person) return <Text>Person not found</Text>;
 
   return (
-    <Box padding={5} textAlign="center">
-      <Heading as="h1" size="2xl">
-        {person.name}
-      </Heading>
-      <Image
-        src={
-          person.profile_path
-            ? `https://image.tmdb.org/t/p/original${person.profile_path}`
-            : noImage
-        }
-        alt={person.name}
-        width="200px"
-        borderRadius="lg"
-        my={4}
-      />
+    <VStack gap={4} align="center" p={5}>
+      {/* Profile Image (Optional) */}
+      {person.profile_path ? (
+        <Image
+          src={`https://image.tmdb.org/t/p/w300${person.profile_path}`}
+          alt={person.name}
+          borderRadius="lg"
+        />
+      ) : (
+        <Text>No Profile Image</Text>
+      )}
+
+      <Heading>{person.name}</Heading>
       <Text fontSize="lg" fontWeight="bold">
-        {person.known_for_department}
+        {person.known_for_department || "Unknown"}
       </Text>
-      <Text fontSize="md" maxWidth="800px" margin="auto">
+      <Text textAlign="center" maxW="600px">
         {person.biography || "No biography available."}
       </Text>
-      <Text fontSize="lg" fontWeight="bold">
-        Birthday: {person.birthday || "Unknown"}
-      </Text>
-    </Box>
+
+      {/* Movies Section */}
+      <Heading size="md" mt={5}>
+        Movies
+      </Heading>
+      <VStack gap={3} align="start">
+        {movies && movies.length > 0 ? (
+          movies.map((movie) => (
+            <Box key={movie.id} display="flex" alignItems="center">
+              <Link
+                to={`/movie/${movie.id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Text fontWeight="bold" _hover={{ color: "blue.500" }}>
+                  {movie.title} (
+                  {movie.release_date
+                    ? new Date(movie.release_date).getFullYear()
+                    : "N/A"}
+                  )
+                </Text>
+              </Link>
+            </Box>
+          ))
+        ) : (
+          <Text>No movies found.</Text>
+        )}
+      </VStack>
+    </VStack>
   );
 };
 

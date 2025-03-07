@@ -12,17 +12,19 @@ export interface Movie {
   poster_path: string;
 }
 
-const useMovies = (movieQuery: MovieQuery) => {
-  const endpoint = movieQuery.searchText
-    ? "/search/multi" // ✅ Search endpoint includes movies & people
-    : "/discover/movie"; // ✅ Discover movies by genre
+interface MovieApiResponse {
+  results: Movie[]; // ✅ Matches API response structure
+}
 
-  return useData<Movie>(
+const useMovies = (movieQuery: MovieQuery) => {
+  const endpoint = movieQuery.searchText ? "/search/multi" : "/discover/movie";
+
+  const { data, error, isLoading } = useData<MovieApiResponse>(
     endpoint,
     {
       params: {
         query: movieQuery.searchText || undefined,
-        with_genres: movieQuery.genre?.id || undefined, // ✅ Filter by selected genre
+        with_genres: movieQuery.genre?.id || undefined,
         include_adult: false,
         language: "en-US",
         page: 1,
@@ -30,6 +32,14 @@ const useMovies = (movieQuery: MovieQuery) => {
     },
     [movieQuery]
   );
+
+  console.log("API Response (useMovies.ts):", data);
+  console.log(
+    "Extracted Movies (useMovies.ts):",
+    data ? data.results : "data is null or undefined"
+  );
+
+  return { movies: data && data.results ? data.results : [], error, isLoading };
 };
 
 export default useMovies;

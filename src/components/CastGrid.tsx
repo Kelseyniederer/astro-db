@@ -1,39 +1,54 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import apiClient from "../services/api-client";
+import apiClient from "../services/api-client"; // ✅ Use Axios directly
 import CastCard from "./CastCard";
 
-interface CastMember {
+export interface CastMember {
   id: number;
   name: string;
   character: string;
   profile_path?: string;
-}
-
-interface CastWithBirthday extends CastMember {
-  birthday?: string;
+  birthday?: string; // ✅ Add birthday field
 }
 
 const CastGrid = ({ cast }: { cast: CastMember[] }) => {
-  const [castDetails, setCastDetails] = useState<CastWithBirthday[]>([]);
+  const [castWithDetails, setCastWithDetails] = useState<CastMember[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBirthdays = async () => {
+    if (!cast || cast.length === 0) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchDetails = async () => {
       try {
         const details = await Promise.all(
           cast.map(async (actor) => {
-            const response = await apiClient.get(`/person/${actor.id}`);
-            return { ...actor, birthday: response.data.birthday };
+            try {
+              const response = await apiClient.get(`/person/${actor.id}`);
+              return {
+                ...actor,
+                birthday: response.data.birthday || "N/A",
+              };
+            } catch (error) {
+              console.error(`Error fetching details for ${actor.name}:`, error);
+              return { ...actor, birthday: "N/A" }; // ✅ Prevents app from crashing
+            }
           })
         );
-        setCastDetails(details);
+        setCastWithDetails(details);
       } catch (error) {
         console.error("Error fetching actor details:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchBirthdays();
+    fetchDetails();
   }, [cast]);
+
+  if (loading) return <Spinner />;
 
   return (
     <SimpleGrid
@@ -41,14 +56,14 @@ const CastGrid = ({ cast }: { cast: CastMember[] }) => {
       gap={6}
       paddingY={4}
     >
-      {castDetails.map((actor) => (
+      {castWithDetails.map((actor) => (
         <CastCard
           key={actor.id}
-          id={actor.id} // ✅ Pass the actor's ID
+          id={actor.id}
           name={actor.name}
           character={actor.character}
           profilePath={actor.profile_path}
-          birthday={actor.birthday}
+          birthday={actor.birthday} // ✅ Now birthday is correctly passed
         />
       ))}
     </SimpleGrid>

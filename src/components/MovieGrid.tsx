@@ -1,6 +1,6 @@
 import { MovieQuery } from "@/App";
 import { SimpleGrid, Text } from "@chakra-ui/react";
-import useMovies from "../hooks/useMovies";
+import useMovies, { Movie } from "../hooks/useMovies";
 import MovieCard from "./MovieCard";
 import MovieCardContainer from "./MovieCardContainer";
 import MovieCardSkeleton from "./MovieCardSkeleton";
@@ -10,8 +10,10 @@ interface Props {
 }
 
 const MovieGrid = ({ movieQuery }: Props) => {
-  const { data, error, isLoading } = useMovies(movieQuery);
-  const skeletons = Array(16).fill(null); // ✅ Simplified Skeleton Array
+  const { movies, error, isLoading } = useMovies(movieQuery);
+  const skeletons = Array(16).fill(null);
+
+  console.log("Movies in MovieGrid.tsx:", movies); // ✅ Confirm `movies` is passed
 
   if (error) return <Text>{error}</Text>;
 
@@ -25,12 +27,16 @@ const MovieGrid = ({ movieQuery }: Props) => {
           </MovieCardContainer>
         ))}
 
-      {/* ✅ Show only movies or people */}
-      {data.map((item) => (
-        <MovieCardContainer key={item.id}>
-          <MovieCard movie={item} />
-        </MovieCardContainer>
-      ))}
+      {/* ✅ Ensure `movies` is an array before mapping */}
+      {
+        movies.length > 0
+          ? movies.map((movie: Movie) => (
+              <MovieCardContainer key={movie.id}>
+                <MovieCard movie={movie} />
+              </MovieCardContainer>
+            ))
+          : !isLoading && <Text>No movies found.</Text> // ✅ Show message if no movies
+      }
     </SimpleGrid>
   );
 };
