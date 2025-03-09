@@ -145,11 +145,18 @@ const MovieDetails = () => {
                     <Box
                       key={genre.id}
                       bg="gray.700"
+                      _light={{ bg: "gray.100" }}
                       px={3}
                       py={1}
                       borderRadius="full"
                     >
-                      <Text fontSize="sm">{genre.name}</Text>
+                      <Text
+                        fontSize="sm"
+                        color="whiteAlpha.900"
+                        _light={{ color: "gray.700" }}
+                      >
+                        {genre.name}
+                      </Text>
                     </Box>
                   ))}
                 </Box>

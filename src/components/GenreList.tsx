@@ -17,30 +17,35 @@ interface Props {
 const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
   return (
     <>
-      <Heading as="h2" paddingBottom={1}>
+      <Heading as="h2" paddingBottom={1} fontSize="2xl">
         Genres
       </Heading>
-      <List.Root listStyleType={"none"}>
+      <List.Root listStyleType="none">
         {movieGenres.map((genre: Genre) => (
           <ListItem key={genre.id} paddingY="5px">
             <HStack>
               {genre.icon && (
                 <Icon
                   as={genre.icon}
-                  boxSize={6}
+                  boxSize={5}
                   color={
-                    genre.id === selectedGenre?.id
-                      ? "white" // ✅ Highlight selected genre
-                      : "gray.500"
+                    genre.id === selectedGenre?.id ? "blue.500" : "gray.500"
                   }
                 />
               )}
               <Button
+                width="full"
+                justifyContent="flex-start"
                 variant="ghost"
                 onClick={() => onSelectGenre(genre)}
-                fontSize="lg"
-                paddingX={2}
+                fontSize="md"
                 fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
+                color={genre.id === selectedGenre?.id ? "blue.500" : undefined}
+                _hover={{
+                  color: "blue.400",
+                  bg: "whiteAlpha.100",
+                  _light: { bg: "blackAlpha.50" },
+                }}
               >
                 {genre.name}
               </Button>

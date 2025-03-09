@@ -17,7 +17,6 @@ const MovieCard = ({ movie }: Props) => {
   const handleClick = () => {
     let type = movie.media_type;
 
-    // ✅ If media_type is missing, determine type based on available fields
     if (!type) {
       if (movie.title) type = "movie";
       else if (movie.name) type = "tv";
@@ -47,11 +46,16 @@ const MovieCard = ({ movie }: Props) => {
   return (
     <Card.Root
       height="100%"
-      bg="gray.900"
+      bg="gray.800"
+      _light={{ bg: "white" }}
       borderRadius="lg"
       overflow="hidden"
       onClick={handleClick}
       cursor="pointer"
+      transition="transform 0.2s"
+      _hover={{
+        transform: "scale(1.02)",
+      }}
     >
       <Box position="relative" paddingTop="150%">
         {movie.media_type === "person" && !movie.profile_path ? (
@@ -63,7 +67,8 @@ const MovieCard = ({ movie }: Props) => {
             bottom={0}
             justify="center"
             align="center"
-            bg="gray.800"
+            bg="gray.700"
+            _light={{ bg: "gray.100" }}
             color="gray.500"
           >
             <FaUser size={60} />
@@ -91,8 +96,9 @@ const MovieCard = ({ movie }: Props) => {
           <Heading
             fontSize="md"
             fontWeight="semibold"
-            color="white"
-            isTruncated
+            color="whiteAlpha.900"
+            _light={{ color: "gray.800" }}
+            maxW="70%"
           >
             {displayTitle}
           </Heading>
