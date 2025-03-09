@@ -1,16 +1,10 @@
 import { Box, Heading, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import noImage from "../../assets/no-image-placeholder-6f3882e0.webp";
-
-interface Movie {
-  id: number;
-  title: string;
-  poster_path?: string;
-  release_date?: string;
-}
+import { Credit } from "../../hooks/usePersonMovies";
 
 interface ActorFilmographyProps {
-  movies: Movie[];
+  movies: Credit[];
   error?: string;
 }
 
@@ -22,11 +16,11 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
       </Heading>
 
       {error ? (
-        <Text color="red.500">Error loading movies: {error}</Text>
+        <Text color="red.500">Error loading filmography: {error}</Text>
       ) : movies.length > 0 ? (
         <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} gap={6}>
-          {movies.map((movie) => (
-            <Link key={movie.id} to={`/movie/${movie.id}`}>
+          {movies.map((credit) => (
+            <Link key={credit.id} to={`/${credit.media_type}/${credit.id}`}>
               <Box
                 _hover={{
                   transform: "translateY(-4px)",
@@ -39,11 +33,11 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
               >
                 <Image
                   src={
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                    credit.poster_path
+                      ? `https://image.tmdb.org/t/p/w300${credit.poster_path}`
                       : noImage
                   }
-                  alt={movie.title}
+                  alt={credit.title || credit.name}
                   width="100%"
                   height="auto"
                   aspectRatio="2/3"
@@ -57,11 +51,13 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
                     textOverflow="ellipsis"
                     whiteSpace="nowrap"
                   >
-                    {movie.title}
+                    {credit.title || credit.name}
                   </Text>
                   <Text fontSize="xs" color="gray.400">
-                    {movie.release_date
-                      ? new Date(movie.release_date).getFullYear()
+                    {credit.release_date || credit.first_air_date
+                      ? new Date(
+                          credit.release_date || credit.first_air_date || ""
+                        ).getFullYear()
                       : "N/A"}
                   </Text>
                 </Box>
@@ -71,7 +67,7 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
         </SimpleGrid>
       ) : (
         <Text fontSize="lg" color="gray.400">
-          No movies found.
+          No credits found.
         </Text>
       )}
     </Box>
