@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./app.css";
 import ActorProfile from "./components/ActorProfile";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -21,6 +21,8 @@ function App() {
     searchText: "",
     genre: null,
   });
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   const resetQuery = () => setMovieQuery({ searchText: "", genre: null });
 
@@ -35,24 +37,28 @@ function App() {
         <Grid
           templateAreas={{
             base: `"main"`,
-            lg: `"aside main"`,
+            lg: isHomePage ? `"aside main"` : "main",
           }}
           templateColumns={{
             base: "1fr",
-            lg: "200px 1fr",
+            lg: isHomePage ? "200px 1fr" : "1fr",
           }}
         >
-          <GridItem
-            area="aside"
-            display={{ base: "none", lg: "block" }}
-            paddingX={5}
-            paddingTop={5}
-          >
-            <GenreList
-              selectedGenre={movieQuery.genre}
-              onSelectGenre={(genre) => setMovieQuery({ ...movieQuery, genre })}
-            />
-          </GridItem>
+          {isHomePage && (
+            <GridItem
+              area="aside"
+              display={{ base: "none", lg: "block" }}
+              paddingX={5}
+              paddingTop={5}
+            >
+              <GenreList
+                selectedGenre={movieQuery.genre}
+                onSelectGenre={(genre) =>
+                  setMovieQuery({ ...movieQuery, genre })
+                }
+              />
+            </GridItem>
+          )}
 
           <GridItem area="main" padding={5}>
             <Routes>
