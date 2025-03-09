@@ -1,5 +1,13 @@
-import { Box, Heading, Image, Spinner, Text, VStack } from "@chakra-ui/react";
+import {
+  Heading,
+  Image,
+  SimpleGrid,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
+import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 import useData from "../hooks/useData";
 import usePersonMovies from "../hooks/usePersonMovies"; // ✅ New Hook
 
@@ -48,31 +56,51 @@ const PersonProfile = () => {
       </Text>
 
       {/* Movies Section */}
-      <Heading size="md" mt={5}>
+      <Heading size="md" mt={5} alignSelf="start">
         Movies
       </Heading>
-      <VStack gap={3} align="start">
-        {movies && movies.length > 0 ? (
-          movies.map((movie) => (
-            <Box key={movie.id} display="flex" alignItems="center">
-              <Link
-                to={`/movie/${movie.id}`}
-                style={{ textDecoration: "none" }}
+      {movies && movies.length > 0 ? (
+        <SimpleGrid
+          columns={{ base: 2, sm: 3, md: 4, lg: 5 }}
+          gap={6}
+          width="100%"
+        >
+          {movies.map((movie) => (
+            <Link key={movie.id} to={`/movie/${movie.id}`}>
+              <VStack
+                gap={2}
+                align="start"
+                _hover={{ transform: "scale(1.05)" }}
+                transition="transform 0.2s"
               >
-                <Text fontWeight="bold" _hover={{ color: "blue.500" }}>
-                  {movie.title} (
+                <Image
+                  src={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                      : noImage
+                  }
+                  alt={movie.title}
+                  borderRadius="lg"
+                  width="100%"
+                  height="auto"
+                  aspectRatio="2/3"
+                  objectFit="cover"
+                />
+                <Text fontWeight="bold" fontSize="sm" noOfLines={1}>
+                  {movie.title}
+                </Text>
+                <Text fontSize="xs" color="gray.500">
                   {movie.release_date
                     ? new Date(movie.release_date).getFullYear()
                     : "N/A"}
-                  )
                 </Text>
-              </Link>
-            </Box>
-          ))
-        ) : (
-          <Text>No movies found.</Text>
-        )}
-      </VStack>
+              </VStack>
+            </Link>
+          ))}
+        </SimpleGrid>
+      ) : (
+        <Text>No movies found.</Text>
+      )}
     </VStack>
   );
 };
