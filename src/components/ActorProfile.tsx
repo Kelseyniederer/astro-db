@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 import useData from "../hooks/useData";
+import { useNatalWheelChart } from "../hooks/useNatalWheelChart";
 import usePersonMovies, { Movie } from "../hooks/usePersonMovies";
 import { usePlanetaryData } from "../hooks/usePlanetaryData";
 
@@ -54,9 +55,17 @@ const ActorProfile = () => {
     fetchPlanetaryData,
   } = usePlanetaryData(person?.birthday);
 
+  const {
+    chartUrl,
+    error: chartError,
+    isLoading: chartLoading,
+    fetchNatalWheelChart,
+  } = useNatalWheelChart(person?.birthday);
+
   useEffect(() => {
     if (person?.birthday) {
       fetchPlanetaryData();
+      fetchNatalWheelChart();
     }
   }, [person?.birthday]);
 
@@ -117,7 +126,7 @@ const ActorProfile = () => {
       movies
         .filter((m) => m.release_date)
         .map(
-          (m) => Math.floor(new Date(m.release_date).getFullYear() / 10) * 10
+          (m) => Math.floor(new Date(m.release_date!).getFullYear() / 10) * 10
         )
     )
   ).sort((a, b) => b - a);
@@ -127,12 +136,8 @@ const ActorProfile = () => {
 
   return (
     <Container maxW="container.xl" py={6}>
-      <Stack spacing={8}>
-        <Stack
-          direction={{ base: "column", md: "row" }}
-          spacing={8}
-          align="start"
-        >
+      <Stack gap={8}>
+        <Stack direction={{ base: "column", md: "row" }} gap={8} align="start">
           <Box>
             {person.profile_path ? (
               <Image
@@ -146,7 +151,7 @@ const ActorProfile = () => {
             )}
           </Box>
 
-          <Stack spacing={4} flex={1}>
+          <Stack gap={4} flex={1}>
             <Heading as="h1" size="xl">
               {person.name}
             </Heading>
@@ -159,6 +164,40 @@ const ActorProfile = () => {
               </Text>
             )}
             <Text>{person.biography || "No biography available."}</Text>
+
+            {/* Natal Wheel Chart */}
+            {person.birthday && (
+              <Box mt={6}>
+                <Heading as="h3" size="md" mb={4}>
+                  Natal Chart
+                </Heading>
+                {chartLoading ? (
+                  <Text>Loading natal chart...</Text>
+                ) : chartError ? (
+                  <Box>
+                    <Text color="red.500" mb={2}>
+                      Error loading natal chart: {chartError}
+                    </Text>
+                  </Box>
+                ) : chartUrl ? (
+                  <Box
+                    maxW="600px"
+                    mx="auto"
+                    borderWidth={1}
+                    borderRadius="lg"
+                    p={4}
+                    bg="gray.800"
+                  >
+                    <Image
+                      src={chartUrl}
+                      alt={`${person.name}'s natal chart`}
+                      w="100%"
+                      h="auto"
+                    />
+                  </Box>
+                ) : null}
+              </Box>
+            )}
 
             {/* Planetary Positions */}
             {planetaryLoading ? (
@@ -190,7 +229,7 @@ const ActorProfile = () => {
                 <Heading as="h3" size="md" mb={4}>
                   Planetary Positions
                 </Heading>
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
                   {planetaryData.map((planet) => (
                     <Box
                       key={planet.planet}
@@ -226,7 +265,7 @@ const ActorProfile = () => {
             <Heading as="h2" size="lg">
               Movies ({sortedMovies.length})
             </Heading>
-            <Stack direction={{ base: "column", md: "row" }} spacing={4}>
+            <Stack direction={{ base: "column", md: "row" }} gap={4}>
               <select
                 value={decadeFilter}
                 onChange={(e) => setDecadeFilter(e.target.value)}
@@ -255,7 +294,7 @@ const ActorProfile = () => {
           {moviesError ? (
             <Text color="red.500">Error loading movies: {moviesError}</Text>
           ) : sortedMovies.length > 0 ? (
-            <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={6}>
+            <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} gap={6}>
               {sortedMovies.map((movie) => (
                 <Link key={movie.id} to={`/movie/${movie.id}`}>
                   <Box
@@ -275,7 +314,7 @@ const ActorProfile = () => {
                       aspectRatio="2/3"
                       objectFit="cover"
                     />
-                    <Text fontWeight="bold" fontSize="sm" noOfLines={1} mt={2}>
+                    <Text fontWeight="bold" fontSize="sm" maxLines={1} mt={2}>
                       {movie.title}
                     </Text>
                     <Text fontSize="xs" color="gray.500">
