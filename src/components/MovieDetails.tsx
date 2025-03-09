@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useData from "../hooks/useData";
 import CastGrid, { CastMember } from "./CastGrid";
@@ -42,6 +43,10 @@ const MovieDetails = () => {
     {},
     [id]
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (movieLoading || creditsLoading) {
     return (

@@ -28,6 +28,10 @@ const TvDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetchTvShowDetails = async () => {
       try {
         const response = await apiClient.get(`/tv/${id}`, {

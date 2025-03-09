@@ -27,6 +27,10 @@ const PersonDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetchPersonDetails = async () => {
       try {
         const response = await apiClient.get(`/person/${id}`, {

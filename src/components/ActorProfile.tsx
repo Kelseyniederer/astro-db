@@ -1,4 +1,5 @@
 import { Box, Container, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useData from "../hooks/useData";
 import usePersonMovies from "../hooks/usePersonMovies";
@@ -27,6 +28,10 @@ const ActorProfile = () => {
 
   const { data: movies = [], isLoading: moviesLoading } =
     usePersonMovies(personId);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (personLoading || moviesLoading) {
     return (
