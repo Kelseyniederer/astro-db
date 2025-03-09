@@ -7,8 +7,19 @@ interface PlanetaryPosition {
   isRetrograde: boolean;
 }
 
-// Points to exclude from the display
-const EXCLUDED_POINTS = ["Ascendant", "Descendant", "MC", "IC"];
+// List of planets in traditional order
+const INCLUDED_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+];
 
 export const usePlanetaryData = (birthday: string | undefined) => {
   const [planetaryData, setPlanetaryData] = useState<PlanetaryPosition[]>([]);
@@ -40,13 +51,19 @@ export const usePlanetaryData = (birthday: string | undefined) => {
         },
       });
 
-      const positions = data.output
-        .filter((item) => !EXCLUDED_POINTS.includes(item.planet.en))
-        .map((item) => ({
-          planet: item.planet.en,
-          sign: item.zodiac_sign.name.en,
-          isRetrograde: item.isRetro === "true",
-        }));
+      // Filter and sort planets in the traditional order
+      const positions = INCLUDED_PLANETS.map((planetName) => {
+        const planetData = data.output.find(
+          (item) => item.planet.en === planetName
+        );
+        if (!planetData) return null;
+
+        return {
+          planet: planetData.planet.en,
+          sign: planetData.zodiac_sign.name.en,
+          isRetrograde: planetData.isRetro === "true",
+        };
+      }).filter((position): position is PlanetaryPosition => position !== null);
 
       setPlanetaryData(positions);
     } catch (err) {
