@@ -10,15 +10,14 @@ export interface Movie {
 interface MovieCreditsResponse {
   cast: Movie[];
   crew: Movie[];
+  id: number;
 }
 
 const usePersonMovies = (personId: number | undefined) => {
   if (!personId) return { data: [], error: null, isLoading: false };
 
   const { data, error, isLoading } = useData<MovieCreditsResponse>(
-    `/person/${personId}/movie_credits`,
-    {},
-    [personId]
+    `/person/${personId}/movie_credits`
   );
 
   return {

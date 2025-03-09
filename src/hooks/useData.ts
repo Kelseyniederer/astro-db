@@ -2,7 +2,13 @@ import { AxiosRequestConfig, CanceledError } from "axios";
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
-const useData = <T extends object>(
+interface APIResponse<T> {
+  results?: T;
+  cast?: T;
+  [key: string]: any;
+}
+
+const useData = <T>(
   endpoint: string,
   requestConfig?: AxiosRequestConfig,
   deps?: any[]
@@ -22,12 +28,21 @@ const useData = <T extends object>(
           ...requestConfig,
         })
         .then((res) => {
-          console.log("Raw API Response (useData.ts):", res.data);
+          console.log("API Response for endpoint", endpoint, ":", res.data);
+
+          if (!res.data) {
+            setError("No data received from API");
+            setLoading(false);
+            return;
+          }
+
+          // For endpoints that return direct objects (like /person/{id})
           setData(res.data);
           setLoading(false);
         })
         .catch((err) => {
           if (err instanceof CanceledError) return;
+          console.error("API Error for endpoint", endpoint, ":", err);
           setError(err.message);
           setLoading(false);
         });

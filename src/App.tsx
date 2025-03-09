@@ -2,11 +2,12 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
+import ActorProfile from "./components/ActorProfile";
+import ErrorBoundary from "./components/ErrorBoundary";
 import GenreList from "./components/GenreList";
 import Home from "./components/Home";
 import MovieDetails from "./components/MovieDetails";
 import NavBar from "./components/NavBar";
-import PersonProfile from "./components/PersonProfile";
 import TvDetails from "./components/TvDetails";
 import { Genre } from "./hooks/useGenres";
 
@@ -71,7 +72,14 @@ function App() {
           />
           <Route path="/movie/:id" element={<MovieDetails />} />
           <Route path="/tv/:id" element={<TvDetails />} />
-          <Route path="/person/:id" element={<PersonProfile />} />
+          <Route
+            path="/person/:id"
+            element={
+              <ErrorBoundary>
+                <ActorProfile />
+              </ErrorBoundary>
+            }
+          />
         </Routes>
       </GridItem>
     </Grid>
