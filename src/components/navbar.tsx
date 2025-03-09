@@ -1,32 +1,33 @@
-import { HStack } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import ColorModeSwitch from "./ColorModeSwitch";
 import Logo from "./Logo";
 import SearchInput from "./SearchInput";
 
-const NavBar = () => {
+interface Props {
+  onSearch: (searchText: string) => void;
+  resetQuery: () => void;
+}
+
+const NavBar = ({ onSearch, resetQuery }: Props) => {
   return (
-    <HStack padding="10px">
-      <Link to="/">
-        <Logo
-          resetQuery={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      </Link>
-      <SearchInput
-        onSearch={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-      <Link
-        to="/natal-chart"
-        style={{ marginLeft: "auto", marginRight: "20px" }}
-      >
-        Natal Chart
-      </Link>
-      <ColorModeSwitch />
-    </HStack>
+    <Box
+      position="fixed"
+      top={0}
+      left={0}
+      right={0}
+      zIndex={100}
+      bg="gray.900"
+      boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+    >
+      <HStack padding={4} maxW="container.xl" margin="0 auto">
+        <Link to="/">
+          <Logo resetQuery={resetQuery} />
+        </Link>
+        <SearchInput onSearch={onSearch} />
+        <ColorModeSwitch />
+      </HStack>
+    </Box>
   );
 };
 

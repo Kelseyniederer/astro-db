@@ -1,5 +1,5 @@
 import { Movie } from "@/hooks/useMovies";
-import { Card, Heading, HStack, Image } from "@chakra-ui/react";
+import { Box, Card, Heading, HStack, Image } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
@@ -46,29 +46,54 @@ const MovieCard = ({ movie }: Props) => {
 
   return (
     <Card.Root
+      height="100%"
       bg="gray.900"
       borderRadius="lg"
       overflow="hidden"
       onClick={handleClick}
       cursor="pointer"
     >
-      {movie.media_type === "person" && !movie.profile_path ? (
-        <HStack
-          justify="center"
-          align="center"
-          height="200px"
-          bg="gray.800"
-          color="gray.500"
-        >
-          <FaUser size={60} />
-        </HStack>
-      ) : (
-        <Image src={imageUrl} alt={displayTitle} />
-      )}
+      <Box position="relative" paddingTop="150%">
+        {movie.media_type === "person" && !movie.profile_path ? (
+          <HStack
+            position="absolute"
+            top={0}
+            left={0}
+            right={0}
+            bottom={0}
+            justify="center"
+            align="center"
+            bg="gray.800"
+            color="gray.500"
+          >
+            <FaUser size={60} />
+          </HStack>
+        ) : (
+          <Image
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            height="100%"
+            src={imageUrl}
+            alt={displayTitle}
+            objectFit="cover"
+          />
+        )}
+      </Box>
 
-      <Card.Body padding="4">
-        <HStack justifyContent="space-between" alignItems="center">
-          <Heading fontSize="lg" fontWeight="bold" color="white" maxWidth="80%">
+      <Card.Body padding={4}>
+        <HStack
+          justifyContent="space-between"
+          alignItems="center"
+          height="100%"
+        >
+          <Heading
+            fontSize="md"
+            fontWeight="semibold"
+            color="white"
+            isTruncated
+          >
             {displayTitle}
           </Heading>
           {movie.media_type === "movie" && (

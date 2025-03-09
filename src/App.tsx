@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./app.css";
@@ -7,7 +7,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import GenreList from "./components/GenreList";
 import Home from "./components/Home";
 import MovieDetails from "./components/MovieDetails";
-import NatalChart from "./components/NatalChart";
 import NavBar from "./components/NavBar";
 import TvDetails from "./components/TvDetails";
 import { Genre } from "./hooks/useGenres";
@@ -26,65 +25,63 @@ function App() {
   const resetQuery = () => setMovieQuery({ searchText: "", genre: null });
 
   return (
-    <Grid
-      templateAreas={{
-        base: `"nav" "main"`,
-        lg: `"nav nav" "aside main"`,
-      }}
-      templateColumns={{
-        base: "1fr",
-        lg: "200px 1fr",
-      }}
-    >
-      <GridItem area="nav">
-        <NavBar
-          onSearch={(searchText) =>
-            setMovieQuery({ ...movieQuery, searchText })
-          }
-          resetQuery={resetQuery}
-        />
-      </GridItem>
+    <Box>
+      <NavBar
+        onSearch={(searchText) => setMovieQuery({ ...movieQuery, searchText })}
+        resetQuery={resetQuery}
+      />
 
-      {/* ✅ The "aside" only appears on the homepage */}
-      <GridItem
-        area="aside"
-        display={{ base: "none", lg: "block" }}
-        paddingX={5}
-      >
-        <GenreList
-          selectedGenre={movieQuery.genre}
-          onSelectGenre={(genre) => setMovieQuery({ ...movieQuery, genre })}
-        />
-      </GridItem>
+      <Box paddingTop="72px">
+        <Grid
+          templateAreas={{
+            base: `"main"`,
+            lg: `"aside main"`,
+          }}
+          templateColumns={{
+            base: "1fr",
+            lg: "200px 1fr",
+          }}
+        >
+          <GridItem
+            area="aside"
+            display={{ base: "none", lg: "block" }}
+            paddingX={5}
+            paddingTop={5}
+          >
+            <GenreList
+              selectedGenre={movieQuery.genre}
+              onSelectGenre={(genre) => setMovieQuery({ ...movieQuery, genre })}
+            />
+          </GridItem>
 
-      {/* ✅ Routes Section */}
-      <GridItem area="main" padding={5}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                movieQuery={movieQuery}
-                onSelectGenre={(genre) =>
-                  setMovieQuery({ ...movieQuery, genre })
+          <GridItem area="main" padding={5}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    movieQuery={movieQuery}
+                    onSelectGenre={(genre) =>
+                      setMovieQuery({ ...movieQuery, genre })
+                    }
+                  />
                 }
               />
-            }
-          />
-          <Route path="/movie/:id" element={<MovieDetails />} />
-          <Route path="/tv/:id" element={<TvDetails />} />
-          <Route
-            path="/person/:id"
-            element={
-              <ErrorBoundary>
-                <ActorProfile />
-              </ErrorBoundary>
-            }
-          />
-          <Route path="/natal-chart" element={<NatalChart />} />
-        </Routes>
-      </GridItem>
-    </Grid>
+              <Route path="/movie/:id" element={<MovieDetails />} />
+              <Route path="/tv/:id" element={<TvDetails />} />
+              <Route
+                path="/person/:id"
+                element={
+                  <ErrorBoundary>
+                    <ActorProfile />
+                  </ErrorBoundary>
+                }
+              />
+            </Routes>
+          </GridItem>
+        </Grid>
+      </Box>
+    </Box>
   );
 }
 

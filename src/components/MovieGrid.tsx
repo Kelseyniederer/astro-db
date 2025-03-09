@@ -15,10 +15,10 @@ const MovieGrid = ({ movieQuery }: Props) => {
 
   console.log("Movies in MovieGrid.tsx:", movies); // ✅ Confirm `movies` is passed
 
-  if (error) return <Text>{error}</Text>;
+  if (error) return <Text color="red.500">{error}</Text>;
 
   return (
-    <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} padding={7} gap={5}>
+    <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap={6}>
       {/* ✅ Show loading skeletons */}
       {isLoading &&
         skeletons.map((_, index) => (
@@ -28,15 +28,18 @@ const MovieGrid = ({ movieQuery }: Props) => {
         ))}
 
       {/* ✅ Ensure `movies` is an array before mapping */}
-      {
-        movies.length > 0
-          ? movies.map((movie: Movie) => (
-              <MovieCardContainer key={movie.id}>
-                <MovieCard movie={movie} />
-              </MovieCardContainer>
-            ))
-          : !isLoading && <Text>No movies found.</Text> // ✅ Show message if no movies
-      }
+      {!isLoading &&
+        (movies.length > 0 ? (
+          movies.map((movie: Movie) => (
+            <MovieCardContainer key={movie.id}>
+              <MovieCard movie={movie} />
+            </MovieCardContainer>
+          ))
+        ) : (
+          <Text fontSize="lg" color="gray.400">
+            No movies found.
+          </Text>
+        ))}
     </SimpleGrid>
   );
 };

@@ -1,5 +1,5 @@
 import { MovieQuery } from "@/App";
-import { GridItem } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import MovieGrid from "./MovieGrid";
 import MovieHeading from "./MovieHeading";
 
@@ -10,12 +10,10 @@ interface Props {
 
 const Home = ({ movieQuery, onSelectGenre }: Props) => {
   return (
-    <>
-      <GridItem area="main">
-        <MovieHeading movieQuery={movieQuery} />
-        <MovieGrid movieQuery={movieQuery} />
-      </GridItem>
-    </>
+    <Container maxW="container.xl" py={8}>
+      <MovieHeading movieQuery={movieQuery} />
+      <MovieGrid movieQuery={movieQuery} />
+    </Container>
   );
 };
 

@@ -1,15 +1,21 @@
 import { MovieQuery } from "@/App";
-import { Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 interface Props {
   movieQuery: MovieQuery;
 }
-const MovieHeading = ({}: Props) => {
-  const heading = "Movies";
+
+const MovieHeading = ({ movieQuery }: Props) => {
+  const heading = movieQuery.genre
+    ? movieQuery.genre.name + " Movies"
+    : "Movies";
+
   return (
-    <Heading as="h1" marginY={1} marginX={31} fontSize={"3xl"}>
-      {heading}
-    </Heading>
+    <Box mb={8}>
+      <Heading as="h1" size="2xl">
+        {heading}
+      </Heading>
+    </Box>
   );
 };
 
