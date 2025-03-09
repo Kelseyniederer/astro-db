@@ -1,32 +1,86 @@
-import { Input } from "@chakra-ui/react";
-import { useRef } from "react";
+import { Box, Input } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
-import { InputGroup } from "./ui/input-group";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   onSearch: (searchText: string) => void;
+  resetQuery: () => void;
 }
 
-const SearchInput = ({ onSearch }: Props) => {
+const SearchInput = ({ onSearch, resetQuery }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Only clear search when navigating to detail pages
+    if (
+      location.pathname.startsWith("/movie/") ||
+      location.pathname.startsWith("/tv/") ||
+      location.pathname.startsWith("/person/")
+    ) {
+      if (ref.current) {
+        ref.current.value = "";
+        onSearch("");
+      }
+    }
+  }, [location.pathname]);
+
+  const handleSearch = () => {
+    if (ref.current) {
+      const searchText = ref.current.value.trim();
+      if (location.pathname !== "/") {
+        resetQuery();
+        navigate("/");
+        onSearch(searchText);
+      } else {
+        onSearch(searchText);
+      }
+    }
+  };
 
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (ref.current) {
-          onSearch(ref.current.value.trim()); // ✅ Trim extra spaces before search
-        }
-      }}
-    >
-      <InputGroup width={"100%"} flex="1" startElement={<BsSearch />}>
-        <Input
-          ref={ref}
-          placeholder="Search movies or shows..."
-          variant={"outline"}
-        />
-      </InputGroup>
-    </form>
+    <Box position="relative" width="100%" maxW="600px">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleSearch();
+        }}
+      >
+        <Box position="relative">
+          <Box
+            position="absolute"
+            left={4}
+            top="50%"
+            transform="translateY(-50%)"
+            zIndex={2}
+            color="gray.400"
+          >
+            <BsSearch />
+          </Box>
+          <Input
+            ref={ref}
+            placeholder="Search movies, TV shows, or people..."
+            variant="outline"
+            bg="gray.700"
+            _hover={{ bg: "gray.600" }}
+            _focus={{ bg: "gray.600", borderColor: "blue.300" }}
+            _placeholder={{ color: "gray.400" }}
+            color="white"
+            _light={{
+              bg: "gray.100",
+              _hover: { bg: "gray.200" },
+              _focus: { bg: "gray.200" },
+              color: "gray.800",
+            }}
+            borderRadius="full"
+            size="lg"
+            pl={10}
+          />
+        </Box>
+      </form>
+    </Box>
   );
 };
 

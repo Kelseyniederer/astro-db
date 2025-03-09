@@ -25,12 +25,13 @@ function App() {
   const isHomePage = location.pathname === "/";
 
   const resetQuery = () => setMovieQuery({ searchText: "", genre: null });
+  const resetGenre = () => setMovieQuery({ ...movieQuery, genre: null });
 
   return (
     <Box>
       <NavBar
         onSearch={(searchText) => setMovieQuery({ ...movieQuery, searchText })}
-        resetQuery={resetQuery}
+        resetQuery={resetGenre}
       />
 
       <Box paddingTop="72px">

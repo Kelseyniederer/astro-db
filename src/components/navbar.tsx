@@ -25,11 +25,17 @@ const NavBar = ({ onSearch, resetQuery }: Props) => {
           "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
       }}
     >
-      <HStack padding={4} maxW="container.xl" margin="0 auto">
+      <HStack
+        padding={4}
+        maxW="container.xl"
+        margin="0 auto"
+        gap={4}
+        justify="space-between"
+      >
         <Link to="/">
           <Logo resetQuery={resetQuery} />
         </Link>
-        <SearchInput onSearch={onSearch} />
+        <SearchInput onSearch={onSearch} resetQuery={resetQuery} />
         <ColorModeSwitch />
       </HStack>
     </Box>
