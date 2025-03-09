@@ -7,6 +7,9 @@ interface PlanetaryPosition {
   isRetrograde: boolean;
 }
 
+// Points to exclude from the display
+const EXCLUDED_POINTS = ["Ascendant", "Descendant", "MC", "IC"];
+
 export const usePlanetaryData = (birthday: string | undefined) => {
   const [planetaryData, setPlanetaryData] = useState<PlanetaryPosition[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,11 +40,13 @@ export const usePlanetaryData = (birthday: string | undefined) => {
         },
       });
 
-      const positions = data.output.map((item) => ({
-        planet: item.planet.en,
-        sign: item.zodiac_sign.name.en,
-        isRetrograde: item.isRetro === "true",
-      }));
+      const positions = data.output
+        .filter((item) => !EXCLUDED_POINTS.includes(item.planet.en))
+        .map((item) => ({
+          planet: item.planet.en,
+          sign: item.zodiac_sign.name.en,
+          isRetrograde: item.isRetro === "true",
+        }));
 
       setPlanetaryData(positions);
     } catch (err) {
