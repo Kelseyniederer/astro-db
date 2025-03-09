@@ -1,9 +1,18 @@
-import { Heading, Spinner, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import {
+  Box,
+  Container,
+  Heading,
+  Image,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 import useData from "../hooks/useData";
 import usePersonMovies, { Movie } from "../hooks/usePersonMovies";
+import { usePlanetaryData } from "../hooks/usePlanetaryData";
 
 interface Actor {
   id: number;
@@ -11,6 +20,7 @@ interface Actor {
   biography?: string;
   profile_path?: string;
   known_for_department?: string;
+  birthday?: string;
 }
 
 type SortOrder =
@@ -37,11 +47,23 @@ const ActorProfile = () => {
     isLoading: moviesLoading,
   } = usePersonMovies(personId);
 
+  const {
+    planetaryData,
+    error: planetaryError,
+    isLoading: planetaryLoading,
+    fetchPlanetaryData,
+  } = usePlanetaryData(person?.birthday);
+
+  useEffect(() => {
+    if (person?.birthday) {
+      fetchPlanetaryData();
+    }
+  }, [person?.birthday]);
+
   if (personLoading || moviesLoading) {
     return (
       <div>
-        <Spinner size="xl" />
-        <Text mt={4}>Loading actor details...</Text>
+        <Text>Loading actor details...</Text>
       </div>
     );
   }
@@ -104,48 +126,107 @@ const ActorProfile = () => {
   const sortedMovies = sortMovies(filteredMovies);
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "24px",
-        }}
-      >
-        {person.profile_path ? (
-          <img
-            src={`https://image.tmdb.org/t/p/w300${person.profile_path}`}
-            alt={person.name}
-            style={{ maxWidth: "300px", borderRadius: "8px" }}
-          />
-        ) : (
-          <Text>No Profile Image</Text>
-        )}
+    <Container maxW="container.xl" py={6}>
+      <Stack spacing={8}>
+        <Stack
+          direction={{ base: "column", md: "row" }}
+          spacing={8}
+          align="start"
+        >
+          <Box>
+            {person.profile_path ? (
+              <Image
+                src={`https://image.tmdb.org/t/p/w300${person.profile_path}`}
+                alt={person.name}
+                borderRadius="lg"
+                maxW="300px"
+              />
+            ) : (
+              <Text>No Profile Image</Text>
+            )}
+          </Box>
 
-        <Heading as="h1" size="xl">
-          {person.name}
-        </Heading>
-        <Text fontSize="lg" fontWeight="bold">
-          {person.known_for_department || "Unknown"}
-        </Text>
-        <Text textAlign="center" maxWidth="600px">
-          {person.biography || "No biography available."}
-        </Text>
+          <Stack spacing={4} flex={1}>
+            <Heading as="h1" size="xl">
+              {person.name}
+            </Heading>
+            <Text fontSize="lg" fontWeight="bold">
+              {person.known_for_department || "Unknown"}
+            </Text>
+            {person.birthday && (
+              <Text>
+                Born: {new Date(person.birthday).toLocaleDateString()}
+              </Text>
+            )}
+            <Text>{person.biography || "No biography available."}</Text>
 
-        <div style={{ width: "100%" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "24px",
-            }}
+            {/* Planetary Positions */}
+            {planetaryLoading ? (
+              <Text>Loading planetary positions...</Text>
+            ) : planetaryError ? (
+              <Box>
+                <Text color="red.500" mb={2}>
+                  Error loading planetary data
+                </Text>
+                {planetaryError.includes("CORS") && (
+                  <Box p={4} bg="yellow.100" borderRadius="md">
+                    <Text>
+                      To view planetary positions, please first visit{" "}
+                      <Link
+                        to="https://cors-anywhere.herokuapp.com/corsdemo"
+                        target="_blank"
+                        style={{ color: "blue", textDecoration: "underline" }}
+                      >
+                        this page
+                      </Link>{" "}
+                      and click the button to enable the demo server. Then
+                      refresh this page.
+                    </Text>
+                  </Box>
+                )}
+              </Box>
+            ) : planetaryData.length > 0 ? (
+              <Box>
+                <Heading as="h3" size="md" mb={4}>
+                  Planetary Positions
+                </Heading>
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                  {planetaryData.map((planet) => (
+                    <Box
+                      key={planet.planet}
+                      p={3}
+                      borderWidth={1}
+                      borderRadius="md"
+                    >
+                      <Text fontWeight="bold">
+                        {planet.planet}{" "}
+                        {planet.isRetrograde && (
+                          <Text as="span" color="gray.500">
+                            (R)
+                          </Text>
+                        )}
+                      </Text>
+                      <Text>{planet.sign}</Text>
+                    </Box>
+                  ))}
+                </SimpleGrid>
+              </Box>
+            ) : null}
+          </Stack>
+        </Stack>
+
+        {/* Movies Section */}
+        <Box w="100%">
+          <Stack
+            direction={{ base: "column", md: "row" }}
+            justify="space-between"
+            align="center"
+            mb={6}
           >
             <Heading as="h2" size="lg">
               Movies ({sortedMovies.length})
             </Heading>
-            <div style={{ display: "flex", gap: "16px" }}>
+            <Stack direction={{ base: "column", md: "row" }} spacing={4}>
               <select
                 value={decadeFilter}
                 onChange={(e) => setDecadeFilter(e.target.value)}
@@ -168,42 +249,33 @@ const ActorProfile = () => {
                 <option value="title_asc">Title A-Z</option>
                 <option value="title_desc">Title Z-A</option>
               </select>
-            </div>
-          </div>
+            </Stack>
+          </Stack>
 
           {moviesError ? (
             <Text color="red.500">Error loading movies: {moviesError}</Text>
           ) : sortedMovies.length > 0 ? (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                gap: "24px",
-              }}
-            >
+            <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={6}>
               {sortedMovies.map((movie) => (
                 <Link key={movie.id} to={`/movie/${movie.id}`}>
-                  <div style={{ transition: "transform 0.2s" }}>
-                    <img
+                  <Box
+                    _hover={{ transform: "scale(1.05)" }}
+                    transition="transform 0.2s"
+                  >
+                    <Image
                       src={
                         movie.poster_path
                           ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
                           : noImage
                       }
                       alt={movie.title}
-                      style={{
-                        width: "100%",
-                        aspectRatio: "2/3",
-                        objectFit: "cover",
-                        borderRadius: "8px",
-                      }}
+                      borderRadius="lg"
+                      width="100%"
+                      height="auto"
+                      aspectRatio="2/3"
+                      objectFit="cover"
                     />
-                    <Text
-                      fontWeight="bold"
-                      fontSize="sm"
-                      noOfLines={1}
-                      marginTop="8px"
-                    >
+                    <Text fontWeight="bold" fontSize="sm" noOfLines={1} mt={2}>
                       {movie.title}
                     </Text>
                     <Text fontSize="xs" color="gray.500">
@@ -211,16 +283,16 @@ const ActorProfile = () => {
                         ? new Date(movie.release_date).getFullYear()
                         : "N/A"}
                     </Text>
-                  </div>
+                  </Box>
                 </Link>
               ))}
-            </div>
+            </SimpleGrid>
           ) : (
             <Text>No movies found for the selected filters.</Text>
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Stack>
+    </Container>
   );
 };
 

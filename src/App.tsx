@@ -7,6 +7,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import GenreList from "./components/GenreList";
 import Home from "./components/Home";
 import MovieDetails from "./components/MovieDetails";
+import NatalChart from "./components/NatalChart";
 import NavBar from "./components/NavBar";
 import TvDetails from "./components/TvDetails";
 import { Genre } from "./hooks/useGenres";
@@ -80,6 +81,7 @@ function App() {
               </ErrorBoundary>
             }
           />
+          <Route path="/natal-chart" element={<NatalChart />} />
         </Routes>
       </GridItem>
     </Grid>
