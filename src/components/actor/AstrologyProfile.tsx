@@ -1,18 +1,19 @@
 import {
-    Box,
-    Button,
-    Flex,
-    Grid,
-    GridItem,
-    Heading,
-    Image,
-    SimpleGrid,
-    Text,
+  Box,
+  Button,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
+  SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNatalWheelChart } from "../../hooks/useNatalWheelChart";
 import { usePlanetaryData } from "../../hooks/usePlanetaryData";
+import ZodiacPill from "../ZodiacPill";
 
 interface AstrologyProfileProps {
   birthday: string;
@@ -168,7 +169,7 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
                     borderColor="gray.600"
                     bg="gray.700"
                   >
-                    <Text fontWeight="bold" fontSize="lg" mb={1}>
+                    <Text fontWeight="bold" fontSize="lg" mb={2}>
                       {planet.planet}{" "}
                       {planet.isRetrograde && (
                         <Text as="span" color="gray.400">
@@ -176,7 +177,7 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
                         </Text>
                       )}
                     </Text>
-                    <Text color="gray.300">{planet.sign}</Text>
+                    <ZodiacPill sign={planet.sign} size="sm" />
                   </Box>
                 ))}
               </SimpleGrid>
