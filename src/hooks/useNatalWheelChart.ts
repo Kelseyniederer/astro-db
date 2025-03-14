@@ -1,74 +1,78 @@
-import { useState } from "react";
-import { getNatalWheelChart } from "../services/astrologyClient";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useColorMode } from "../components/ui/color-mode";
 
-const defaultConfig = {
-  observation_point: "geocentric" as const,
-  ayanamsha: "tropical" as const,
-  house_system: "Placidus" as const,
-  language: "en" as const,
-  wheel_chart_colors: {
-    zodiac_sign_background_color: "#303036",
-    chart_background_color: "#303036",
-    zodiac_signs_text_color: "#FFFFFF",
-    dotted_line_color: "#FFFAFF",
-    planets_icon_color: "#FFFAFF",
+const astrologyClient = axios.create({
+  baseURL: "/astrology",
+  headers: {
+    "Content-Type": "application/json",
   },
-  allowed_aspects: ["Conjunction", "Opposition", "Trine", "Square", "Sextile"],
-  aspect_line_colors: {
-    Conjunction: "#558B6E",
-    Opposition: "#88A09E",
-    Square: "#704C5E",
-    Trine: "#B88C9E",
-    Sextile: "#F1C8DB",
-  },
-  orb_values: {
-    Conjunction: 8,
-    Opposition: 8,
-    Square: 7,
-    Trine: 7,
-    Sextile: 6,
-  },
-};
+});
 
-export const useNatalWheelChart = (birthday: string | undefined) => {
+export const useNatalWheelChart = (birthday: string) => {
   const [chartUrl, setChartUrl] = useState<string | null>(null);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { colorMode } = useColorMode();
 
   const fetchNatalWheelChart = async () => {
-    if (!birthday) return;
-
     setIsLoading(true);
-    setError(null);
+    const birthDate = new Date(birthday);
 
     try {
-      const birthDate = new Date(birthday);
-      const data = await getNatalWheelChart({
+      const requestData = {
         year: birthDate.getFullYear(),
         month: birthDate.getMonth() + 1,
         date: birthDate.getDate(),
         hours: 12,
         minutes: 0,
         seconds: 0,
-        latitude: 41.8781, // Chicago
+        latitude: 41.8781,
         longitude: -87.6298,
         timezone: -5,
-        config: defaultConfig,
-      });
+        config: {
+          observation_point: "topocentric",
+          ayanamsha: "tropical",
+          house_system: "Placidus",
+          wheel_chart_colors:
+            colorMode === "light"
+              ? {
+                  zodiac_sign_background_color: "#FFFFFF",
+                  chart_background_color: "#FFFFFF",
+                  zodiac_signs_text_color: "#1A202C",
+                  dotted_line_color: "#2D3748",
+                  planets_icon_color: "#2D3748",
+                }
+              : {
+                  zodiac_sign_background_color: "#303036",
+                  chart_background_color: "#303036",
+                  zodiac_signs_text_color: "#FFFFFF",
+                  dotted_line_color: "#FFFAFF",
+                  planets_icon_color: "#FFFAFF",
+                },
+        },
+      };
 
-      if (data.statusCode === 200 && data.output) {
-        setChartUrl(data.output);
-      } else {
-        setError("Failed to generate natal wheel chart");
+      const response = await astrologyClient.post(
+        "/western/natal-wheel-chart",
+        requestData
+      );
+      if (response?.data?.output) {
+        setChartUrl(response.data.output);
       }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to fetch natal wheel chart"
-      );
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Re-fetch chart when color mode changes
+  useEffect(() => {
+    if (birthday) {
+      fetchNatalWheelChart();
+    }
+  }, [colorMode, birthday]);
 
   return {
     chartUrl,

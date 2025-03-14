@@ -3,14 +3,12 @@ import {
   Button,
   Flex,
   Grid,
-  GridItem,
   Heading,
   Image,
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import { useNatalWheelChart } from "../../hooks/useNatalWheelChart";
 import { usePlanetaryData } from "../../hooks/usePlanetaryData";
 import ZodiacPill from "../ZodiacPill";
@@ -19,6 +17,66 @@ interface AstrologyProfileProps {
   birthday: string;
   name: string;
 }
+
+const LoadingState = () => (
+  <Flex height="400px" align="center" justify="center">
+    <Text>Loading...</Text>
+  </Flex>
+);
+
+const ErrorState = ({
+  error,
+  onRetry,
+}: {
+  error: string;
+  onRetry?: () => void;
+}) => (
+  <Flex
+    height="400px"
+    align="center"
+    justify="center"
+    direction="column"
+    textAlign="center"
+  >
+    <Text color="red.500" mb={4}>
+      {error.includes("429")
+        ? "Rate limit exceeded. Please try again in a few minutes."
+        : "Error loading data"}
+    </Text>
+    {error.includes("429") && (
+      <Button onClick={onRetry} colorScheme="purple" size="sm" mt={2}>
+        Try Again
+      </Button>
+    )}
+  </Flex>
+);
+
+const ContentBox = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <Box
+    bg="gray.800"
+    borderRadius="xl"
+    p={6}
+    height="100%"
+    shadow="lg"
+    borderWidth={1}
+    borderColor="gray.700"
+    _light={{
+      bg: "white",
+      borderColor: "gray.200",
+    }}
+  >
+    <Heading as="h3" size="lg" color="white" _light={{ color: "gray.800" }}>
+      {title}
+    </Heading>
+    {children}
+  </Box>
+);
 
 export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
   const hasLoaded = useRef(false);
@@ -56,134 +114,71 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
         Astrological Profile
       </Heading>
       <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={8}>
-        {/* Natal Wheel Chart */}
-        <GridItem>
-          <Box bg="gray.800" borderRadius="xl" p={6} height="100%" shadow="lg">
-            <Heading as="h3" size="lg" mb={6}>
-              Natal Chart
-            </Heading>
-            {chartLoading ? (
-              <Flex height="400px" align="center" justify="center">
-                <Text>Loading natal chart...</Text>
-              </Flex>
-            ) : chartError ? (
-              <Flex
-                height="400px"
-                align="center"
-                justify="center"
-                direction="column"
-                textAlign="center"
-              >
-                <Text color="red.500" mb={4}>
-                  {chartError.includes("429")
-                    ? "Rate limit exceeded. Please try again in a few minutes."
-                    : `Error loading natal chart: ${chartError}`}
-                </Text>
-                {chartError.includes("429") && (
-                  <Button
-                    onClick={handleRetry}
-                    colorScheme="purple"
-                    size="sm"
-                    mt={2}
-                  >
-                    Try Again
-                  </Button>
-                )}
-              </Flex>
-            ) : chartUrl ? (
+        <ContentBox title="Natal Chart">
+          {chartLoading ? (
+            <LoadingState />
+          ) : chartError ? (
+            <ErrorState error={chartError} onRetry={handleRetry} />
+          ) : chartUrl ? (
+            <Flex align="center" justify="center" height="100%">
               <Image
                 src={chartUrl}
                 alt={`${name}'s natal chart`}
-                w="100%"
-                h="auto"
+                maxW="100%"
+                maxH="600px"
+                objectFit="contain"
                 borderRadius="lg"
               />
-            ) : null}
-          </Box>
-        </GridItem>
+            </Flex>
+          ) : null}
+        </ContentBox>
 
-        {/* Planetary Positions */}
-        <GridItem>
-          <Box bg="gray.800" borderRadius="xl" p={6} height="100%" shadow="lg">
-            <Heading as="h3" size="lg" mb={6}>
-              Planetary Positions
-            </Heading>
-            {planetaryLoading ? (
-              <Flex height="400px" align="center" justify="center">
-                <Text>Loading planetary positions...</Text>
-              </Flex>
-            ) : planetaryError ? (
-              <Flex
-                height="400px"
-                align="center"
-                justify="center"
-                direction="column"
-                textAlign="center"
-              >
-                <Text color="red.500" mb={4}>
-                  {planetaryError.includes("429")
-                    ? "Rate limit exceeded. Please try again in a few minutes."
-                    : planetaryError.includes("CORS")
-                    ? "Error loading planetary data"
-                    : `Error loading planetary data: ${planetaryError}`}
-                </Text>
-                {planetaryError.includes("429") ? (
-                  <Button
-                    onClick={handleRetry}
-                    colorScheme="purple"
-                    size="sm"
-                    mt={2}
+        <ContentBox title="Planetary Positions">
+          {planetaryLoading ? (
+            <LoadingState />
+          ) : planetaryError ? (
+            <ErrorState error={planetaryError} onRetry={handleRetry} />
+          ) : planetaryData?.length > 0 ? (
+            <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+              {planetaryData.map((planet) => (
+                <Flex
+                  key={planet.planet}
+                  p={4}
+                  borderWidth={1}
+                  borderRadius="lg"
+                  borderColor="gray.600"
+                  bg="gray.700"
+                  align="center"
+                  justify="space-between"
+                  _light={{
+                    borderColor: "gray.200",
+                    bg: "gray.50",
+                  }}
+                >
+                  <Text
+                    fontWeight="bold"
+                    fontSize="md"
+                    color="white"
+                    _light={{ color: "gray.800" }}
                   >
-                    Try Again
-                  </Button>
-                ) : (
-                  planetaryError.includes("CORS") && (
-                    <Box p={4} bg="yellow.900" borderRadius="md" maxW="md">
-                      <Text>
-                        To view planetary positions, please first visit{" "}
-                        <Link
-                          to="https://cors-anywhere.herokuapp.com/corsdemo"
-                          target="_blank"
-                          style={{
-                            color: "yellow",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          this page
-                        </Link>{" "}
-                        and click the button to enable the demo server. Then
-                        refresh this page.
+                    {planet.planet}
+                    {planet.isRetrograde && (
+                      <Text
+                        as="span"
+                        color="gray.400"
+                        _light={{ color: "gray.500" }}
+                      >
+                        {" "}
+                        (R)
                       </Text>
-                    </Box>
-                  )
-                )}
-              </Flex>
-            ) : planetaryData?.length > 0 ? (
-              <SimpleGrid columns={{ base: 2, md: 2 }} gap={4}>
-                {planetaryData.map((planet) => (
-                  <Box
-                    key={planet.planet}
-                    p={4}
-                    borderWidth={1}
-                    borderRadius="lg"
-                    borderColor="gray.600"
-                    bg="gray.700"
-                  >
-                    <Text fontWeight="bold" fontSize="lg" mb={2}>
-                      {planet.planet}{" "}
-                      {planet.isRetrograde && (
-                        <Text as="span" color="gray.400">
-                          (R)
-                        </Text>
-                      )}
-                    </Text>
-                    <ZodiacPill sign={planet.sign} size="sm" />
-                  </Box>
-                ))}
-              </SimpleGrid>
-            ) : null}
-          </Box>
-        </GridItem>
+                    )}
+                  </Text>
+                  <ZodiacPill sign={planet.sign} size="sm" />
+                </Flex>
+              ))}
+            </SimpleGrid>
+          ) : null}
+        </ContentBox>
       </Grid>
     </>
   );
