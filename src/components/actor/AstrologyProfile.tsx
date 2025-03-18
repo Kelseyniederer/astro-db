@@ -4,12 +4,10 @@ import {
   Flex,
   Grid,
   Heading,
-  Image,
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import { useNatalWheelChart } from "../../hooks/useNatalWheelChart";
 import { usePlanetaryData } from "../../hooks/usePlanetaryData";
 import ZodiacPill from "../ZodiacPill";
 
@@ -88,24 +86,15 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
     fetchPlanetaryData,
   } = usePlanetaryData(birthday);
 
-  const {
-    chartUrl,
-    error: chartError,
-    isLoading: chartLoading,
-    fetchNatalWheelChart,
-  } = useNatalWheelChart(birthday);
-
   useEffect(() => {
     if (!hasLoaded.current) {
       hasLoaded.current = true;
       fetchPlanetaryData();
-      fetchNatalWheelChart();
     }
-  }, [fetchPlanetaryData, fetchNatalWheelChart]);
+  }, [fetchPlanetaryData]);
 
   const handleRetry = () => {
     fetchPlanetaryData();
-    fetchNatalWheelChart();
   };
 
   return (
@@ -113,26 +102,7 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
       <Heading as="h2" size="xl" mb={8}>
         Astrological Profile
       </Heading>
-      <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={8}>
-        <ContentBox title="Natal Chart">
-          {chartLoading ? (
-            <LoadingState />
-          ) : chartError ? (
-            <ErrorState error={chartError} onRetry={handleRetry} />
-          ) : chartUrl ? (
-            <Flex align="center" justify="center" height="100%">
-              <Image
-                src={chartUrl}
-                alt={`${name}'s natal chart`}
-                maxW="100%"
-                maxH="600px"
-                objectFit="contain"
-                borderRadius="lg"
-              />
-            </Flex>
-          ) : null}
-        </ContentBox>
-
+      <Grid templateColumns="1fr" gap={8}>
         <ContentBox title="Planetary Positions">
           {planetaryLoading ? (
             <LoadingState />
