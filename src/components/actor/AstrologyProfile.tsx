@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 import { usePlanetaryData } from "../../hooks/usePlanetaryData";
 import ZodiacPill from "../ZodiacPill";
@@ -69,7 +61,13 @@ const ContentBox = ({
       borderColor: "gray.200",
     }}
   >
-    <Heading as="h3" size="lg" color="white" _light={{ color: "gray.800" }}>
+    <Heading
+      as="h3"
+      size="lg"
+      color="white"
+      _light={{ color: "gray.800" }}
+      mb={4}
+    >
       {title}
     </Heading>
     {children}
@@ -99,9 +97,6 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
 
   return (
     <>
-      <Heading as="h2" size="xl" mb={8}>
-        Astrological Profile
-      </Heading>
       <Grid templateColumns="1fr" gap={8}>
         <ContentBox title="Planetary Positions">
           {planetaryLoading ? (
@@ -109,11 +104,11 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
           ) : planetaryError ? (
             <ErrorState error={planetaryError} onRetry={handleRetry} />
           ) : planetaryData?.length > 0 ? (
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+            <Flex direction="column" gap={3}>
               {planetaryData.map((planet) => (
                 <Flex
                   key={planet.planet}
-                  p={4}
+                  p={3}
                   borderWidth={1}
                   borderRadius="lg"
                   borderColor="gray.600"
@@ -146,7 +141,7 @@ export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
                   <ZodiacPill sign={planet.sign} size="sm" />
                 </Flex>
               ))}
-            </SimpleGrid>
+            </Flex>
           ) : null}
         </ContentBox>
       </Grid>
