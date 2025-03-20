@@ -33,12 +33,6 @@ const useMovies = (movieQuery: MovieQuery) => {
     [movieQuery]
   );
 
-  console.log("API Response (useMovies.ts):", data);
-  console.log(
-    "Extracted Movies (useMovies.ts):",
-    data ? data.results : "data is null or undefined"
-  );
-
   return { movies: data && data.results ? data.results : [], error, isLoading };
 };
 

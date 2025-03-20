@@ -28,7 +28,6 @@ const useData = <T>(
           ...requestConfig,
         })
         .then((res) => {
-          console.log("API Response for endpoint", endpoint, ":", res.data);
 
           if (!res.data) {
             setError("No data received from API");

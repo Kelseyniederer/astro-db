@@ -35,7 +35,7 @@ const FilmographyList = ({ movies, error }: Props) => {
   return (
     <Box width="100%">
       <Box mb={8}>
-        <Heading as="h2" size="xl">
+        <Heading as="h2" size="xl" color="black" _dark={{ color: "white" }}>
           Filmography
         </Heading>
       </Box>
@@ -52,10 +52,16 @@ const FilmographyList = ({ movies, error }: Props) => {
               cursor="pointer"
               borderRadius="12px"
               overflow="hidden"
-              bg="gray.800"
+              bg="gray.50"
               boxShadow="md"
+              borderWidth="1px"
+              borderColor="gray.200"
               transition="all 0.2s"
-              _hover={{ transform: "scale(1.02)" }}
+              _hover={{ transform: "scale(1.02)", boxShadow: "lg" }}
+              _dark={{
+                bg: "gray.800",
+                borderColor: "gray.700",
+              }}
             >
               <Image
                 src={
@@ -69,19 +75,24 @@ const FilmographyList = ({ movies, error }: Props) => {
                 objectFit="cover"
                 aspectRatio="2/3"
               />
-              <Box p={3}>
+              <Box p={3} bg="white" _dark={{ bg: "gray.800" }}>
                 <Text
                   fontWeight="bold"
                   fontSize="sm"
-                  color="gray.800"
+                  color="black"
                   _dark={{ color: "white" }}
                   overflow="hidden"
                   textOverflow="ellipsis"
                   whiteSpace="nowrap"
+                  mb={1}
                 >
                   {credit.title || credit.name}
                 </Text>
-                <Text fontSize="xs" color="gray.400">
+                <Text
+                  fontSize="xs"
+                  color="gray.700"
+                  _dark={{ color: "gray.400" }}
+                >
                   {credit.release_date || credit.first_air_date
                     ? new Date(
                         credit.release_date || credit.first_air_date || ""
@@ -93,7 +104,7 @@ const FilmographyList = ({ movies, error }: Props) => {
           ))}
         </SimpleGrid>
       ) : (
-        <Text fontSize="lg" color="gray.400">
+        <Text fontSize="lg" color="gray.700" _dark={{ color: "gray.400" }}>
           No credits found.
         </Text>
       )}

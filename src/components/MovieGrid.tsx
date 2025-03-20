@@ -13,7 +13,6 @@ const MovieGrid = ({ movieQuery }: Props) => {
   const { movies, error, isLoading } = useMovies(movieQuery);
   const skeletons = Array(16).fill(null);
 
-  console.log("Movies in MovieGrid.tsx:", movies); // ✅ Confirm `movies` is passed
 
   if (error) return <Text color="red.500">{error}</Text>;
 

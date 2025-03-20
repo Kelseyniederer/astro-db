@@ -11,7 +11,13 @@ interface ActorFilmographyProps {
 export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
   return (
     <Box>
-      <Heading as="h2" size="xl" mb={8}>
+      <Heading
+        as="h2"
+        size="xl"
+        mb={8}
+        color="black"
+        _dark={{ color: "white" }}
+      >
         Filmography
       </Heading>
 
@@ -29,7 +35,13 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
                 transition="all 0.2s"
                 borderRadius="xl"
                 overflow="hidden"
-                bg="gray.800"
+                bg="white"
+                borderWidth="1px"
+                borderColor="gray.200"
+                _dark={{
+                  bg: "gray.800",
+                  borderColor: "gray.700",
+                }}
               >
                 <Image
                   src={
@@ -50,10 +62,17 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
                     overflow="hidden"
                     textOverflow="ellipsis"
                     whiteSpace="nowrap"
+                    color="black"
+                    _dark={{ color: "white" }}
+                    mb={1}
                   >
                     {credit.title || credit.name}
                   </Text>
-                  <Text fontSize="xs" color="gray.400">
+                  <Text
+                    fontSize="xs"
+                    color="gray.700"
+                    _dark={{ color: "gray.400" }}
+                  >
                     {credit.release_date || credit.first_air_date
                       ? new Date(
                           credit.release_date || credit.first_air_date || ""
@@ -66,7 +85,7 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
           ))}
         </SimpleGrid>
       ) : (
-        <Text fontSize="lg" color="gray.400">
+        <Text fontSize="lg" color="gray.700" _dark={{ color: "gray.400" }}>
           No credits found.
         </Text>
       )}
