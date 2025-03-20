@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 import { useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import "./app.css";
 import ActorProfile from "./components/ActorProfile";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -18,76 +18,94 @@ export interface MovieQuery {
 
 function App() {
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({
-    searchText: "",
     genre: null,
+    searchText: "",
   });
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const resetQuery = () => setMovieQuery({ searchText: "", genre: null });
-  const resetGenre = () => setMovieQuery({ ...movieQuery, genre: null });
+  const handleMovieQuery = (query: MovieQuery) => {
+    setMovieQuery(query);
+    setSearchParams({
+      genre: query.genre?.id.toString() || "",
+      searchText: query.searchText || "",
+    });
+  };
+
+  const resetQuery = () => handleMovieQuery({ searchText: "", genre: null });
+  const resetGenre = () => handleMovieQuery({ ...movieQuery, genre: null });
 
   return (
     <Box>
       <NavBar
-        onSearch={(searchText) => setMovieQuery({ ...movieQuery, searchText })}
+        onSearch={(searchText) =>
+          handleMovieQuery({ ...movieQuery, searchText })
+        }
         resetQuery={resetGenre}
       />
-
-      <Box paddingTop="72px">
-        <Grid
-          templateAreas={{
-            base: `"main"`,
-            lg: isHomePage ? `"aside main"` : "main",
-          }}
-          templateColumns={{
-            base: "1fr",
-            lg: isHomePage ? "200px 1fr" : "1fr",
-          }}
-        >
-          {isHomePage && (
-            <GridItem
-              area="aside"
-              display={{ base: "none", lg: "block" }}
-              paddingX={5}
-              paddingTop={5}
-            >
-              <GenreList
-                selectedGenre={movieQuery.genre}
-                onSelectGenre={(genre) =>
-                  setMovieQuery({ ...movieQuery, genre })
-                }
-              />
-            </GridItem>
-          )}
-
-          <GridItem area="main" padding={5}>
-            <Routes>
-              <Route
-                path="/"
-                element={
+      <Grid
+        templateAreas={{
+          base: `"nav" "main"`,
+          lg: `"nav nav" "aside main"`,
+        }}
+        templateColumns={{
+          base: "1fr",
+          lg: "200px 1fr",
+        }}
+      >
+        {isHomePage && (
+          <GridItem area="aside" paddingX={5}>
+            <GenreList
+              selectedGenre={movieQuery.genre}
+              onSelectGenre={(genre: Genre) =>
+                handleMovieQuery({ ...movieQuery, genre })
+              }
+            />
+          </GridItem>
+        )}
+        <GridItem area="main">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ErrorBoundary>
                   <Home
                     movieQuery={movieQuery}
-                    onSelectGenre={(genre) =>
-                      setMovieQuery({ ...movieQuery, genre })
+                    onSelectGenre={(genre: Genre) =>
+                      handleMovieQuery({ ...movieQuery, genre })
                     }
                   />
-                }
-              />
-              <Route path="/movie/:id" element={<MovieDetails />} />
-              <Route path="/tv/:id" element={<TvDetails />} />
-              <Route
-                path="/person/:id"
-                element={
-                  <ErrorBoundary>
-                    <ActorProfile />
-                  </ErrorBoundary>
-                }
-              />
-            </Routes>
-          </GridItem>
-        </Grid>
-      </Box>
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/movie/:id"
+              element={
+                <ErrorBoundary>
+                  <MovieDetails />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/tv/:id"
+              element={
+                <ErrorBoundary>
+                  <TvDetails />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/person/:id"
+              element={
+                <ErrorBoundary>
+                  <ActorProfile />
+                </ErrorBoundary>
+              }
+            />
+          </Routes>
+        </GridItem>
+      </Grid>
     </Box>
   );
 }

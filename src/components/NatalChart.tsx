@@ -1,28 +1,32 @@
 import {
   Box,
   Button,
-  Container,
-  Heading,
-  Image,
+  FormControl,
+  FormLabel,
   Input,
-  Stack,
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNatalChart } from "../hooks/useNatalChart";
 
+interface NatalChartFormData {
+  name: string;
+  date: string;
+  time: string;
+  latitude: string;
+  longitude: string;
+  timezone: string;
+}
+
 const NatalChart = () => {
-  const { chartUrl, error, isLoading, generateChart } = useNatalChart();
-  const [formData, setFormData] = useState({
-    year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
-    date: new Date().getDate(),
-    hours: new Date().getHours(),
-    minutes: new Date().getMinutes(),
-    seconds: 0,
-    latitude: 0,
-    longitude: 0,
-    timezone: new Date().getTimezoneOffset() / -60,
+  const { generateChart, isLoading, chartUrl, error } = useNatalChart();
+  const [formData, setFormData] = useState<NatalChartFormData>({
+    name: "",
+    date: "",
+    time: "",
+    latitude: "",
+    longitude: "",
+    timezone: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,174 +34,123 @@ const NatalChart = () => {
     await generateChart(formData);
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: Number(value),
-    }));
-  };
-
   return (
-    <Container maxW="container.lg" py={6}>
-      <Stack spacing={8}>
-        <Heading as="h1" size="xl" textAlign="center">
-          Natal Chart Generator
-        </Heading>
+    <Box maxW="container.lg" mx="auto" py={8}>
+      <form onSubmit={handleSubmit}>
+        <Box gap={8}>
+          <Text fontSize="2xl" fontWeight="bold" mb={6}>
+            Generate Your Natal Chart
+          </Text>
 
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={6}>
-            <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-              <Box flex={1}>
-                <Text mb={2}>Year</Text>
+          <Box gap={6}>
+            <Box
+              display="flex"
+              flexDirection={{ base: "column", md: "row" }}
+              gap={4}
+            >
+              <FormControl isRequired>
+                <FormLabel>Name</FormLabel>
                 <Input
-                  type="number"
-                  min={1900}
-                  max={2100}
-                  value={formData.year}
-                  onChange={(e) => handleChange("year", e.target.value)}
-                  required
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                 />
-              </Box>
+              </FormControl>
 
-              <Box flex={1}>
-                <Text mb={2}>Month</Text>
+              <FormControl isRequired>
+                <FormLabel>Birth Date</FormLabel>
                 <Input
-                  type="number"
-                  min={1}
-                  max={12}
-                  value={formData.month}
-                  onChange={(e) => handleChange("month", e.target.value)}
-                  required
-                />
-              </Box>
-
-              <Box flex={1}>
-                <Text mb={2}>Date</Text>
-                <Input
-                  type="number"
-                  min={1}
-                  max={31}
+                  type="date"
                   value={formData.date}
-                  onChange={(e) => handleChange("date", e.target.value)}
-                  required
+                  onChange={(e) =>
+                    setFormData({ ...formData, date: e.target.value })
+                  }
                 />
-              </Box>
-            </Stack>
+              </FormControl>
 
-            <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-              <Box flex={1}>
-                <Text mb={2}>Hours</Text>
+              <FormControl isRequired>
+                <FormLabel>Birth Time</FormLabel>
                 <Input
-                  type="number"
-                  min={0}
-                  max={23}
-                  value={formData.hours}
-                  onChange={(e) => handleChange("hours", e.target.value)}
-                  required
+                  type="time"
+                  value={formData.time}
+                  onChange={(e) =>
+                    setFormData({ ...formData, time: e.target.value })
+                  }
                 />
-              </Box>
+              </FormControl>
+            </Box>
 
-              <Box flex={1}>
-                <Text mb={2}>Minutes</Text>
+            <Box
+              display="flex"
+              flexDirection={{ base: "column", md: "row" }}
+              gap={4}
+              mt={6}
+            >
+              <FormControl isRequired>
+                <FormLabel>Latitude</FormLabel>
                 <Input
-                  type="number"
-                  min={0}
-                  max={59}
-                  value={formData.minutes}
-                  onChange={(e) => handleChange("minutes", e.target.value)}
-                  required
-                />
-              </Box>
-
-              <Box flex={1}>
-                <Text mb={2}>Seconds</Text>
-                <Input
-                  type="number"
-                  min={0}
-                  max={59}
-                  value={formData.seconds}
-                  onChange={(e) => handleChange("seconds", e.target.value)}
-                  required
-                />
-              </Box>
-            </Stack>
-
-            <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-              <Box flex={1}>
-                <Text mb={2}>Latitude</Text>
-                <Input
-                  type="number"
-                  min={-90}
-                  max={90}
-                  step="0.000001"
+                  type="text"
                   value={formData.latitude}
-                  onChange={(e) => handleChange("latitude", e.target.value)}
-                  required
+                  onChange={(e) =>
+                    setFormData({ ...formData, latitude: e.target.value })
+                  }
+                  placeholder="e.g., 40.7128"
                 />
-              </Box>
+              </FormControl>
 
-              <Box flex={1}>
-                <Text mb={2}>Longitude</Text>
+              <FormControl isRequired>
+                <FormLabel>Longitude</FormLabel>
                 <Input
-                  type="number"
-                  min={-180}
-                  max={180}
-                  step="0.000001"
+                  type="text"
                   value={formData.longitude}
-                  onChange={(e) => handleChange("longitude", e.target.value)}
-                  required
+                  onChange={(e) =>
+                    setFormData({ ...formData, longitude: e.target.value })
+                  }
+                  placeholder="e.g., -74.0060"
                 />
-              </Box>
+              </FormControl>
 
-              <Box flex={1}>
-                <Text mb={2}>Timezone</Text>
+              <FormControl isRequired>
+                <FormLabel>Timezone</FormLabel>
                 <Input
-                  type="number"
-                  min={-12}
-                  max={14}
-                  step="0.5"
+                  type="text"
                   value={formData.timezone}
-                  onChange={(e) => handleChange("timezone", e.target.value)}
-                  required
+                  onChange={(e) =>
+                    setFormData({ ...formData, timezone: e.target.value })
+                  }
+                  placeholder="e.g., -5"
                 />
-              </Box>
-            </Stack>
+              </FormControl>
+            </Box>
+          </Box>
 
+          <Box mt={8}>
             <Button
               type="submit"
               colorScheme="blue"
               size="lg"
-              isLoading={isLoading}
+              loading={isLoading}
             >
               Generate Chart
             </Button>
-          </Stack>
-        </form>
-
-        {error && (
-          <Text color="red.500" textAlign="center">
-            {error}
-          </Text>
-        )}
-
-        {chartUrl && (
-          <Box
-            borderWidth={1}
-            borderRadius="lg"
-            p={4}
-            bg="white"
-            boxShadow="lg"
-          >
-            <Image
-              src={chartUrl}
-              alt="Natal Chart"
-              width="100%"
-              height="auto"
-            />
           </Box>
-        )}
-      </Stack>
-    </Container>
+
+          {error && (
+            <Text color="red.500" mt={4}>
+              Error: {error}
+            </Text>
+          )}
+
+          {chartUrl && (
+            <Box mt={8}>
+              <img src={chartUrl} alt="Natal Chart" style={{ width: "100%" }} />
+            </Box>
+          )}
+        </Box>
+      </form>
+    </Box>
   );
 };
 
