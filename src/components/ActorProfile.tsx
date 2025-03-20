@@ -15,6 +15,102 @@ interface Actor {
   birthday?: string;
 }
 
+interface ProfileImageProps {
+  src?: string;
+  alt: string;
+}
+
+const ProfileImage = ({ src, alt }: ProfileImageProps) => {
+  if (!src) {
+    return (
+      <Box
+        bg="gray.700"
+        borderRadius="xl"
+        p={4}
+        textAlign="center"
+        height="400px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        _light={{ bg: "gray.100" }}
+      >
+        <Text color="gray.400">No Profile Image Available</Text>
+      </Box>
+    );
+  }
+
+  return (
+    <Box borderRadius="xl" overflow="hidden" shadow="lg">
+      <img
+        src={`https://image.tmdb.org/t/p/w300${src}`}
+        alt={alt}
+        style={{
+          width: "100%",
+          height: "auto",
+          display: "block",
+        }}
+      />
+    </Box>
+  );
+};
+
+interface BioSectionProps {
+  name: string;
+  department?: string;
+  birthday?: string;
+  biography?: string;
+}
+
+const BioSection = ({
+  name,
+  department,
+  birthday,
+  biography,
+}: BioSectionProps) => (
+  <Box>
+    <Box mb={6}>
+      <Text
+        as="h1"
+        fontSize="3xl"
+        fontWeight="bold"
+        mb={2}
+        color="black"
+        _dark={{ color: "white" }}
+      >
+        {name}
+      </Text>
+      <Text fontSize="xl" color="gray.600" _dark={{ color: "gray.400" }} mb={2}>
+        {department || "Actor"}
+      </Text>
+      {birthday && (
+        <Text
+          fontSize="lg"
+          mb={4}
+          color="gray.700"
+          _dark={{ color: "gray.300" }}
+        >
+          Born:{" "}
+          {new Date(birthday).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </Text>
+      )}
+    </Box>
+    {biography && (
+      <Text
+        fontSize="lg"
+        lineHeight="tall"
+        color="gray.800"
+        _dark={{ color: "gray.100" }}
+      >
+        {biography}
+      </Text>
+    )}
+  </Box>
+);
+
 const ActorProfile = () => {
   const { id } = useParams();
   const personId = id ? parseInt(id) : undefined;
@@ -57,64 +153,17 @@ const ActorProfile = () => {
         gap={8}
         mb={12}
       >
-        {/* Profile Image */}
         <Box>
-          {person.profile_path ? (
-            <Box borderRadius="xl" overflow="hidden" shadow="lg">
-              <img
-                src={`https://image.tmdb.org/t/p/w300${person.profile_path}`}
-                alt={person.name}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block",
-                }}
-              />
-            </Box>
-          ) : (
-            <Box
-              bg="gray.700"
-              borderRadius="xl"
-              p={4}
-              textAlign="center"
-              height="400px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text color="gray.400">No Profile Image Available</Text>
-            </Box>
-          )}
+          <ProfileImage src={person.profile_path} alt={person.name} />
         </Box>
 
-        {/* Bio Section */}
-        <Box>
-          <Box mb={6}>
-            <Text as="h1" fontSize="3xl" fontWeight="bold" mb={2}>
-              {person.name}
-            </Text>
-            <Text fontSize="xl" color="gray.500" mb={2}>
-              {person.known_for_department || "Actor"}
-            </Text>
-            {person.birthday && (
-              <Text fontSize="lg" mb={4}>
-                Born:{" "}
-                {new Date(person.birthday).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </Text>
-            )}
-          </Box>
-          {person.biography && (
-            <Text fontSize="lg" lineHeight="tall">
-              {person.biography}
-            </Text>
-          )}
-        </Box>
+        <BioSection
+          name={person.name}
+          department={person.known_for_department}
+          birthday={person.birthday}
+          biography={person.biography}
+        />
 
-        {/* Planetary Positions */}
         {person.birthday && (
           <Box>
             <AstrologyProfile birthday={person.birthday} name={person.name} />
@@ -122,7 +171,11 @@ const ActorProfile = () => {
         )}
       </Grid>
 
-      <ActorFilmography movies={movies} />
+      <ActorFilmography
+        movies={movies}
+        title="Filmography"
+        columns={{ base: 2, sm: 3, md: 4, lg: 5 }}
+      />
     </Container>
   );
 };

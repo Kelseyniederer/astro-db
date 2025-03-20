@@ -6,9 +6,33 @@ import { Credit } from "../../hooks/usePersonMovies";
 interface ActorFilmographyProps {
   movies: Credit[];
   error?: string;
+  title?: string;
+  columns?: { base: number; sm: number; md: number; lg: number };
 }
 
-export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
+const defaultColumns = { base: 2, sm: 3, md: 4, lg: 5 };
+
+export const ActorFilmography = ({
+  movies,
+  error,
+  title = "Filmography",
+  columns = defaultColumns,
+}: ActorFilmographyProps) => {
+  // Sort movies by release date
+  const sortedMovies = movies.sort((a, b) => {
+    const dateA = a.release_date || a.first_air_date || "";
+    const dateB = b.release_date || b.first_air_date || "";
+    return dateB.localeCompare(dateA);
+  });
+
+  if (error) {
+    return (
+      <Text color="red.500">
+        Error loading {title.toLowerCase()}: {error}
+      </Text>
+    );
+  }
+
   return (
     <Box>
       <Heading
@@ -18,14 +42,12 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
         color="black"
         _dark={{ color: "white" }}
       >
-        Filmography
+        {title}
       </Heading>
 
-      {error ? (
-        <Text color="red.500">Error loading filmography: {error}</Text>
-      ) : movies.length > 0 ? (
-        <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} gap={6}>
-          {movies.map((credit) => (
+      {sortedMovies.length > 0 ? (
+        <SimpleGrid columns={columns} gap={6}>
+          {sortedMovies.map((credit) => (
             <Link key={credit.id} to={`/${credit.media_type}/${credit.id}`}>
               <Box
                 _hover={{
@@ -86,7 +108,7 @@ export const ActorFilmography = ({ movies, error }: ActorFilmographyProps) => {
         </SimpleGrid>
       ) : (
         <Text fontSize="lg" color="gray.700" _dark={{ color: "gray.400" }}>
-          No credits found.
+          No {title.toLowerCase()} found.
         </Text>
       )}
     </Box>
