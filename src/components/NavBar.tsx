@@ -1,4 +1,4 @@
-import { Box, HStack, Show, Hide } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import ColorModeSwitch from "./ColorModeSwitch";
 import Logo from "./Logo";
