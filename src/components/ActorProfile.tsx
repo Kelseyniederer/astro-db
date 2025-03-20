@@ -28,7 +28,7 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
         borderRadius="xl"
         p={4}
         textAlign="center"
-        height="400px"
+        height={{ base: "300px", md: "400px" }}
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -40,7 +40,13 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
   }
 
   return (
-    <Box borderRadius="xl" overflow="hidden" shadow="lg">
+    <Box
+      borderRadius="xl"
+      overflow="hidden"
+      shadow="lg"
+      maxW={{ base: "100%", sm: "300px" }}
+      mx="auto"
+    >
       <img
         src={`https://image.tmdb.org/t/p/w300${src}`}
         alt={alt}
@@ -48,6 +54,8 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
           width: "100%",
           height: "auto",
           display: "block",
+          maxHeight: "450px",
+          objectFit: "cover",
         }}
       />
     </Box>
@@ -149,11 +157,15 @@ const ActorProfile = () => {
   return (
     <Container maxW="container.xl" py={8}>
       <Grid
-        templateColumns={{ base: "1fr", lg: "300px 1fr 400px" }}
-        gap={8}
+        templateColumns={{
+          base: "1fr",
+          md: "minmax(200px, 300px) 1fr",
+          lg: "minmax(200px, 300px) 1fr minmax(300px, 400px)",
+        }}
+        gap={{ base: 4, md: 6, lg: 8 }}
         mb={12}
       >
-        <Box>
+        <Box width="100%">
           <ProfileImage src={person.profile_path} alt={person.name} />
         </Box>
 
