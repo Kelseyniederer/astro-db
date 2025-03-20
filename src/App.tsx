@@ -52,6 +52,7 @@ function App() {
           base: "1fr",
           lg: "200px 1fr",
         }}
+        paddingTop="80px"
       >
         {isHomePage && (
           <GridItem area="aside" paddingX={5}>
