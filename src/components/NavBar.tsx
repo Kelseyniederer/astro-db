@@ -1,4 +1,4 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, Show, Hide } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import ColorModeSwitch from "./ColorModeSwitch";
 import Logo from "./Logo";
@@ -29,7 +29,7 @@ const NavBar = ({ onSearch, resetQuery }: Props) => {
         padding={{ base: 2, md: 4 }}
         maxW="container.xl"
         margin="0 auto"
-        spacing={{ base: 2, md: 4 }}
+        gap={{ base: 2, md: 4 }}
         justify="space-between"
         align="center"
         flexWrap="nowrap"
