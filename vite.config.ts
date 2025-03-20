@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: "/astro-db/",
+    base: "",
     server: {
       proxy: {
         "/astrology": {
