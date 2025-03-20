@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://kelseyniederer.github.io/astro-db",
+  "homepage": "https://kelseyniederer.github.io/astro-db/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
