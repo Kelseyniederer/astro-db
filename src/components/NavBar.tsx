@@ -26,17 +26,23 @@ const NavBar = ({ onSearch, resetQuery }: Props) => {
       }}
     >
       <HStack
-        padding={4}
+        padding={{ base: 2, md: 4 }}
         maxW="container.xl"
         margin="0 auto"
-        gap={4}
+        spacing={{ base: 2, md: 4 }}
         justify="space-between"
+        align="center"
+        flexWrap="nowrap"
       >
-        <Link to="/">
+        <Link to="/" style={{ flexShrink: 0 }}>
           <Logo resetQuery={resetQuery} />
         </Link>
-        <SearchInput onSearch={onSearch} resetQuery={resetQuery} />
-        <ColorModeSwitch />
+        <Box flex="1" minW="0">
+          <SearchInput onSearch={onSearch} resetQuery={resetQuery} />
+        </Box>
+        <Box flexShrink={0}>
+          <ColorModeSwitch />
+        </Box>
       </HStack>
     </Box>
   );

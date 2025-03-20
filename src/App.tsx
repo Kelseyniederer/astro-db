@@ -36,7 +36,7 @@ function App() {
   const resetGenre = () => handleMovieQuery({ ...movieQuery, genre: null });
 
   return (
-    <Box>
+    <Box minH="100vh">
       <NavBar
         onSearch={(searchText) =>
           handleMovieQuery({ ...movieQuery, searchText })
@@ -52,10 +52,15 @@ function App() {
           base: "1fr",
           lg: "200px 1fr",
         }}
-        paddingTop="80px"
+        paddingTop={{ base: "60px", md: "80px" }}
+        gap={{ base: 4, md: 6 }}
       >
         {isHomePage && (
-          <GridItem area="aside" paddingX={5}>
+          <GridItem
+            area="aside"
+            paddingX={{ base: 4, lg: 5 }}
+            paddingBottom={{ base: 4, lg: 0 }}
+          >
             <GenreList
               selectedGenre={movieQuery.genre}
               onSelectGenre={(genre: Genre) =>
@@ -64,7 +69,7 @@ function App() {
             />
           </GridItem>
         )}
-        <GridItem area="main">
+        <GridItem area="main" paddingX={{ base: 4, md: 6 }} paddingBottom={6}>
           <Routes>
             <Route
               path="/"

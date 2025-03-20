@@ -41,17 +41,18 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
   };
 
   return (
-    <Box position="relative" width="100%" maxW="600px">
+    <Box position="relative" width="100%">
       <form
         onSubmit={(event) => {
           event.preventDefault();
           handleSearch();
         }}
+        style={{ width: "100%" }}
       >
-        <Box position="relative">
+        <Box position="relative" width="100%">
           <Box
             position="absolute"
-            left={4}
+            left={{ base: 2, md: 4 }}
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
@@ -75,8 +76,9 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
               color: "gray.800",
             }}
             borderRadius="full"
-            size="lg"
-            pl={10}
+            size={{ base: "md", md: "lg" }}
+            pl={{ base: 8, md: 10 }}
+            fontSize={{ base: "sm", md: "md" }}
           />
         </Box>
       </form>
