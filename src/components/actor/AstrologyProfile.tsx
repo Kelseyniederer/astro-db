@@ -5,7 +5,6 @@ import ZodiacPill from "../ZodiacPill";
 
 interface AstrologyProfileProps {
   birthday: string;
-  name: string;
 }
 
 const LoadingState = () => (
@@ -74,7 +73,7 @@ const ContentBox = ({
   </Box>
 );
 
-export const AstrologyProfile = ({ birthday, name }: AstrologyProfileProps) => {
+export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
   const hasLoaded = useRef(false);
 
   const {

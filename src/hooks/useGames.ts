@@ -1,4 +1,4 @@
-import { GameQuery } from "@/App";
+import { MovieQuery } from "../App";
 import useData from "./useData";
 
 export interface Platform {
@@ -13,19 +13,26 @@ export interface Game {
   background_image: string;
   parent_platforms: { platform: Platform }[];
   metacritic: number;
+  rating_top: number;
 }
 
-const useGames = (gameQuery: GameQuery) =>
-  useData<Game>(
+const useGames = (movieQuery: MovieQuery) => {
+  const {
+    data: games,
+    error,
+    isLoading,
+  } = useData<Game[]>(
     "/games",
     {
       params: {
-        genres: gameQuery.genre?.id,
-        parent_platforms: gameQuery.platform?.id,
-        search: gameQuery.searchText,
+        genres: movieQuery.genre?.id,
+        search: movieQuery.searchText,
       },
     },
-    [gameQuery]
+    [movieQuery]
   );
+
+  return { games, error, isLoading };
+};
 
 export default useGames;

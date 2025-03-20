@@ -166,7 +166,7 @@ const ActorProfile = () => {
 
         {person.birthday && (
           <Box>
-            <AstrologyProfile birthday={person.birthday} name={person.name} />
+            <AstrologyProfile birthday={person.birthday} />
           </Box>
         )}
       </Grid>

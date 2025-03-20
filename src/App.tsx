@@ -23,7 +23,7 @@ function App() {
   });
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const handleMovieQuery = (query: MovieQuery) => {
     setMovieQuery(query);
@@ -33,7 +33,6 @@ function App() {
     });
   };
 
-  const resetQuery = () => handleMovieQuery({ searchText: "", genre: null });
   const resetGenre = () => handleMovieQuery({ ...movieQuery, genre: null });
 
   return (
@@ -70,12 +69,7 @@ function App() {
               path="/"
               element={
                 <ErrorBoundary>
-                  <Home
-                    movieQuery={movieQuery}
-                    onSelectGenre={(genre: Genre) =>
-                      handleMovieQuery({ ...movieQuery, genre })
-                    }
-                  />
+                  <Home movieQuery={movieQuery} />
                 </ErrorBoundary>
               }
             />

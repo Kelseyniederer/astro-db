@@ -19,7 +19,7 @@ const CastCard = ({
   profilePath,
   birthday,
 }: CastCardProps) => {
-  const { formattedBirthday, zodiacSign } = useZodiacSign(birthday);
+  const { zodiacSign } = useZodiacSign(birthday);
 
   return (
     <Link to={`/person/${id}`}>

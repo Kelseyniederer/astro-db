@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNatalChart } from "../hooks/useNatalChart";
 
@@ -31,7 +24,20 @@ const NatalChart = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await generateChart(formData);
+    const [hours, minutes] = formData.time.split(":").map(Number);
+    const [year, month, day] = formData.date.split("-").map(Number);
+
+    await generateChart({
+      year,
+      month,
+      date: day,
+      hours: hours || 0,
+      minutes: minutes || 0,
+      seconds: 0,
+      latitude: parseFloat(formData.latitude),
+      longitude: parseFloat(formData.longitude),
+      timezone: parseInt(formData.timezone),
+    });
   };
 
   return (
@@ -48,38 +54,47 @@ const NatalChart = () => {
               flexDirection={{ base: "column", md: "row" }}
               gap={4}
             >
-              <FormControl isRequired>
-                <FormLabel>Name</FormLabel>
+              <Box>
+                <Text as="label" display="block" mb={2}>
+                  Name *
+                </Text>
                 <Input
                   type="text"
                   value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
+                  required
                 />
-              </FormControl>
+              </Box>
 
-              <FormControl isRequired>
-                <FormLabel>Birth Date</FormLabel>
+              <Box>
+                <Text as="label" display="block" mb={2}>
+                  Birth Date *
+                </Text>
                 <Input
                   type="date"
                   value={formData.date}
                   onChange={(e) =>
                     setFormData({ ...formData, date: e.target.value })
                   }
+                  required
                 />
-              </FormControl>
+              </Box>
 
-              <FormControl isRequired>
-                <FormLabel>Birth Time</FormLabel>
+              <Box>
+                <Text as="label" display="block" mb={2}>
+                  Birth Time *
+                </Text>
                 <Input
                   type="time"
                   value={formData.time}
                   onChange={(e) =>
                     setFormData({ ...formData, time: e.target.value })
                   }
+                  required
                 />
-              </FormControl>
+              </Box>
             </Box>
 
             <Box
@@ -88,8 +103,10 @@ const NatalChart = () => {
               gap={4}
               mt={6}
             >
-              <FormControl isRequired>
-                <FormLabel>Latitude</FormLabel>
+              <Box>
+                <Text as="label" display="block" mb={2}>
+                  Latitude *
+                </Text>
                 <Input
                   type="text"
                   value={formData.latitude}
@@ -97,11 +114,14 @@ const NatalChart = () => {
                     setFormData({ ...formData, latitude: e.target.value })
                   }
                   placeholder="e.g., 40.7128"
+                  required
                 />
-              </FormControl>
+              </Box>
 
-              <FormControl isRequired>
-                <FormLabel>Longitude</FormLabel>
+              <Box>
+                <Text as="label" display="block" mb={2}>
+                  Longitude *
+                </Text>
                 <Input
                   type="text"
                   value={formData.longitude}
@@ -109,11 +129,14 @@ const NatalChart = () => {
                     setFormData({ ...formData, longitude: e.target.value })
                   }
                   placeholder="e.g., -74.0060"
+                  required
                 />
-              </FormControl>
+              </Box>
 
-              <FormControl isRequired>
-                <FormLabel>Timezone</FormLabel>
+              <Box>
+                <Text as="label" display="block" mb={2}>
+                  Timezone *
+                </Text>
                 <Input
                   type="text"
                   value={formData.timezone}
@@ -121,8 +144,9 @@ const NatalChart = () => {
                     setFormData({ ...formData, timezone: e.target.value })
                   }
                   placeholder="e.g., -5"
+                  required
                 />
-              </FormControl>
+              </Box>
             </Box>
           </Box>
 

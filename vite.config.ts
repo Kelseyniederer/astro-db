@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: "/astro-db/", // Add base URL for GitHub Pages
+    base: "./",
     server: {
       proxy: {
         "/astrology": {

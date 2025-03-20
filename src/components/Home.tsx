@@ -5,10 +5,9 @@ import MovieHeading from "./MovieHeading";
 
 interface Props {
   movieQuery: MovieQuery;
-  onSelectGenre: (genre: any) => void;
 }
 
-const Home = ({ movieQuery, onSelectGenre }: Props) => {
+const Home = ({ movieQuery }: Props) => {
   return (
     <Container maxW="container.xl" py={8}>
       <MovieHeading movieQuery={movieQuery} />
