@@ -8,6 +8,7 @@ export interface Credit {
   release_date?: string;
   first_air_date?: string;
   media_type: "movie" | "tv";
+  vote_average: number;
 }
 
 interface CreditsResponse {

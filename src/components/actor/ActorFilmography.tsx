@@ -1,7 +1,15 @@
-import { Box, Heading, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  HStack,
+  Image,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import noImage from "../../assets/no-image-placeholder-6f3882e0.webp";
 import { Credit } from "../../hooks/usePersonMovies";
+import CriticScore from "../CriticScore";
 
 interface ActorFilmographyProps {
   movies: Credit[];
@@ -90,17 +98,22 @@ export const ActorFilmography = ({
                   >
                     {credit.title || credit.name}
                   </Text>
-                  <Text
-                    fontSize="xs"
-                    color="gray.700"
-                    _dark={{ color: "gray.400" }}
-                  >
-                    {credit.release_date || credit.first_air_date
-                      ? new Date(
-                          credit.release_date || credit.first_air_date || ""
-                        ).getFullYear()
-                      : "N/A"}
-                  </Text>
+                  <HStack justify="space-between" align="center">
+                    <Text
+                      fontSize="xs"
+                      color="gray.700"
+                      _dark={{ color: "gray.400" }}
+                    >
+                      {credit.release_date || credit.first_air_date
+                        ? new Date(
+                            credit.release_date || credit.first_air_date || ""
+                          ).getFullYear()
+                        : "N/A"}
+                    </Text>
+                    {credit.vote_average > 0 && (
+                      <CriticScore score={credit.vote_average} />
+                    )}
+                  </HStack>
                 </Box>
               </Box>
             </Link>
