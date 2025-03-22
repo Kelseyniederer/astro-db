@@ -19,7 +19,7 @@ const Logo = ({ resetQuery }: Props) => {
     <HStack cursor="pointer" onClick={handleClick}>
       <Icon as={BiCameraMovie} boxSize={8} color="white.400" />
       <Text
-        fontSize="2xl"
+        fontSize="xl"
         fontWeight="bold"
         display={{ base: "none", md: "block" }}
       >

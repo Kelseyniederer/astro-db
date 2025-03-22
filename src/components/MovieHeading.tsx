@@ -1,4 +1,6 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { HStack, Heading, Icon, VStack } from "@chakra-ui/react";
+import { BiCameraMovie } from "react-icons/bi";
+import { PiPlanet } from "react-icons/pi";
 import { MovieQuery } from "../App";
 
 interface Props {
@@ -13,11 +15,18 @@ const MovieHeading = ({ movieQuery }: Props) => {
     : "Discover Movies & TV Shows";
 
   return (
-    <Box mb={8}>
-      <Heading as="h1" size="2xl">
+    <VStack mb={8} gap={2} align="center">
+      <HStack gap={2} display={{ base: "flex", md: "none" }}>
+        <Icon as={BiCameraMovie} boxSize={8} color="white.400" />
+        <Heading as="h1" size="2xl" fontWeight="bold">
+          AstroDB
+        </Heading>
+        <Icon as={PiPlanet} boxSize={6} color="white.400" />
+      </HStack>
+      <Heading as="h2" size="lg" color="gray.600" _dark={{ color: "gray.400" }}>
         {heading}
       </Heading>
-    </Box>
+    </VStack>
   );
 };
 

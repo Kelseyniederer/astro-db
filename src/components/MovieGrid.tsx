@@ -13,11 +13,10 @@ const MovieGrid = ({ movieQuery }: Props) => {
   const { movies, error, isLoading } = useMovies(movieQuery);
   const skeletons = Array(16).fill(null);
 
-
   if (error) return <Text color="red.500">{error}</Text>;
 
   return (
-    <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap={6}>
+    <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} gap={{ base: 4, md: 6 }}>
       {/* ✅ Show loading skeletons */}
       {isLoading &&
         skeletons.map((_, index) => (

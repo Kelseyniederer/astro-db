@@ -52,10 +52,12 @@ const MovieCard = ({ movie }: Props) => {
       overflow="hidden"
       onClick={handleClick}
       cursor="pointer"
-      transition="transform 0.2s"
+      transition="all 0.3s ease-in-out"
       _hover={{
-        transform: "scale(1.02)",
+        transform: "translateY(-8px)",
+        boxShadow: "xl",
       }}
+      position="relative"
     >
       <Box position="relative" paddingTop="150%">
         {movie.media_type === "person" && !movie.profile_path ? (
@@ -74,20 +76,40 @@ const MovieCard = ({ movie }: Props) => {
             <FaUser size={60} />
           </HStack>
         ) : (
-          <Image
-            position="absolute"
-            top={0}
-            left={0}
-            width="100%"
-            height="100%"
-            src={imageUrl}
-            alt={displayTitle}
-            objectFit="cover"
-          />
+          <>
+            <Image
+              position="absolute"
+              top={0}
+              left={0}
+              width="100%"
+              height="100%"
+              src={imageUrl}
+              alt={displayTitle}
+              objectFit="cover"
+              transition="transform 0.3s ease-in-out"
+              _groupHover={{ transform: "scale(1.05)" }}
+            />
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
+              bg="blackAlpha.600"
+              opacity={0}
+              transition="opacity 0.3s ease-in-out"
+              _groupHover={{ opacity: 1 }}
+            />
+          </>
         )}
       </Box>
 
-      <Card.Body padding={4}>
+      <Card.Body
+        padding={4}
+        bg="gray.800"
+        _light={{ bg: "white" }}
+        transition="transform 0.3s ease-in-out"
+      >
         <HStack
           justifyContent="space-between"
           alignItems="center"
@@ -99,10 +121,13 @@ const MovieCard = ({ movie }: Props) => {
             color="whiteAlpha.900"
             _light={{ color: "gray.800" }}
             maxW="70%"
+            overflow="hidden"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
           >
             {displayTitle}
           </Heading>
-          {movie.media_type === "movie" && (
+          {movie.media_type !== "person" && movie.vote_average > 0 && (
             <CriticScore score={movie.vote_average} />
           )}
         </HStack>
