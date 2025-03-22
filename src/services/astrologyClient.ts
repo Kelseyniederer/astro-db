@@ -8,11 +8,16 @@ if (!apiKey) {
   );
 }
 
+const isDevelopment = import.meta.env.DEV;
+
 const astrologyClient = axios.create({
-  baseURL: "/astrology",
+  baseURL: isDevelopment
+    ? "/astrology"
+    : "https://cors-anywhere.herokuapp.com/https://json.freeastrologyapi.com",
   headers: {
     "Content-Type": "application/json",
     "x-api-key": apiKey,
+    Origin: "https://kelseyniederer.github.io",
   },
 });
 
