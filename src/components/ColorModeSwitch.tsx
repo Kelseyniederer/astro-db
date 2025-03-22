@@ -6,7 +6,7 @@ const ColorModeSwitch = () => {
   return (
     <HStack>
       <ColorModeButton />
-      <Text whiteSpace={"nowrap"}>
+      <Text whiteSpace="nowrap" display={{ base: "none", md: "block" }}>
         {colorMode === "light" ? "Light Mode" : "Dark Mode"}
       </Text>
     </HStack>

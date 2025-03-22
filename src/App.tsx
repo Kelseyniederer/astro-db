@@ -45,12 +45,12 @@ function App() {
       />
       <Grid
         templateAreas={{
-          base: `"nav" "main"`,
-          lg: `"nav nav" "aside main"`,
+          base: `"main"`,
+          lg: isHomePage ? `"aside main"` : `"main"`,
         }}
         templateColumns={{
           base: "1fr",
-          lg: "200px 1fr",
+          lg: isHomePage ? "250px 1fr" : "1fr",
         }}
         paddingTop={{ base: "60px", md: "80px" }}
         gap={{ base: 4, md: 6 }}
@@ -58,8 +58,12 @@ function App() {
         {isHomePage && (
           <GridItem
             area="aside"
-            paddingX={{ base: 4, lg: 5 }}
-            paddingBottom={{ base: 4, lg: 0 }}
+            paddingX={5}
+            display={{ base: "none", lg: "block" }}
+            position="sticky"
+            top="80px"
+            height="calc(100vh - 80px)"
+            overflowY="auto"
           >
             <GenreList
               selectedGenre={movieQuery.genre}
@@ -69,41 +73,16 @@ function App() {
             />
           </GridItem>
         )}
-        <GridItem area="main" paddingX={{ base: 4, md: 6 }} paddingBottom={6}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <ErrorBoundary>
-                  <Home movieQuery={movieQuery} />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="/movie/:id"
-              element={
-                <ErrorBoundary>
-                  <MovieDetails />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="/tv/:id"
-              element={
-                <ErrorBoundary>
-                  <TvDetails />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="/person/:id"
-              element={
-                <ErrorBoundary>
-                  <ActorProfile />
-                </ErrorBoundary>
-              }
-            />
-          </Routes>
+
+        <GridItem area="main" paddingX={{ base: 4, lg: 5 }}>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home movieQuery={movieQuery} />} />
+              <Route path="/movie/:id" element={<MovieDetails />} />
+              <Route path="/tv/:id" element={<TvDetails />} />
+              <Route path="/person/:id" element={<ActorProfile />} />
+            </Routes>
+          </ErrorBoundary>
         </GridItem>
       </Grid>
     </Box>
