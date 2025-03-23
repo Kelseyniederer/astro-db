@@ -1,24 +1,24 @@
 import { MovieQuery } from "@/App";
-import { Container, VStack } from "@chakra-ui/react";
+import { useOutletContext } from "react-router-dom";
+import styles from "../styles/Home.module.css";
 import MovieGrid from "./MovieGrid";
 import MovieHeading from "./MovieHeading";
 import TrendingPeople from "./TrendingPeople";
 
-interface Props {
-  movieQuery: MovieQuery;
-}
+const Home = () => {
+  const movieQuery = useOutletContext<MovieQuery>();
+  const isSearching = Boolean(movieQuery.searchText);
 
-const Home = ({ movieQuery }: Props) => {
   return (
-    <Container maxW="container.xl" py={8}>
-      <VStack spacing={16} align="stretch">
-        <TrendingPeople />
-        <VStack spacing={8} align="stretch">
+    <div className={styles.container}>
+      <div className={styles.content}>
+        {!isSearching && <TrendingPeople />}
+        <div className={styles.movieSection}>
           <MovieHeading movieQuery={movieQuery} />
           <MovieGrid movieQuery={movieQuery} />
-        </VStack>
-      </VStack>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 

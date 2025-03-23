@@ -1,6 +1,7 @@
 import { MovieQuery } from "@/App";
-import { SimpleGrid, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import useMovies, { Movie } from "../hooks/useMovies";
+import styles from "../styles/Home.module.css";
 import MovieCard from "./MovieCard";
 import MovieCardContainer from "./MovieCardContainer";
 import MovieCardSkeleton from "./MovieCardSkeleton";
@@ -11,12 +12,12 @@ interface Props {
 
 const MovieGrid = ({ movieQuery }: Props) => {
   const { movies, error, isLoading } = useMovies(movieQuery);
-  const skeletons = Array(16).fill(null);
+  const skeletons = Array(15).fill(null);
 
   if (error) return <Text color="red.500">{error}</Text>;
 
   return (
-    <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} gap={{ base: 4, md: 6 }}>
+    <div className={styles.grid}>
       {/* ✅ Show loading skeletons */}
       {isLoading &&
         skeletons.map((_, index) => (
@@ -38,7 +39,7 @@ const MovieGrid = ({ movieQuery }: Props) => {
             No movies found.
           </Text>
         ))}
-    </SimpleGrid>
+    </div>
   );
 };
 

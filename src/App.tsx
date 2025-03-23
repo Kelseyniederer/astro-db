@@ -1,5 +1,6 @@
 import { Box, ChakraProvider, Grid, GridItem } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./app.css";
 import ColorModeManager from "./components/ColorModeManager";
 import NavBar from "./components/NavBar";
@@ -12,6 +13,18 @@ export interface MovieQuery {
 }
 
 function App() {
+  const [movieQuery, setMovieQuery] = useState<MovieQuery>({});
+  const navigate = useNavigate();
+
+  const handleSearch = (searchText: string) => {
+    setMovieQuery((prev) => ({ ...prev, searchText }));
+  };
+
+  const resetQuery = () => {
+    setMovieQuery({});
+    navigate("/");
+  };
+
   return (
     <ChakraProvider theme={theme}>
       <ColorModeManager />
@@ -27,10 +40,10 @@ function App() {
           }}
         >
           <GridItem area="nav">
-            <NavBar onSearch={() => {}} resetQuery={() => {}} />
+            <NavBar onSearch={handleSearch} resetQuery={resetQuery} />
           </GridItem>
-          <GridItem area="main">
-            <Outlet />
+          <GridItem area="main" pt={{ base: "80px", md: "100px" }}>
+            <Outlet context={movieQuery} />
           </GridItem>
         </Grid>
       </Box>

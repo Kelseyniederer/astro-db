@@ -1,0 +1,148 @@
+.pill {
+  border-radius: 9999px;
+  width: fit-content;
+  padding: 0.25rem 0.75rem;
+}
+
+/* Size variants */
+.sm {
+  font-size: 0.75rem;
+}
+
+.md {
+  font-size: 0.875rem;
+}
+
+.lg {
+  font-size: 1rem;
+}
+
+.content {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Element colors - Fire */
+.fire {
+  background-color: var(--chakra-colors-red-800);
+}
+
+.fire.light {
+  background-color: var(--chakra-colors-red-50);
+}
+
+.fire .icon {
+  color: var(--chakra-colors-red-500);
+}
+
+.fire .text {
+  color: white;
+}
+
+.fire.light .text {
+  color: var(--chakra-colors-red-800);
+}
+
+/* Element colors - Water */
+.water {
+  background-color: var(--chakra-colors-blue-800);
+}
+
+.water.light {
+  background-color: var(--chakra-colors-blue-50);
+}
+
+.water .icon {
+  color: var(--chakra-colors-blue-400);
+}
+
+.water.light .icon {
+  color: var(--chakra-colors-blue-500);
+}
+
+.water .text {
+  color: white;
+}
+
+.water.light .text {
+  color: var(--chakra-colors-blue-800);
+}
+
+/* Element colors - Earth */
+.earth {
+  background-color: var(--chakra-colors-green-800);
+}
+
+.earth.light {
+  background-color: var(--chakra-colors-green-50);
+}
+
+.earth .icon {
+  color: var(--chakra-colors-green-300);
+}
+
+.earth.light .icon {
+  color: var(--chakra-colors-green-600);
+}
+
+.earth .text {
+  color: white;
+}
+
+.earth.light .text {
+  color: var(--chakra-colors-green-800);
+}
+
+/* Element colors - Air */
+.air {
+  background-color: var(--chakra-colors-gray-700);
+}
+
+.air.light {
+  background-color: var(--chakra-colors-gray-100);
+}
+
+.air .icon {
+  color: var(--chakra-colors-gray-400);
+}
+
+.air.light .icon {
+  color: var(--chakra-colors-gray-500);
+}
+
+.air .text {
+  color: white;
+}
+
+.air.light .text {
+  color: var(--chakra-colors-gray-700);
+}
+
+/* Icon sizes */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon.sm {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.icon.md {
+  width: 1rem;
+  height: 1rem;
+}
+
+.icon.lg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Text styles */
+.text {
+  font-weight: 500;
+  line-height: 1;
+}

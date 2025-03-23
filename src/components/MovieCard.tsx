@@ -1,17 +1,10 @@
 import { Movie } from "@/hooks/useMovies";
-import {
-  Box,
-  Card,
-  CardBody,
-  Heading,
-  HStack,
-  Image,
-  VStack,
-} from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 import getCroppedImageUrl from "../services/image-url";
+import styles from "../styles/MovieCard.module.css";
 import { getZodiacSign } from "../utils/zodiac";
 import CriticScore from "./CriticScore";
 import ZodiacPill from "./ZodiacPill";
@@ -23,6 +16,7 @@ interface Props {
 const MovieCard = ({ movie }: Props) => {
   const displayTitle = movie.title || movie.name || "Untitled";
   const navigate = useNavigate();
+  const { colorMode } = useColorMode();
 
   const handleClick = () => {
     let type = movie.media_type;
@@ -63,93 +57,33 @@ const MovieCard = ({ movie }: Props) => {
   };
 
   return (
-    <Card
-      height="100%"
-      bg="gray.800"
-      _light={{ bg: "white" }}
-      borderRadius="lg"
-      overflow="hidden"
+    <div
+      className={`${styles.card} ${colorMode === "light" ? styles.light : ""}`}
       onClick={handleClick}
-      cursor="pointer"
-      transition="all 0.3s ease-in-out"
-      _hover={{
-        transform: "translateY(-8px)",
-        boxShadow: "xl",
-      }}
-      position="relative"
     >
-      <Box position="relative" paddingTop="150%">
+      <div className={styles.imageContainer}>
         {movie.media_type === "person" && !movie.profile_path ? (
-          <HStack
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            justify="center"
-            align="center"
-            bg="gray.700"
-            _light={{ bg: "gray.100" }}
-            color="gray.500"
-          >
+          <div className={styles.placeholderIcon}>
             <FaUser size={60} />
-          </HStack>
+          </div>
         ) : (
           <>
-            <Image
-              position="absolute"
-              top={0}
-              left={0}
-              width="100%"
-              height="100%"
-              src={imageUrl}
-              alt={displayTitle}
-              objectFit="cover"
-              transition="transform 0.3s ease-in-out"
-              _groupHover={{ transform: "scale(1.05)" }}
-            />
-            <Box
-              position="absolute"
-              top={0}
-              left={0}
-              right={0}
-              bottom={0}
-              bg="blackAlpha.600"
-              opacity={0}
-              transition="opacity 0.3s ease-in-out"
-              _groupHover={{ opacity: 1 }}
-            />
+            <img className={styles.image} src={imageUrl} alt={displayTitle} />
+            <div className={styles.imageOverlay} />
           </>
         )}
-      </Box>
+      </div>
 
-      <CardBody
-        padding={4}
-        bg="gray.800"
-        _light={{ bg: "white" }}
-        transition="transform 0.3s ease-in-out"
-      >
-        <VStack spacing={2} align="stretch">
-          <HStack justifyContent="space-between" alignItems="center">
-            <Heading
-              fontSize="md"
-              fontWeight="semibold"
-              color="whiteAlpha.900"
-              _light={{ color: "gray.800" }}
-              maxW="70%"
-              overflow="hidden"
-              textOverflow="ellipsis"
-              whiteSpace="nowrap"
-              noOfLines={1}
-            >
-              {displayTitle}
-            </Heading>
+      <div className={styles.cardBody}>
+        <div className={styles.content}>
+          <div className={styles.titleRow}>
+            <h3 className={styles.title}>{displayTitle}</h3>
             {movie.media_type !== "person" && movie.vote_average > 0 && (
               <CriticScore score={movie.vote_average} />
             )}
-          </HStack>
+          </div>
           {movie.media_type === "person" && (
-            <Box mt={1}>
+            <div className={styles.zodiacContainer}>
               <ZodiacPill
                 sign={
                   movie.birthday
@@ -157,11 +91,11 @@ const MovieCard = ({ movie }: Props) => {
                     : "Unknown"
                 }
               />
-            </Box>
+            </div>
           )}
-        </VStack>
-      </CardBody>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 };
 

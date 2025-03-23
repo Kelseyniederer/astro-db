@@ -1,5 +1,6 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import styles from "../styles/NavBar.module.css";
 import ColorModeSwitch from "./ColorModeSwitch";
 import Logo from "./Logo";
 import SearchInput from "./SearchInput";
@@ -10,41 +11,26 @@ interface Props {
 }
 
 const NavBar = ({ onSearch, resetQuery }: Props) => {
+  const { colorMode } = useColorMode();
+
   return (
-    <Box
-      position="fixed"
-      top={0}
-      left={0}
-      right={0}
-      zIndex={100}
-      bg="gray.800"
-      boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2)"
-      _light={{
-        bg: "white",
-        boxShadow:
-          "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-      }}
+    <nav
+      className={`${styles.navbar} ${
+        colorMode === "light" ? styles.light : ""
+      }`}
     >
-      <HStack
-        padding={{ base: 2, md: 4 }}
-        maxW="container.xl"
-        margin="0 auto"
-        gap={{ base: 2, md: 4 }}
-        justify="space-between"
-        align="center"
-        flexWrap="nowrap"
-      >
-        <Link to="/" style={{ flexShrink: 0 }}>
+      <div className={styles.content}>
+        <Link to="/" className={styles.logoLink}>
           <Logo resetQuery={resetQuery} />
         </Link>
-        <Box flex="1" minW="0">
+        <div className={styles.searchContainer}>
           <SearchInput onSearch={onSearch} resetQuery={resetQuery} />
-        </Box>
-        <Box flexShrink={0}>
+        </div>
+        <div className={styles.colorModeContainer}>
           <ColorModeSwitch />
-        </Box>
-      </HStack>
-    </Box>
+        </div>
+      </div>
+    </nav>
   );
 };
 

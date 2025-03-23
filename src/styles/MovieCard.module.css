@@ -1,0 +1,104 @@
+.card {
+  height: 100%;
+  border-radius: var(--chakra-radii-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--chakra-shadows-xl);
+}
+
+.imageContainer {
+  position: relative;
+  padding-top: 150%;
+}
+
+.placeholderIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--chakra-colors-gray-700);
+  color: var(--chakra-colors-gray-500);
+}
+
+.light .placeholderIcon {
+  background-color: var(--chakra-colors-gray-100);
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card:hover .imageOverlay {
+  opacity: 1;
+}
+
+.cardBody {
+  padding: var(--chakra-space-4);
+  background-color: var(--chakra-colors-gray-800);
+  transition: transform 0.3s ease-in-out;
+}
+
+.light .cardBody {
+  background-color: white;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--chakra-space-2);
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: var(--chakra-fontSizes-md);
+  font-weight: var(--chakra-fontWeights-semibold);
+  color: var(--chakra-colors-whiteAlpha-900);
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.light .title {
+  color: var(--chakra-colors-gray-800);
+}
+
+.zodiacContainer {
+  margin-top: var(--chakra-space-1);
+}

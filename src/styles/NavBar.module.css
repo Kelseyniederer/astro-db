@@ -1,0 +1,47 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: var(--chakra-colors-gray-800);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.light {
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.content {
+  display: flex;
+  padding: var(--chakra-space-2);
+  max-width: var(--chakra-sizes-container-xl);
+  margin: 0 auto;
+  gap: var(--chakra-space-2);
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+@media (min-width: 48em) {
+  .content {
+    padding: var(--chakra-space-4);
+    gap: var(--chakra-space-4);
+  }
+}
+
+.logoLink {
+  flex-shrink: 0;
+}
+
+.searchContainer {
+  flex: 1;
+  min-width: 0;
+}
+
+.colorModeContainer {
+  flex-shrink: 0;
+}

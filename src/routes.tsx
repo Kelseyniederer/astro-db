@@ -12,7 +12,7 @@ const router = createHashRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Home movieQuery={{}} /> },
+      { index: true, element: <Home /> },
       { path: "movie/:id", element: <MovieDetails /> },
       { path: "tv/:id", element: <TvDetails /> },
       { path: "person/:id", element: <ActorProfile /> },
