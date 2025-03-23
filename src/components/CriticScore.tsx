@@ -1,41 +1,26 @@
-import { Box, Text } from "@chakra-ui/react";
+import { HStack, Icon, Text } from "@chakra-ui/react";
+import { FaStar } from "react-icons/fa";
 
 interface Props {
   score: number;
 }
 
 const CriticScore = ({ score }: Props) => {
-  const percentage = Math.round(score * 10);
-
-  let color;
-  if (percentage >= 75) {
-    color = "green.400";
-  } else if (percentage >= 60) {
-    color = "yellow.400";
-  } else {
-    color = "red.400";
-  }
+  // Round to one decimal place
+  const displayScore = Math.round(score * 10) / 10;
 
   return (
-    <Box
-      display="inline-flex"
-      alignItems="center"
-      bg="rgba(0, 0, 0, 0.15)"
-      _light={{ bg: "rgba(0, 0, 0, 0.05)" }}
-      backdropFilter="blur(8px)"
-      px={2}
-      py={0.5}
-      borderRadius="md"
-      transition="all 0.2s"
-      _hover={{
-        bg: "rgba(0, 0, 0, 0.25)",
-        _light: { bg: "rgba(0, 0, 0, 0.1)" },
-      }}
-    >
-      <Text fontSize="sm" fontWeight="bold" color={color}>
-        {percentage}
+    <HStack gap={1}>
+      <Text
+        fontSize="md"
+        fontWeight="bold"
+        color="white"
+        _light={{ color: "gray.800" }}
+      >
+        {displayScore}
       </Text>
-    </Box>
+      <Icon as={FaStar} color="yellow.400" boxSize="14px" />
+    </HStack>
   );
 };
 
