@@ -18,10 +18,10 @@
 .content {
   display: flex;
   padding: var(--chakra-space-2);
+  padding-left: 0;
   max-width: var(--chakra-sizes-container-xl);
-  margin: 0 auto;
-  gap: var(--chakra-space-2);
-  justify-content: space-between;
+  margin: 0;
+  gap: var(--chakra-space-4);
   align-items: center;
   flex-wrap: nowrap;
 }
@@ -29,19 +29,24 @@
 @media (min-width: 48em) {
   .content {
     padding: var(--chakra-space-4);
-    gap: var(--chakra-space-4);
+    padding-left: 0;
+    gap: var(--chakra-space-8);
   }
 }
 
 .logoLink {
   flex-shrink: 0;
+  padding-left: 0;
 }
 
 .searchContainer {
   flex: 1;
   min-width: 0;
+  margin-left: var(--chakra-space-8);
 }
 
 .colorModeContainer {
   flex-shrink: 0;
+  margin-left: auto;
+  padding-right: var(--chakra-space-4);
 }

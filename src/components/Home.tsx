@@ -8,11 +8,13 @@ import TrendingPeople from "./TrendingPeople";
 const Home = () => {
   const movieQuery = useOutletContext<MovieQuery>();
   const isSearching = Boolean(movieQuery.searchText);
+  const isFilteringByGenre = Boolean(movieQuery.genreId);
+  const shouldShowTrendingPeople = !isSearching && !isFilteringByGenre;
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {!isSearching && <TrendingPeople />}
+        {shouldShowTrendingPeople && <TrendingPeople />}
         <div className={styles.movieSection}>
           <MovieHeading movieQuery={movieQuery} />
           <MovieGrid movieQuery={movieQuery} />

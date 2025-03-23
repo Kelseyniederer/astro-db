@@ -18,14 +18,18 @@ interface MovieApiResponse {
 }
 
 const useMovies = (movieQuery: MovieQuery) => {
-  const endpoint = movieQuery.searchText ? "/search/multi" : "/discover/movie";
+  const endpoint = movieQuery.searchText
+    ? "/search/multi"
+    : movieQuery.genreId
+    ? "/discover/movie"
+    : "/trending/all/day";
 
   const { data, error, isLoading } = useData<MovieApiResponse>(
     endpoint,
     {
       params: {
         query: movieQuery.searchText || undefined,
-        with_genres: movieQuery.genre?.id || undefined,
+        with_genres: movieQuery.genreId || undefined,
         include_adult: false,
         language: "en-US",
         page: 1,

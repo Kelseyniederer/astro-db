@@ -20,7 +20,7 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
       <Heading as="h2" paddingBottom={1} fontSize="2xl">
         Genres
       </Heading>
-      <List.Root listStyleType="none">
+      <List listStyleType="none">
         {movieGenres.map((genre: Genre) => (
           <ListItem key={genre.id} paddingY="5px">
             <HStack>
@@ -52,7 +52,7 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
             </HStack>
           </ListItem>
         ))}
-      </List.Root>
+      </List>
     </>
   );
 };
