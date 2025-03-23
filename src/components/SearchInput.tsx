@@ -62,6 +62,8 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
           </Box>
           <Input
             ref={ref}
+            type="search"
+            enterKeyHint="search"
             placeholder="Search movies, TV shows, or people..."
             variant="outline"
             bg="gray.700"
