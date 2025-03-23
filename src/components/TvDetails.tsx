@@ -12,7 +12,15 @@ import {
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import apiClient from "../services/api-client";
-import CastGrid from "./CastGrid";
+import CastScroll from "./CastScroll";
+
+interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string;
+  birthday?: string;
+}
 
 interface TvShow {
   id: number;
@@ -28,18 +36,11 @@ interface TvShow {
   credits?: { cast: CastMember[] };
 }
 
-interface CastMember {
-  id: number;
-  name: string;
-  character: string;
-  profile_path?: string;
-  birthday?: string;
-}
-
 const TvDetails = () => {
   const { id } = useParams();
   const [tvShow, setTvShow] = useState<TvShow | null>(null);
   const [loading, setLoading] = useState(true);
+  const [castWithBirthdays, setCastWithBirthdays] = useState<CastMember[]>([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,7 +52,32 @@ const TvDetails = () => {
         const response = await apiClient.get(`/tv/${id}`, {
           params: { append_to_response: "credits", language: "en-US" },
         });
-        setTvShow(response.data);
+        const show = response.data;
+        setTvShow(show);
+
+        // Fetch birthdays for cast members
+        if (show.credits?.cast) {
+          const updatedCast = await Promise.all(
+            show.credits.cast.map(async (member: CastMember) => {
+              try {
+                const { data } = await apiClient.get(`/person/${member.id}`);
+                console.log(
+                  `Fetched birthday for ${member.name}:`,
+                  data.birthday
+                );
+                return { ...member, birthday: data.birthday };
+              } catch (error) {
+                console.error(
+                  `Error fetching birthday for ${member.name}:`,
+                  error
+                );
+                return member;
+              }
+            })
+          );
+          console.log("Updated cast with birthdays:", updatedCast);
+          setCastWithBirthdays(updatedCast);
+        }
       } catch (error) {
         console.error("Error fetching TV details:", error);
       } finally {
@@ -190,12 +216,9 @@ const TvDetails = () => {
       </Grid>
 
       {/* Cast Section */}
-      {tvShow.credits?.cast && tvShow.credits.cast.length > 0 && (
+      {castWithBirthdays.length > 0 && (
         <Box mb={8}>
-          <Heading as="h2" size="xl" mb={8}>
-            Cast
-          </Heading>
-          <CastGrid cast={tvShow.credits.cast} />
+          <CastScroll cast={castWithBirthdays} title="Cast" />
         </Box>
       )}
     </Container>

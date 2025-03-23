@@ -10,6 +10,7 @@ interface CastCardProps {
   character: string;
   profilePath?: string;
   birthday?: string;
+  episodeCount?: number;
 }
 
 const CastCard = ({
@@ -18,6 +19,7 @@ const CastCard = ({
   character,
   profilePath,
   birthday,
+  episodeCount,
 }: CastCardProps) => {
   const { zodiacSign } = useZodiacSign(birthday);
 
@@ -61,8 +63,20 @@ const CastCard = ({
           >
             {character}
           </Text>
+          {episodeCount && (
+            <Text
+              fontSize="xs"
+              color="gray.500"
+              textAlign="center"
+              width="100%"
+            >
+              {episodeCount} Episodes
+            </Text>
+          )}
         </VStack>
-        {zodiacSign && <ZodiacPill sign={zodiacSign} size="sm" />}
+        {zodiacSign && zodiacSign !== "Unknown" && (
+          <ZodiacPill sign={zodiacSign} size="sm" />
+        )}
       </VStack>
     </Link>
   );

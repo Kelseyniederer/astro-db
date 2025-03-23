@@ -9,10 +9,11 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useData from "../hooks/useData";
-import CastGrid, { CastMember } from "./CastGrid";
+import CastScroll from "./CastScroll";
+import apiClient from "../services/api-client";
 
 interface Movie {
   title: string;
@@ -24,6 +25,14 @@ interface Movie {
   genres?: { id: number; name: string }[];
   runtime?: number;
   tagline?: string;
+}
+
+interface CastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string;
+  birthday?: string;
 }
 
 interface CreditsResponse {
@@ -44,9 +53,33 @@ const MovieDetails = () => {
     [id]
   );
 
+  const [castWithBirthdays, setCastWithBirthdays] = useState<CastMember[]>([]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (credits?.cast) {
+      const fetchBirthdays = async () => {
+        const updatedCast = await Promise.all(
+          credits.cast.map(async (member) => {
+            try {
+              const { data } = await apiClient.get(`/person/${member.id}`);
+              console.log(`Fetched birthday for ${member.name}:`, data.birthday);
+              return { ...member, birthday: data.birthday };
+            } catch (error) {
+              console.error(`Error fetching birthday for ${member.name}:`, error);
+              return member;
+            }
+          })
+        );
+        console.log('Updated cast with birthdays:', updatedCast);
+        setCastWithBirthdays(updatedCast);
+      };
+      fetchBirthdays();
+    }
+  }, [credits?.cast]);
 
   if (movieLoading || creditsLoading) {
     return (
@@ -178,12 +211,9 @@ const MovieDetails = () => {
       </Grid>
 
       {/* Cast Section */}
-      {credits?.cast && credits.cast.length > 0 && (
+      {castWithBirthdays.length > 0 && (
         <Box mb={8}>
-          <Heading as="h2" size="xl" mb={8}>
-            Cast
-          </Heading>
-          <CastGrid cast={credits.cast} />
+          <CastScroll cast={castWithBirthdays} title="Cast" />
         </Box>
       )}
     </Container>
