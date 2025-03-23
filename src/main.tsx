@@ -1,19 +1,13 @@
-import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import { ColorModeScript } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter } from "react-router-dom";
-import App from "./App";
-import "./app.css";
-import { ColorModeProvider } from "./components/ui/color-mode";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes";
+import theme from "./theme";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider value={defaultSystem}>
-      <ColorModeProvider>
-        <HashRouter>
-          <App />
-        </HashRouter>
-      </ColorModeProvider>
-    </ChakraProvider>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

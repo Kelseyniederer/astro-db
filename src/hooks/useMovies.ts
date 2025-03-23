@@ -10,6 +10,7 @@ export interface Movie {
   media_type: string;
   vote_average: number;
   poster_path: string;
+  birthday?: string;
 }
 
 interface MovieApiResponse {

@@ -74,9 +74,7 @@ const CastCard = ({
             </Text>
           )}
         </VStack>
-        {zodiacSign && zodiacSign !== "Unknown" && (
-          <ZodiacPill sign={zodiacSign} size="sm" />
-        )}
+        <ZodiacPill sign={zodiacSign} />
       </VStack>
     </Link>
   );

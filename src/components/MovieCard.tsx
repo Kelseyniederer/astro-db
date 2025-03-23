@@ -1,10 +1,20 @@
 import { Movie } from "@/hooks/useMovies";
-import { Box, Card, Heading, HStack, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Card,
+  CardBody,
+  Heading,
+  HStack,
+  Image,
+  VStack,
+} from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 import getCroppedImageUrl from "../services/image-url";
+import { getZodiacSign } from "../utils/zodiac";
 import CriticScore from "./CriticScore";
+import ZodiacPill from "./ZodiacPill";
 
 interface Props {
   movie: Movie;
@@ -43,8 +53,17 @@ const MovieCard = ({ movie }: Props) => {
       ? getCroppedImageUrl(movie.poster_path)
       : noImage;
 
+  const getZodiacInfo = (birthday: string) => {
+    const date = new Date(birthday);
+    return getZodiacSign({
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    });
+  };
+
   return (
-    <Card.Root
+    <Card
       height="100%"
       bg="gray.800"
       _light={{ bg: "white" }}
@@ -104,35 +123,45 @@ const MovieCard = ({ movie }: Props) => {
         )}
       </Box>
 
-      <Card.Body
+      <CardBody
         padding={4}
         bg="gray.800"
         _light={{ bg: "white" }}
         transition="transform 0.3s ease-in-out"
       >
-        <HStack
-          justifyContent="space-between"
-          alignItems="center"
-          height="100%"
-        >
-          <Heading
-            fontSize="md"
-            fontWeight="semibold"
-            color="whiteAlpha.900"
-            _light={{ color: "gray.800" }}
-            maxW="70%"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace="nowrap"
-          >
-            {displayTitle}
-          </Heading>
-          {movie.media_type !== "person" && movie.vote_average > 0 && (
-            <CriticScore score={movie.vote_average} />
+        <VStack spacing={2} align="stretch">
+          <HStack justifyContent="space-between" alignItems="center">
+            <Heading
+              fontSize="md"
+              fontWeight="semibold"
+              color="whiteAlpha.900"
+              _light={{ color: "gray.800" }}
+              maxW="70%"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              whiteSpace="nowrap"
+              noOfLines={1}
+            >
+              {displayTitle}
+            </Heading>
+            {movie.media_type !== "person" && movie.vote_average > 0 && (
+              <CriticScore score={movie.vote_average} />
+            )}
+          </HStack>
+          {movie.media_type === "person" && (
+            <Box mt={1}>
+              <ZodiacPill
+                sign={
+                  movie.birthday
+                    ? getZodiacInfo(movie.birthday).sign
+                    : "Unknown"
+                }
+              />
+            </Box>
           )}
-        </HStack>
-      </Card.Body>
-    </Card.Root>
+        </VStack>
+      </CardBody>
+    </Card>
   );
 };
 

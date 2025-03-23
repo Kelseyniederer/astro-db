@@ -19,10 +19,13 @@ const getZodiacSign = (month: number, day: number): string => {
     { sign: "Sagittarius", start: [11, 22], end: [12, 21] },
   ];
 
-  return zodiacSigns.find(
-    ({ start, end }) =>
-      (month === start[0] && day >= start[1]) || (month === end[0] && day <= end[1])
-  )?.sign || "Unknown";
+  return (
+    zodiacSigns.find(
+      ({ start, end }) =>
+        (month === start[0] && day >= start[1]) ||
+        (month === end[0] && day <= end[1])
+    )?.sign || "Unknown"
+  );
 };
 
 /**
