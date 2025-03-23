@@ -12,8 +12,8 @@ import {
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useData from "../hooks/useData";
-import CastScroll from "./CastScroll";
 import apiClient from "../services/api-client";
+import CastScroll from "./CastScroll";
 
 interface Movie {
   title: string;
@@ -66,15 +66,21 @@ const MovieDetails = () => {
           credits.cast.map(async (member) => {
             try {
               const { data } = await apiClient.get(`/person/${member.id}`);
-              console.log(`Fetched birthday for ${member.name}:`, data.birthday);
+              console.log(
+                `Fetched birthday for ${member.name}:`,
+                data.birthday
+              );
               return { ...member, birthday: data.birthday };
             } catch (error) {
-              console.error(`Error fetching birthday for ${member.name}:`, error);
+              console.error(
+                `Error fetching birthday for ${member.name}:`,
+                error
+              );
               return member;
             }
           })
         );
-        console.log('Updated cast with birthdays:', updatedCast);
+        console.log("Updated cast with birthdays:", updatedCast);
         setCastWithBirthdays(updatedCast);
       };
       fetchBirthdays();
@@ -102,26 +108,31 @@ const MovieDetails = () => {
   return (
     <Container maxW="container.xl" py={8}>
       {/* Header Section */}
-      <Grid templateColumns={{ base: "1fr", md: "300px 1fr" }} gap={8} mb={12}>
+      <Grid
+        templateColumns={{ base: "200px 1fr", lg: "300px 1fr" }}
+        gap={{ base: 4, lg: 8 }}
+        mb={12}
+      >
         {/* Movie Poster */}
         <GridItem>
           {movie.poster_path ? (
-            <Image
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-              borderRadius="xl"
-              width="100%"
-              height="auto"
-              objectFit="cover"
-              shadow="lg"
-            />
+            <Box width="100%" borderRadius="xl" overflow="hidden" shadow="lg">
+              <Image
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                width="100%"
+                height="auto"
+                objectFit="cover"
+              />
+            </Box>
           ) : (
             <Box
               bg="gray.700"
               borderRadius="xl"
               p={4}
               textAlign="center"
-              height="400px"
+              height={{ base: "300px", lg: "400px" }}
+              width="100%"
               display="flex"
               alignItems="center"
               justifyContent="center"
@@ -133,13 +144,23 @@ const MovieDetails = () => {
 
         {/* Movie Info */}
         <GridItem>
-          <Stack gap={6}>
+          <Stack gap={{ base: 2, lg: 4 }}>
             <Box>
-              <Heading as="h1" size="2xl" mb={2}>
+              <Heading
+                as="h1"
+                size={{ base: "lg", md: "xl", lg: "2xl" }}
+                mb={2}
+                textAlign="left"
+              >
                 {movie.title}
               </Heading>
               {movie.tagline && (
-                <Text fontSize="xl" color="gray.400" fontStyle="italic">
+                <Text
+                  fontSize={{ base: "md", lg: "xl" }}
+                  color="gray.400"
+                  fontStyle="italic"
+                  textAlign="left"
+                >
                   {movie.tagline}
                 </Text>
               )}

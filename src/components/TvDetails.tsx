@@ -109,26 +109,31 @@ const TvDetails = () => {
   return (
     <Container maxW="container.xl" py={8}>
       {/* Header Section */}
-      <Grid templateColumns={{ base: "1fr", md: "300px 1fr" }} gap={8} mb={12}>
+      <Grid
+        templateColumns={{ base: "200px 1fr", lg: "300px 1fr" }}
+        gap={{ base: 4, lg: 8 }}
+        mb={12}
+      >
         {/* TV Show Poster */}
         <GridItem>
           {tvShow.poster_path ? (
-            <Image
-              src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`}
-              alt={tvShow.name}
-              borderRadius="xl"
-              width="100%"
-              height="auto"
-              objectFit="cover"
-              shadow="lg"
-            />
+            <Box width="100%" borderRadius="xl" overflow="hidden" shadow="lg">
+              <Image
+                src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`}
+                alt={tvShow.name}
+                width="100%"
+                height="auto"
+                objectFit="cover"
+              />
+            </Box>
           ) : (
             <Box
               bg="gray.700"
               borderRadius="xl"
               p={4}
               textAlign="center"
-              height="400px"
+              height={{ base: "300px", lg: "400px" }}
+              width="100%"
               display="flex"
               alignItems="center"
               justifyContent="center"
@@ -140,13 +145,23 @@ const TvDetails = () => {
 
         {/* TV Show Info */}
         <GridItem>
-          <Stack gap={6}>
+          <Stack gap={{ base: 2, lg: 4 }}>
             <Box>
-              <Heading as="h1" size="2xl" mb={2}>
+              <Heading
+                as="h1"
+                size={{ base: "lg", md: "xl", lg: "2xl" }}
+                mb={2}
+                textAlign="left"
+              >
                 {tvShow.name}
               </Heading>
               {tvShow.tagline && (
-                <Text fontSize="xl" color="gray.400" fontStyle="italic">
+                <Text
+                  fontSize={{ base: "md", lg: "xl" }}
+                  color="gray.400"
+                  fontStyle="italic"
+                  textAlign="left"
+                >
                   {tvShow.tagline}
                 </Text>
               )}
