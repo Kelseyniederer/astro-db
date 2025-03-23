@@ -56,7 +56,12 @@ export const ActorFilmography = ({
       {sortedMovies.length > 0 ? (
         <SimpleGrid columns={columns} gap={6}>
           {sortedMovies.map((credit) => (
-            <Link key={credit.id} to={`/${credit.media_type}/${credit.id}`}>
+            <Link
+              key={`${credit.id}-${credit.media_type}-${
+                credit.character || ""
+              }-${credit.release_date || credit.first_air_date || ""}`}
+              to={`/${credit.media_type}/${credit.id}`}
+            >
               <Box
                 _hover={{
                   transform: "translateY(-4px)",

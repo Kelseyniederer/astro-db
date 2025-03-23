@@ -33,11 +33,11 @@ export const usePlanetaryData = (birthday: string | undefined) => {
     setError(null);
 
     try {
-      const birthDate = new Date(birthday);
+      const [year, month, day] = birthday.split("-").map(Number);
       const data = await getPlanetaryPositions({
-        year: birthDate.getFullYear(),
-        month: birthDate.getMonth() + 1,
-        date: birthDate.getDate(),
+        year,
+        month,
+        date: day,
         hours: 12,
         minutes: 0,
         seconds: 0,

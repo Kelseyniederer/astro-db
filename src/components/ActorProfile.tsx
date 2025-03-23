@@ -71,6 +71,27 @@ interface BioSectionProps {
   biography?: string;
 }
 
+const formatDate = (dateStr: string) => {
+  // Split the date string and convert to numbers
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  // Use the exact numbers from the API without any conversion
+  return `${months[month - 1]} ${day}, ${year}`;
+};
+
 const BioSection = ({
   name,
   department,
@@ -99,12 +120,7 @@ const BioSection = ({
           color="gray.700"
           _dark={{ color: "gray.300" }}
         >
-          Born:{" "}
-          {new Date(birthday).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
+          Born: {formatDate(birthday)}
         </Text>
       )}
     </Box>

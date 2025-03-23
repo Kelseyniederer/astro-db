@@ -17,13 +17,13 @@ export const useNatalWheelChart = (birthday: string) => {
 
   const fetchNatalWheelChart = async () => {
     setIsLoading(true);
-    const birthDate = new Date(birthday);
+    const [year, month, day] = birthday.split("-").map(Number);
 
     try {
       const requestData = {
-        year: birthDate.getFullYear(),
-        month: birthDate.getMonth() + 1,
-        date: birthDate.getDate(),
+        year,
+        month,
+        date: day,
         hours: 12,
         minutes: 0,
         seconds: 0,
