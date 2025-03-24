@@ -33,7 +33,6 @@ const zodiacIcons = {
   Capricorn: TbZodiacCapricorn,
   Aquarius: TbZodiacAquarius,
   Pisces: TbZodiacPisces,
-  Unknown: TbZodiacAquarius, // Default icon for unknown
 };
 
 const getElement = (sign: string) => {
@@ -46,7 +45,7 @@ const getElement = (sign: string) => {
   if (waterSigns.includes(sign)) return "water";
   if (earthSigns.includes(sign)) return "earth";
   if (airSigns.includes(sign)) return "air";
-  return "air"; // default
+  return "unknown";
 };
 
 export const ZodiacPill = ({ sign, size = "md" }: ZodiacPillProps) => {

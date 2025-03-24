@@ -1,7 +1,8 @@
-import { Image, Text, VStack } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import noImage from "../assets/no-image-placeholder-6f3882e0.webp";
 import useZodiacSign from "../hooks/useZodiacSign";
+import styles from "../styles/CastCard.module.css";
 import ZodiacPill from "./ZodiacPill";
 
 interface CastCardProps {
@@ -25,57 +26,27 @@ const CastCard = ({
 
   return (
     <Link to={`/person/${id}`}>
-      {" "}
-      {/* ✅ Clickable Link */}
-      <VStack width="140px" gap={3} cursor="pointer">
-        <Image
-          src={
-            profilePath
-              ? `https://image.tmdb.org/t/p/w185${profilePath}`
-              : noImage
-          }
-          alt={name}
-          borderRadius="md"
-          width="140px"
-          height="210px"
-          objectFit="cover"
-        />
-        <VStack gap={1} align="center" width="100%">
-          <Text
-            fontSize="sm"
-            fontWeight="bold"
-            textAlign="center"
-            width="100%"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace="nowrap"
-          >
-            {name}
-          </Text>
-          <Text
-            fontSize="xs"
-            color="gray.400"
-            textAlign="center"
-            width="100%"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace="nowrap"
-          >
-            {character}
-          </Text>
-          {episodeCount && (
-            <Text
-              fontSize="xs"
-              color="gray.500"
-              textAlign="center"
-              width="100%"
-            >
-              {episodeCount} Episodes
-            </Text>
-          )}
-        </VStack>
-        <ZodiacPill sign={zodiacSign} />
-      </VStack>
+      <div className={styles.card}>
+        <div className={styles.content}>
+          <img
+            src={
+              profilePath
+                ? `https://image.tmdb.org/t/p/w185${profilePath}`
+                : noImage
+            }
+            alt={name}
+            className={styles.image}
+          />
+          <div className={styles.info}>
+            <Text className={styles.name}>{name}</Text>
+            <Text className={styles.character}>{character}</Text>
+            {episodeCount && (
+              <Text className={styles.episodes}>{episodeCount} Episodes</Text>
+            )}
+          </div>
+          <ZodiacPill sign={zodiacSign} />
+        </div>
+      </div>
     </Link>
   );
 };
