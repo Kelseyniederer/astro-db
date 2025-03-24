@@ -6,15 +6,15 @@ const ColorModeSwitch = () => {
 
   return (
     <HStack spacing={2}>
+      <Text display={{ base: "none", md: "block" }} fontSize="sm">
+        {colorMode === "dark" ? "Dark Mode" : "Light Mode"}
+      </Text>
       <IconButton
         aria-label="Toggle color mode"
         icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
         onClick={toggleColorMode}
         variant="ghost"
       />
-      <Text display={{ base: "none", md: "block" }} fontSize="sm">
-        {colorMode === "dark" ? "Light Mode" : "Dark Mode"}
-      </Text>
     </HStack>
   );
 };

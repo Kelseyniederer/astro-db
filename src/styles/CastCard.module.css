@@ -61,6 +61,13 @@
   width: 100%;
 }
 
+.zodiacContainer {
+  margin-top: var(--chakra-space-2);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .light .card {
   background-color: white;
 }

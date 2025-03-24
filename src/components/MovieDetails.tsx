@@ -66,21 +66,12 @@ const MovieDetails = () => {
           credits.cast.map(async (member) => {
             try {
               const { data } = await apiClient.get(`/person/${member.id}`);
-              console.log(
-                `Fetched birthday for ${member.name}:`,
-                data.birthday
-              );
               return { ...member, birthday: data.birthday };
             } catch (error) {
-              console.error(
-                `Error fetching birthday for ${member.name}:`,
-                error
-              );
               return member;
             }
           })
         );
-        console.log("Updated cast with birthdays:", updatedCast);
         setCastWithBirthdays(updatedCast);
       };
       fetchBirthdays();

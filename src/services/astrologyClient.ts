@@ -26,26 +26,12 @@ const astrologyClient = axios.create({
 
 // Add request interceptor for logging
 astrologyClient.interceptors.request.use((request) => {
-  console.log("Request:", {
-    url: request.baseURL + (request.url || ""),
-    method: request.method,
-    headers: {
-      ...request.headers,
-      // Don't log the full Authorization header for security
-      Authorization: "***",
-    },
-    data: request.data,
-  });
   return request;
 });
 
 // Add response interceptor for logging
 astrologyClient.interceptors.response.use(
   (response) => {
-    console.log("Response:", {
-      status: response.status,
-      data: response.data,
-    });
     return response;
   },
   (error) => {
@@ -103,7 +89,6 @@ export const getPlanetaryPositions = async (
   data: BirthData
 ): Promise<PlanetaryResponse[]> => {
   try {
-    console.log("data", data);
 
     const requestData: PlanetaryRequest = {
       day: data.date,
@@ -116,7 +101,6 @@ export const getPlanetaryPositions = async (
       tzone: data.timezone,
     };
 
-    console.log("Request Data:", requestData);
 
     const response = await astrologyClient.post<PlanetaryResponse[]>(
       "/planets/tropical",

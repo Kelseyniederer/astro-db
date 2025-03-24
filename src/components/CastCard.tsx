@@ -22,7 +22,7 @@ const CastCard = ({
   birthday,
   episodeCount,
 }: CastCardProps) => {
-  const { zodiacSign } = useZodiacSign(birthday);
+  const { zodiacSign, formattedBirthday } = useZodiacSign(birthday);
 
   return (
     <Link to={`/person/${id}`}>
@@ -43,8 +43,12 @@ const CastCard = ({
             {episodeCount && (
               <Text className={styles.episodes}>{episodeCount} Episodes</Text>
             )}
+            {zodiacSign !== "Unknown" && (
+              <div className={styles.zodiacContainer}>
+                <ZodiacPill sign={zodiacSign} size="sm" />
+              </div>
+            )}
           </div>
-          <ZodiacPill sign={zodiacSign} />
         </div>
       </div>
     </Link>
