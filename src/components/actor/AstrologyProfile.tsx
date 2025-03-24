@@ -7,6 +7,16 @@ interface AstrologyProfileProps {
   birthday: string;
 }
 
+interface PlanetaryPosition {
+  name: string;
+  fullDegree: number;
+  normDegree: number;
+  speed: number;
+  isRetro: string;
+  sign: string;
+  house: number;
+}
+
 const LoadingState = () => (
   <Flex height="400px" align="center" justify="center">
     <Text>Loading...</Text>
@@ -106,7 +116,7 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
             <Flex direction="column" gap={3}>
               {planetaryData.map((planet) => (
                 <Flex
-                  key={planet.planet}
+                  key={planet.name}
                   p={3}
                   borderWidth={1}
                   borderRadius="lg"
@@ -125,8 +135,8 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
                     color="white"
                     _light={{ color: "gray.800" }}
                   >
-                    {planet.planet}
-                    {planet.isRetrograde && (
+                    {planet.name}
+                    {planet.isRetro === "true" && (
                       <Text
                         as="span"
                         color="gray.400"

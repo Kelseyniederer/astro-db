@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { getPlanetaryPositions } from "../services/astrologyClient";
-
-interface PlanetaryPosition {
-  planet: string;
-  sign: string;
-  isRetrograde: boolean;
-}
+import {
+  getPlanetaryPositions,
+  PlanetaryResponse,
+} from "../services/astrologyClient";
 
 // List of planets in traditional order
 const INCLUDED_PLANETS = [
@@ -22,7 +19,7 @@ const INCLUDED_PLANETS = [
 ];
 
 export const usePlanetaryData = (birthday: string | undefined) => {
-  const [planetaryData, setPlanetaryData] = useState<PlanetaryPosition[]>([]);
+  const [planetaryData, setPlanetaryData] = useState<PlanetaryResponse[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,17 +50,9 @@ export const usePlanetaryData = (birthday: string | undefined) => {
 
       // Filter and sort planets in the traditional order
       const positions = INCLUDED_PLANETS.map((planetName) => {
-        const planetData = data.output.find(
-          (item) => item.planet.en === planetName
-        );
-        if (!planetData) return null;
-
-        return {
-          planet: planetData.planet.en,
-          sign: planetData.zodiac_sign.name.en,
-          isRetrograde: planetData.isRetro === "true",
-        };
-      }).filter((position): position is PlanetaryPosition => position !== null);
+        const planetData = data.find((item) => item.name === planetName);
+        return planetData;
+      }).filter((position): position is PlanetaryResponse => position !== null);
 
       setPlanetaryData(positions);
     } catch (err) {

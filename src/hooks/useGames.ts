@@ -25,8 +25,8 @@ const useGames = (movieQuery: MovieQuery) => {
     "/games",
     {
       params: {
-        genres: movieQuery.genre?.id,
-        search: movieQuery.searchText,
+        searchText: movieQuery.searchText,
+        genres: movieQuery.genreId,
       },
     },
     [movieQuery]

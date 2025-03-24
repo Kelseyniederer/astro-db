@@ -1,25 +1,20 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  // Load env file based on `mode` in the current working directory.
-  const env = loadEnv(mode, process.cwd(), "");
-
-  return {
-    plugins: [react()],
-    base: "/astro-db/",
-    server: {
-      proxy: {
-        "/astrology": {
-          target: "https://json.freeastrologyapi.com",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/astrology/, ""),
-          headers: {
-            "x-api-key": env.VITE_ASTROLOGY_API_KEY,
-          },
-        },
-      },
+export default defineConfig({
+  plugins: [react()],
+  base: "",
+  server: {
+    port: 5173,
+    strictPort: true,
+    hmr: {
+      overlay: false,
     },
-  };
+  },
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+    emptyOutDir: true,
+  },
 });
