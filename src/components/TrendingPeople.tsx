@@ -3,6 +3,7 @@ import { Box, Heading, HStack, IconButton } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import apiClient from "../services/api-client";
 import CastCard from "./CastCard";
+import TrendingPeopleSkeleton from "./TrendingPeopleSkeleton";
 
 interface Person {
   id: number;
@@ -13,6 +14,7 @@ interface Person {
 
 const TrendingPeople = () => {
   const [people, setPeople] = useState<Person[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -47,6 +49,8 @@ const TrendingPeople = () => {
         setPeople(filteredPeople);
       } catch (error) {
         console.error("Error fetching trending people:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -68,7 +72,7 @@ const TrendingPeople = () => {
     }
   };
 
-  if (people.length === 0) return null;
+  if (people.length === 0 && !isLoading) return null;
 
   return (
     <Box mb={8}>
@@ -76,56 +80,64 @@ const TrendingPeople = () => {
         Trending People
       </Heading>
       <Box position="relative">
-        <IconButton
-          aria-label="Scroll left"
-          icon={<ChevronLeftIcon />}
-          position="absolute"
-          left={2}
-          top="50%"
-          transform="translateY(-50%)"
-          zIndex={2}
-          onClick={() => scroll("left")}
-          display={scrollPosition <= 0 ? "none" : "flex"}
-          colorScheme="blackAlpha"
-        />
-        <IconButton
-          aria-label="Scroll right"
-          icon={<ChevronRightIcon />}
-          position="absolute"
-          right={2}
-          top="50%"
-          transform="translateY(-50%)"
-          zIndex={2}
-          onClick={() => scroll("right")}
-          colorScheme="blackAlpha"
-        />
-        <HStack
-          ref={scrollRef}
-          spacing={4}
-          overflowX="auto"
-          py={4}
-          px={2}
-          alignItems="stretch"
-          sx={{
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
-            scrollbarWidth: "none",
-            display: "flex",
-            flexWrap: "nowrap",
-          }}
-        >
-          {people.map((person) => (
-            <CastCard
-              key={person.id}
-              id={person.id}
-              name={person.name}
-              character=""
-              profilePath={person.profile_path}
-              birthday={person.birthday || undefined}
+        {!isLoading && (
+          <>
+            <IconButton
+              aria-label="Scroll left"
+              icon={<ChevronLeftIcon />}
+              position="absolute"
+              left={2}
+              top="50%"
+              transform="translateY(-50%)"
+              zIndex={2}
+              onClick={() => scroll("left")}
+              display={scrollPosition <= 0 ? "none" : "flex"}
+              colorScheme="blackAlpha"
             />
-          ))}
-        </HStack>
+            <IconButton
+              aria-label="Scroll right"
+              icon={<ChevronRightIcon />}
+              position="absolute"
+              right={2}
+              top="50%"
+              transform="translateY(-50%)"
+              zIndex={2}
+              onClick={() => scroll("right")}
+              colorScheme="blackAlpha"
+            />
+          </>
+        )}
+        {isLoading ? (
+          <TrendingPeopleSkeleton />
+        ) : (
+          <HStack
+            ref={scrollRef}
+            spacing={4}
+            overflowX="auto"
+            py={4}
+            px={2}
+            alignItems="stretch"
+            sx={{
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+              scrollbarWidth: "none",
+              display: "flex",
+              flexWrap: "nowrap",
+            }}
+          >
+            {people.map((person) => (
+              <CastCard
+                key={person.id}
+                id={person.id}
+                name={person.name}
+                character=""
+                profilePath={person.profile_path}
+                birthday={person.birthday || undefined}
+              />
+            ))}
+          </HStack>
+        )}
       </Box>
     </Box>
   );
