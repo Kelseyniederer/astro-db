@@ -18,7 +18,7 @@ const Logo = ({ resetQuery }: Props) => {
   return (
     <HStack cursor="pointer" onClick={handleClick} spacing={1}>
       <Icon as={BiCameraMovie} boxSize={5} color="white.400" />
-      <Text fontSize="md" fontWeight="bold" letterSpacing="tight">
+      <Text fontSize="xl" fontWeight="bold" letterSpacing="tight">
         AstroDB
       </Text>
       <Icon as={PiPlanet} boxSize={4} color="white.400" />

@@ -57,16 +57,20 @@ function App() {
           </GridItem>
           {shouldShowGenreList && (
             <Show above="lg">
-              <GridItem area="aside" paddingX={5} paddingTop="100px">
-                <GenreList
-                  selectedGenre={selectedGenre}
-                  onSelectGenre={handleSelectGenre}
-                />
+              <GridItem area="aside" paddingX={5}>
+                <Box position="fixed" top="80px" width="190px">
+                  <GenreList
+                    selectedGenre={selectedGenre}
+                    onSelectGenre={handleSelectGenre}
+                  />
+                </Box>
               </GridItem>
             </Show>
           )}
-          <GridItem area="main" pt={{ base: "80px", md: "100px" }}>
-            <Outlet context={movieQuery} />
+          <GridItem area="main">
+            <Box pt="80px">
+              <Outlet context={movieQuery} />
+            </Box>
           </GridItem>
         </Grid>
       </Box>

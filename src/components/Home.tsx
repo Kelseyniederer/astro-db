@@ -12,13 +12,8 @@ const Home = () => {
   const shouldShowTrendingPeople = !isSearching && !isFilteringByGenre;
 
   return (
-    <Box
-      pt={{ base: "44px", md: "48px" }}
-      width="100%"
-      maxW="100vw"
-      overflowX="hidden"
-    >
-      <Container maxW="container.xl" py={{ base: 4, md: 6, lg: 8 }}>
+    <Box width="100%" maxW="100vw" overflowX="hidden">
+      <Container maxW="container.xl" p={0}>
         <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
           {shouldShowTrendingPeople && <TrendingPeople />}
           <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
