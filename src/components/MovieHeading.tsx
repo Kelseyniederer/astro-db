@@ -1,6 +1,4 @@
-import { HStack, Heading, Icon, VStack } from "@chakra-ui/react";
-import { BiCameraMovie } from "react-icons/bi";
-import { PiPlanet } from "react-icons/pi";
+import { Heading, VStack } from "@chakra-ui/react";
 import { MovieQuery } from "../App";
 import movieGenres from "../data/genres";
 
@@ -19,14 +17,14 @@ const MovieHeading = ({ movieQuery }: Props) => {
 
   return (
     <VStack mb={8} gap={2} align="center">
-      <HStack gap={2} display={{ base: "flex", md: "none" }}>
-        <Icon as={BiCameraMovie} boxSize={8} color="white.400" />
-        <Heading as="h1" size="2xl" fontWeight="bold">
-          AstroDB
-        </Heading>
-        <Icon as={PiPlanet} boxSize={6} color="white.400" />
-      </HStack>
-      <Heading as="h2" size="lg" color="gray.600" _dark={{ color: "gray.400" }}>
+      <Heading
+        as="h2"
+        size="lg"
+        color="gray.600"
+        _dark={{ color: "gray.400" }}
+        alignSelf="flex-start"
+        mb={4}
+      >
         {heading}
       </Heading>
     </VStack>

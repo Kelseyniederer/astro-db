@@ -64,7 +64,7 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
             ref={ref}
             type="search"
             enterKeyHint="search"
-            placeholder="Search movies, TV shows, or people..."
+            placeholder="Search..."
             variant="outline"
             bg="gray.700"
             _hover={{ bg: "gray.600" }}
@@ -81,7 +81,7 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
             size="sm"
             pl={8}
             fontSize="sm"
-            height="36px"
+            height="32px"
           />
         </Box>
       </form>

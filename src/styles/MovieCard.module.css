@@ -1,54 +1,58 @@
 .card {
-  height: 100%;
-  border-radius: var(--chakra-radii-lg);
+  background: var(--chakra-colors-gray-800);
+  border-radius: var(--chakra-radii-xl);
   overflow: hidden;
+  transition: transform 0.15s ease-in;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+}
+
+.light {
+  background: white;
 }
 
 .imageContainer {
   position: relative;
-  padding-top: 150%;
-}
-
-.placeholderIcon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--chakra-colors-gray-700);
-  color: var(--chakra-colors-gray-500);
-}
-
-.light .placeholderIcon {
-  background-color: var(--chakra-colors-gray-100);
+  padding-top: 200px;
+  background: var(--chakra-colors-gray-700);
 }
 
 .image {
   position: absolute;
   top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.cardBody {
-  padding: var(--chakra-space-4);
-  background-color: var(--chakra-colors-gray-800);
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
 }
 
-.light .cardBody {
-  background-color: white;
+.placeholderIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--chakra-colors-gray-400);
+}
+
+.cardBody {
+  padding: var(--chakra-space-4);
 }
 
 .content {
@@ -60,17 +64,19 @@
 .titleRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: var(--chakra-space-2);
 }
 
 .title {
-  font-size: var(--chakra-fontSizes-md);
   font-weight: var(--chakra-fontWeights-semibold);
-  color: var(--chakra-colors-whiteAlpha-900);
-  max-width: 70%;
+  font-size: var(--chakra-fontSizes-md);
+  color: var(--chakra-colors-gray-100);
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .light .title {
@@ -78,5 +84,5 @@
 }
 
 .zodiacContainer {
-  margin-top: var(--chakra-space-1);
+  margin-top: var(--chakra-space-2);
 }

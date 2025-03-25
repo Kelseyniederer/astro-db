@@ -16,17 +16,12 @@ const Logo = ({ resetQuery }: Props) => {
   };
 
   return (
-    <HStack cursor="pointer" onClick={handleClick}>
-      <Icon as={BiCameraMovie} boxSize={8} color="white.400" />
-      <Text
-        fontSize="2xl"
-        fontWeight="bold"
-        display={{ base: "none", md: "block" }}
-        letterSpacing="tight"
-      >
+    <HStack cursor="pointer" onClick={handleClick} spacing={1}>
+      <Icon as={BiCameraMovie} boxSize={5} color="white.400" />
+      <Text fontSize="md" fontWeight="bold" letterSpacing="tight">
         AstroDB
       </Text>
-      <Icon as={PiPlanet} boxSize={6} color="white.400" />
+      <Icon as={PiPlanet} boxSize={4} color="white.400" />
     </HStack>
   );
 };
