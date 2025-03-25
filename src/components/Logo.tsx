@@ -16,10 +16,10 @@ const Logo = ({ resetQuery }: Props) => {
   };
 
   return (
-    <HStack cursor="pointer" onClick={handleClick} spacing={2} pl={0} ml={0}>
+    <HStack cursor="pointer" onClick={handleClick} spacing={2} pl={4} ml={0}>
       <Icon as={BiCameraMovie} boxSize={10} color="white.400" />
       <Text
-        fontSize="3xl"
+        fontSize="2xl"
         fontWeight="bold"
         display={{ base: "none", md: "block" }}
         letterSpacing="tight"
