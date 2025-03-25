@@ -1,5 +1,12 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, Heading, IconButton, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  IconButton,
+  Image,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import noImage from "../../assets/no-image-placeholder-6f3882e0.webp";
@@ -12,6 +19,34 @@ interface ActorFilmographyProps {
   error?: string;
   title?: string;
 }
+
+const RolesList = ({ roles }: { roles: Credit["roles"] }) => {
+  if (!roles?.length) return null;
+
+  // Group roles by type (cast vs crew)
+  const castRoles = roles.filter((role) => role.character);
+  const crewRoles = roles.filter((role) => role.job);
+
+  // Format roles into a single line
+  const formattedRoles = [
+    ...castRoles.map((role) => `As ${role.character}`),
+    ...crewRoles.map((role) => role.job),
+  ].join(", ");
+
+  return (
+    <Text
+      fontSize="xs"
+      color="gray.600"
+      _dark={{ color: "gray.400" }}
+      overflow="hidden"
+      textOverflow="ellipsis"
+      whiteSpace="nowrap"
+      height="16px" // Fixed height for consistency
+    >
+      {formattedRoles}
+    </Text>
+  );
+};
 
 export const ActorFilmography = ({
   movies,
@@ -91,9 +126,7 @@ export const ActorFilmography = ({
           <ScrollContainer ref={scrollRef} fullWidth>
             {sortedMovies.map((credit) => (
               <Box
-                key={`${credit.id}-${credit.media_type}-${
-                  credit.character || ""
-                }-${credit.release_date || credit.first_air_date || ""}`}
+                key={`${credit.id}-${credit.media_type}`}
                 minW="200px"
                 maxW="200px"
               >
@@ -108,6 +141,7 @@ export const ActorFilmography = ({
                     bg="white"
                     borderWidth="1px"
                     borderColor="gray.200"
+                    height="420px"
                     _dark={{
                       bg: "gray.800",
                       borderColor: "gray.700",
@@ -124,41 +158,44 @@ export const ActorFilmography = ({
                       height="300px"
                       objectFit="cover"
                     />
-                    <Box p={3}>
-                      <Text
-                        fontWeight="bold"
-                        fontSize="sm"
-                        overflow="hidden"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                        color="black"
-                        _dark={{ color: "white" }}
-                        mb={1}
-                      >
-                        {credit.title || credit.name}
-                      </Text>
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
+                    <Box p={3} height="120px">
+                      <VStack spacing={1} align="stretch" height="100%">
                         <Text
-                          fontSize="xs"
-                          color="gray.700"
-                          _dark={{ color: "gray.400" }}
+                          fontWeight="bold"
+                          fontSize="sm"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                          whiteSpace="nowrap"
+                          color="black"
+                          _dark={{ color: "white" }}
                         >
-                          {credit.release_date || credit.first_air_date
-                            ? new Date(
-                                credit.release_date ||
-                                  credit.first_air_date ||
-                                  ""
-                              ).getFullYear()
-                            : "N/A"}
+                          {credit.title || credit.name}
                         </Text>
-                        {credit.vote_average > 0 && (
-                          <CriticScore score={credit.vote_average} />
-                        )}
-                      </Box>
+                        <RolesList roles={credit.roles} />
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          mt="auto"
+                        >
+                          <Text
+                            fontSize="xs"
+                            color="gray.700"
+                            _dark={{ color: "gray.400" }}
+                          >
+                            {credit.release_date || credit.first_air_date
+                              ? new Date(
+                                  credit.release_date ||
+                                    credit.first_air_date ||
+                                    ""
+                                ).getFullYear()
+                              : "N/A"}
+                          </Text>
+                          {credit.vote_average > 0 && (
+                            <CriticScore score={credit.vote_average} />
+                          )}
+                        </Box>
+                      </VStack>
                     </Box>
                   </Box>
                 </Link>
