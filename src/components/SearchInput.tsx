@@ -78,9 +78,10 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
               color: "gray.800",
             }}
             borderRadius="full"
-            size={{ base: "md", md: "lg" }}
-            pl={{ base: 8, md: 10 }}
-            fontSize={{ base: "sm", md: "md" }}
+            size="sm"
+            pl={8}
+            fontSize="sm"
+            height="36px"
           />
         </Box>
       </form>

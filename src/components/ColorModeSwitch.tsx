@@ -5,7 +5,7 @@ const ColorModeSwitch = () => {
   const { toggleColorMode, colorMode } = useColorMode();
 
   return (
-    <HStack spacing={2}>
+    <HStack>
       <Text display={{ base: "none", md: "block" }} fontSize="sm">
         {colorMode === "dark" ? "Dark Mode" : "Light Mode"}
       </Text>
@@ -14,6 +14,7 @@ const ColorModeSwitch = () => {
         icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
         onClick={toggleColorMode}
         variant="ghost"
+        size="sm"
       />
     </HStack>
   );
