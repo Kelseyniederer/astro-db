@@ -11,15 +11,8 @@ const GenrePill = ({ genreId, name }: Props) => {
   const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
 
-  console.log("GenrePill render:", {
-    genreId,
-    name,
-    location: location.pathname,
-  });
-
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log("GenrePill clicked:", { genreId, name });
 
     // Construct the new search params
     const searchParams = new URLSearchParams(location.search);
@@ -27,8 +20,6 @@ const GenrePill = ({ genreId, name }: Props) => {
 
     // Navigate to home with the genre parameter
     const to = isHomePage ? `?${searchParams}` : `/?${searchParams}`;
-    console.log("Navigating to:", to);
-
     navigate(to);
   };
 
