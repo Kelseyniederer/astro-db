@@ -14,10 +14,6 @@ const MovieGrid = ({ movieQuery }: Props) => {
   const skeletons = Array(15).fill(null);
 
   useEffect(() => {
-    // Log when loading state changes
-    console.log("\n=== MovieGrid Render ===");
-    console.log("Loading state:", isLoading);
-    console.log("Movies length:", movies?.length);
 
     // Log grid items
     const gridElement = document.querySelector('[role="grid"]');

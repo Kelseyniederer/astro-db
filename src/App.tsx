@@ -29,19 +29,15 @@ function App() {
 
   useEffect(() => {
     const genreParam = searchParams.get("genre");
-    console.log("URL genre parameter:", genreParam);
 
     if (genreParam) {
       const genreId = parseInt(genreParam);
       const genre = movieGenres.find((g) => g.id === genreId);
-      console.log("Found genre:", genre);
 
       if (genre) {
-        console.log("Setting genre:", genre.name, "with ID:", genre.id);
         setSelectedGenre(genre);
         setMovieQuery((prev) => {
           const newQuery = { ...prev, genreId };
-          console.log("Updated movieQuery:", newQuery);
           return newQuery;
         });
       }
@@ -53,18 +49,15 @@ function App() {
   };
 
   const handleSelectGenre = (genre: Genre) => {
-    console.log("handleSelectGenre called with:", genre);
     setSelectedGenre(genre);
     setMovieQuery((prev) => {
       const newQuery = { ...prev, genreId: genre.id };
-      console.log("Setting movieQuery in handleSelectGenre:", newQuery);
       return newQuery;
     });
     setSearchParams({ genre: genre.id.toString() });
   };
 
   const resetQuery = () => {
-    console.log("Resetting query");
     setMovieQuery({});
     setSelectedGenre(null);
     setSearchParams({});
@@ -73,8 +66,6 @@ function App() {
 
   // Log state changes
   useEffect(() => {
-    console.log("Current movieQuery:", movieQuery);
-    console.log("Current selectedGenre:", selectedGenre);
   }, [movieQuery, selectedGenre]);
 
   const shouldShowGenreList =

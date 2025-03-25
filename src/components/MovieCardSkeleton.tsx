@@ -7,63 +7,13 @@ const MovieCardSkeleton = () => {
   useEffect(() => {
     if (cardRef.current) {
       const card = cardRef.current;
-      const cardStyle = window.getComputedStyle(card);
-
-      console.log("\n=== MovieCardSkeleton Component ===");
-      console.log("Card dimensions:", {
-        clientWidth: card.clientWidth,
-        clientHeight: card.clientHeight,
-        offsetWidth: card.offsetWidth,
-        offsetHeight: card.offsetHeight,
-        scrollWidth: card.scrollWidth,
-        scrollHeight: card.scrollHeight,
-      });
-      console.log("Card computed style:", {
-        display: cardStyle.display,
-        position: cardStyle.position,
-        height: cardStyle.height,
-        minHeight: cardStyle.minHeight,
-        maxHeight: cardStyle.maxHeight,
-        width: cardStyle.width,
-        minWidth: cardStyle.minWidth,
-        maxWidth: cardStyle.maxWidth,
-        margin: cardStyle.margin,
-        padding: cardStyle.padding,
-        boxSizing: cardStyle.boxSizing,
-        overflow: cardStyle.overflow,
-      });
-
-      // Log all child elements
       Array.from(card.children).forEach((child, index) => {
-        const childStyle = window.getComputedStyle(child);
-        console.log(`Skeleton child ${index}:`, {
-          tagName: child.tagName,
-          className: child.className,
-          display: childStyle.display,
-          position: childStyle.position,
-          height: childStyle.height,
-          width: childStyle.width,
-          margin: childStyle.margin,
-          padding: childStyle.padding,
-          boxSizing: childStyle.boxSizing,
-          overflow: childStyle.overflow,
-        });
+ 
 
         // Log grandchildren (skeleton elements)
         Array.from(child.children).forEach((grandchild, gIndex) => {
-          const grandchildStyle = window.getComputedStyle(grandchild);
-          console.log(`Skeleton grandchild ${index}-${gIndex}:`, {
-            tagName: grandchild.tagName,
-            className: grandchild.className,
-            display: grandchildStyle.display,
-            position: grandchildStyle.position,
-            height: grandchildStyle.height,
-            width: grandchildStyle.width,
-            margin: grandchildStyle.margin,
-            padding: grandchildStyle.padding,
-            boxSizing: grandchildStyle.boxSizing,
-            overflow: grandchildStyle.overflow,
-          });
+   
+       
         });
       });
     }
