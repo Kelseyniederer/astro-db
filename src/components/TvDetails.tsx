@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import apiClient from "../services/api-client";
 import CastScroll from "./CastScroll";
+import GenrePill from "./common/GenrePill";
 
 interface CastMember {
   id: number;
@@ -186,22 +187,11 @@ const TvDetails = () => {
                 </Text>
                 <Box display="flex" gap={2} flexWrap="wrap">
                   {tvShow.genres.map((genre) => (
-                    <Box
+                    <GenrePill
                       key={genre.id}
-                      bg="gray.700"
-                      _light={{ bg: "gray.100" }}
-                      px={3}
-                      py={1}
-                      borderRadius="full"
-                    >
-                      <Text
-                        fontSize="sm"
-                        color="whiteAlpha.900"
-                        _light={{ color: "gray.700" }}
-                      >
-                        {genre.name}
-                      </Text>
-                    </Box>
+                      genreId={genre.id}
+                      name={genre.name}
+                    />
                   ))}
                 </Box>
               </Box>

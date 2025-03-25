@@ -38,7 +38,9 @@ const useMovies = (movieQuery: MovieQuery) => {
     [movieQuery]
   );
 
-  return { movies: data && data.results ? data.results : [], error, isLoading };
+  // Consider initial state (when data is null) as loading
+  const effectiveLoading = isLoading || !data;
+  return { movies: data?.results || [], error, isLoading: effectiveLoading };
 };
 
 export default useMovies;
