@@ -6,7 +6,7 @@
   z-index: 100;
   background-color: var(--chakra-colors-gray-800);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  height: 44px;
+  height: 48px;
 }
 
 .light {
@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 12px;
+  padding: 0 16px;
   width: 100%;
   max-width: var(--chakra-sizes-container-xl);
   margin: 0 auto;
@@ -32,18 +32,18 @@
 }
 
 .searchContainer {
-  width: 200px;
+  width: 300px;
 }
 
 .colorModeContainer {
   display: flex;
   align-items: center;
-  padding-left: 12px;
+  padding-left: 16px;
 }
 
 @media (min-width: 48em) {
   .navbar {
-    height: 48px;
+    height: 56px;
   }
 
   .content {
@@ -51,6 +51,12 @@
   }
 
   .searchContainer {
-    width: 300px;
+    width: 400px;
+  }
+}
+
+@media (min-width: 62em) {
+  .searchContainer {
+    width: 500px;
   }
 }

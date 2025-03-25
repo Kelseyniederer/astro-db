@@ -52,11 +52,12 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
         <Box position="relative" width="100%">
           <Box
             position="absolute"
-            left={{ base: 2, md: 4 }}
+            left={{ base: 3, md: 4 }}
             top="50%"
             transform="translateY(-50%)"
             zIndex={2}
             color="gray.400"
+            fontSize={{ base: "14px", md: "16px" }}
           >
             <BsSearch />
           </Box>
@@ -78,10 +79,10 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
               color: "gray.800",
             }}
             borderRadius="full"
-            size="sm"
-            pl={8}
-            fontSize="sm"
-            height="32px"
+            size="md"
+            pl={{ base: 9, md: 10 }}
+            fontSize={{ base: "14px", md: "16px" }}
+            height={{ base: "36px", md: "40px" }}
           />
         </Box>
       </form>
