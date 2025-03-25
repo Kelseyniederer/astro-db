@@ -1,5 +1,6 @@
-import { Box, HStack, Text } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import CastCard from "./CastCard";
+import ScrollContainer from "./common/ScrollContainer";
 
 interface CastMember {
   id: number;
@@ -18,48 +19,22 @@ interface Props {
 const CastScroll = ({ cast, title = "Series Cast" }: Props) => {
   return (
     <Box>
-      <Text
-        fontSize="2xl"
-        fontWeight="bold"
-        mb={4}
-        color="white"
-        _light={{ color: "gray.800" }}
-      >
+      <Heading size="md" mb={4}>
         {title}
-      </Text>
-      <Box
-        overflowX="auto"
-        pb={4}
-        css={{
-          "&::-webkit-scrollbar": {
-            height: "8px",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "rgba(0, 0, 0, 0.1)",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "rgba(255, 255, 255, 0.2)",
-            borderRadius: "4px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            background: "rgba(255, 255, 255, 0.3)",
-          },
-        }}
-      >
-        <HStack gap={4} minW="max-content" px={1}>
-          {cast.map((member) => (
-            <CastCard
-              key={member.id}
-              id={member.id}
-              name={member.name}
-              character={member.character}
-              profilePath={member.profile_path}
-              birthday={member.birthday}
-              episodeCount={member.episode_count}
-            />
-          ))}
-        </HStack>
-      </Box>
+      </Heading>
+      <ScrollContainer fullWidth>
+        {cast.map((member) => (
+          <CastCard
+            key={member.id}
+            id={member.id}
+            name={member.name}
+            character={member.character}
+            profilePath={member.profile_path}
+            birthday={member.birthday}
+            episodeCount={member.episode_count}
+          />
+        ))}
+      </ScrollContainer>
     </Box>
   );
 };
