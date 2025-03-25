@@ -16,8 +16,8 @@ const Logo = ({ resetQuery }: Props) => {
   };
 
   return (
-    <HStack cursor="pointer" onClick={handleClick} spacing={2} pl={4} ml={0}>
-      <Icon as={BiCameraMovie} boxSize={10} color="white.400" />
+    <HStack cursor="pointer" onClick={handleClick}>
+      <Icon as={BiCameraMovie} boxSize={8} color="white.400" />
       <Text
         fontSize="2xl"
         fontWeight="bold"
@@ -26,7 +26,7 @@ const Logo = ({ resetQuery }: Props) => {
       >
         AstroDB
       </Text>
-      <Icon as={PiPlanet} boxSize={8} color="white.400" />
+      <Icon as={PiPlanet} boxSize={6} color="white.400" />
     </HStack>
   );
 };
