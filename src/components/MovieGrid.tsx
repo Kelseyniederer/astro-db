@@ -10,7 +10,7 @@ interface Props {
 
 const MovieGrid = ({ movieQuery }: Props) => {
   const { movies, error, isLoading } = useMovies(movieQuery);
-  const skeletons = Array(15).fill(null);
+  const skeletons = Array(12).fill(null);
 
   if (error) return <Text color="red.500">{error}</Text>;
 
@@ -22,8 +22,9 @@ const MovieGrid = ({ movieQuery }: Props) => {
         sm: "repeat(2, 250px)",
         md: "repeat(3, 250px)",
         lg: "repeat(4, 250px)",
+        xl: "repeat(5, 250px)",
       }}
-      gap={4}
+      gap={6}
       width="100%"
       alignItems="stretch"
       justifyContent="center"

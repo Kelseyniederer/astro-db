@@ -23,14 +23,12 @@ const MovieCard = ({ movie }: Props) => {
       const card = cardRef.current;
       const cardStyle = window.getComputedStyle(card);
 
-
       // Log all child elements
       Array.from(card.children).forEach((child, index) => {
         const childStyle = window.getComputedStyle(child);
 
         // Log grandchildren (image container and card body contents)
-        Array.from(child.children).forEach((grandchild, gIndex) => {
-        });
+        Array.from(child.children).forEach((grandchild, gIndex) => {});
       });
     }
   }, [movie.media_type]);
@@ -80,14 +78,14 @@ const MovieCard = ({ movie }: Props) => {
       cursor="pointer"
       variant="elevated"
       overflow="hidden"
-      height="264px"
+      height="420px"
       width="250px"
       _hover={{
         transform: "scale(1.03)",
         transition: "transform 0.15s ease-in",
       }}
     >
-      <Box position="relative" height="200px" bg="gray.700">
+      <Box position="relative" height="375px" bg="gray.700">
         {movie.media_type === "person" && !movie.profile_path ? (
           <Box
             position="absolute"
@@ -112,24 +110,25 @@ const MovieCard = ({ movie }: Props) => {
           />
         )}
       </Box>
-      <CardBody height="64px" py={2}>
-        <Box display="flex" flexDirection="column" gap={2}>
+      <CardBody py={2}>
+        <Box display="flex" flexDirection="column">
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="flex-start"
             gap={2}
-            height="24px"
           >
-            <Text fontWeight="semibold" fontSize="md" noOfLines={2}>
+            <Text fontWeight="semibold" fontSize="sm" noOfLines={2} flex="1">
               {displayTitle}
             </Text>
             {movie.media_type !== "person" && movie.vote_average > 0 && (
-              <CriticScore score={movie.vote_average} />
+              <Box flexShrink={0}>
+                <CriticScore score={movie.vote_average} />
+              </Box>
             )}
           </Box>
           {movie.media_type === "person" && movie.birthday && (
-            <Box height="24px">
+            <Box mt={1}>
               <ZodiacPill sign={getZodiacInfo(movie.birthday).sign} />
             </Box>
           )}
