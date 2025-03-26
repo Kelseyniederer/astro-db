@@ -1,4 +1,4 @@
-import { HStack, Icon, Text } from "@chakra-ui/react";
+import { HStack, Icon, Text, useColorModeValue } from "@chakra-ui/react";
 import { BiCameraMovie } from "react-icons/bi";
 import { PiPlanet } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,8 @@ interface Props {
 
 const Logo = ({ resetQuery }: Props) => {
   const navigate = useNavigate();
+  const iconColor = useColorModeValue("gray.600", "white.400");
+  const textColor = useColorModeValue("gray.800", "white");
 
   const handleClick = () => {
     resetQuery();
@@ -40,6 +42,7 @@ const Logo = ({ resetQuery }: Props) => {
         letterSpacing="tight"
         marginLeft={0}
         paddingLeft={0}
+        color={textColor}
         sx={{
           "&": {
             margin: "0 !important",
@@ -49,8 +52,8 @@ const Logo = ({ resetQuery }: Props) => {
       >
         AstroDB
       </Text>
-      <Icon as={PiPlanet} boxSize={7} color="white.400" marginLeft={2} />
-      <Icon as={BiCameraMovie} boxSize={7} color="white.400" marginLeft={2} />
+      <Icon as={PiPlanet} boxSize={7} color={iconColor} marginLeft={2} />
+      <Icon as={BiCameraMovie} boxSize={7} color={iconColor} marginLeft={2} />
     </HStack>
   );
 };

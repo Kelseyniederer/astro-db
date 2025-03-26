@@ -1,6 +1,11 @@
-import { Box, Input } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
-import { BsSearch } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
@@ -13,8 +18,14 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const bg = useColorModeValue("gray.100", "whiteAlpha.200");
+  const hoverBg = useColorModeValue("gray.200", "whiteAlpha.300");
+  const focusBg = useColorModeValue("white", "whiteAlpha.400");
+  const iconColor = useColorModeValue("gray.500", "gray.400");
+  const focusIconColor = useColorModeValue("gray.600", "white");
+
   useEffect(() => {
-    // Only clear search when navigating to detail pages
+    // Only clear search input when navigating to detail pages
     if (
       location.pathname.startsWith("/movie/") ||
       location.pathname.startsWith("/tv/") ||
@@ -22,7 +33,6 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
     ) {
       if (ref.current) {
         ref.current.value = "";
-        onSearch("");
       }
     }
   }, [location.pathname]);
@@ -30,63 +40,73 @@ const SearchInput = ({ onSearch, resetQuery }: Props) => {
   const handleSearch = () => {
     if (ref.current) {
       const searchText = ref.current.value.trim();
-      if (location.pathname !== "/") {
-        resetQuery();
+      onSearch(searchText);
+
+      // Only navigate to home if we're searching and not already there
+      if (searchText && location.pathname !== "/") {
         navigate("/");
-        onSearch(searchText);
-      } else {
-        onSearch(searchText);
       }
     }
   };
 
   return (
-    <Box position="relative" width="100%">
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          handleSearch();
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleSearch();
+      }}
+      style={{ width: "100%" }}
+    >
+      <InputGroup
+        size="md"
+        transition="all 0.2s ease-in-out"
+        _focusWithin={{
+          transform: "scale(1.02)",
         }}
-        style={{ width: "100%" }}
       >
-        <Box position="relative" width="100%">
-          <Box
-            position="absolute"
-            left={{ base: 3, md: 4 }}
-            top="50%"
-            transform="translateY(-50%)"
-            zIndex={2}
-            color="gray.400"
-            fontSize={{ base: "14px", md: "16px" }}
-          >
-            <BsSearch />
-          </Box>
-          <Input
-            ref={ref}
-            type="search"
-            enterKeyHint="search"
-            placeholder="Search..."
-            variant="outline"
-            bg="gray.700"
-            _hover={{ bg: "gray.600" }}
-            _focus={{ bg: "gray.600", borderColor: "blue.300" }}
-            _placeholder={{ color: "gray.400" }}
-            color="white"
-            _light={{
-              bg: "gray.100",
-              _hover: { bg: "gray.200" },
-              _focus: { bg: "gray.200" },
-              color: "gray.800",
-            }}
-            borderRadius="full"
-            size="md"
-            pl={{ base: 9, md: 10 }}
-            fontSize={{ base: "14px", md: "16px" }}
-            height={{ base: "36px", md: "40px" }}
-          />
-        </Box>
-      </form>
-    </Box>
+        <InputLeftElement
+          pointerEvents="none"
+          transition="all 0.2s ease-in-out"
+          _groupFocusWithin={{
+            color: focusIconColor,
+          }}
+        >
+          <SearchIcon color={iconColor} />
+        </InputLeftElement>
+        <Input
+          ref={ref}
+          type="search"
+          placeholder="Search movies..."
+          variant="filled"
+          bg={bg}
+          transition="all 0.2s ease-in-out"
+          _hover={{
+            bg: hoverBg,
+            transform: "scale(1.01)",
+          }}
+          _focus={{
+            bg: focusBg,
+            transform: "scale(1.02)",
+            boxShadow: useColorModeValue(
+              "0 0 10px rgba(0,0,0,0.1)",
+              "0 0 10px rgba(255,255,255,0.1)"
+            ),
+            borderColor: "transparent",
+            outline: "none",
+          }}
+          _focusVisible={{
+            outline: "none",
+          }}
+          borderRadius="full"
+          onChange={(e) => {
+            const value = e.target.value;
+            if (!value) {
+              resetQuery();
+            }
+          }}
+        />
+      </InputGroup>
+    </form>
   );
 };
 

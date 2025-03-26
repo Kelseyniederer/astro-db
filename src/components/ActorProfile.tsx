@@ -202,11 +202,7 @@ const ActorProfile = () => {
         )}
       </Grid>
 
-      <ActorFilmography
-        movies={movies}
-        title="Filmography"
-        columns={{ base: 2, sm: 3, md: 4, lg: 5 }}
-      />
+      <ActorFilmography movies={movies} title="Filmography" />
     </Container>
   );
 };
