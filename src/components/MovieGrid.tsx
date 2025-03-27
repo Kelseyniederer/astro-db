@@ -16,18 +16,10 @@ const MovieGrid = ({ movieQuery }: Props) => {
 
   return (
     <Grid
-      role="grid"
-      templateColumns={{
-        base: "repeat(1, 250px)",
-        sm: "repeat(2, 250px)",
-        md: "repeat(3, 250px)",
-        lg: "repeat(4, 250px)",
-        xl: "repeat(5, 250px)",
-      }}
+      templateColumns="repeat(auto-fill, minmax(250px, 1fr))"
       gap={6}
       width="100%"
       alignItems="stretch"
-      justifyContent="center"
       minH="200px"
     >
       {isLoading &&

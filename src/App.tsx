@@ -1,4 +1,4 @@
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {
   Outlet,
@@ -73,14 +73,27 @@ function App() {
     <ChakraProvider theme={theme}>
       <ColorModeManager />
       <Box minH="100vh">
-        <Box position="sticky" top={0} zIndex={2} bg="gray.900">
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          right={0}
+          zIndex={1000}
+          bg={useColorModeValue(
+            "rgba(255, 255, 255, 0.8)",
+            "rgba(26, 32, 44, 0.8)"
+          )}
+          backdropFilter="blur(10px)"
+          borderBottom="1px"
+          borderColor={useColorModeValue("gray.200", "gray.700")}
+        >
           <NavBar
             onSearch={handleSearch}
             resetQuery={resetQuery}
             onSelectGenre={handleSelectGenre}
           />
         </Box>
-        <Box px={5} pt={4}>
+        <Box maxW="1400px" mx="auto" px={6} pt="80px">
           <Outlet context={movieQuery} />
         </Box>
       </Box>

@@ -1,5 +1,5 @@
 import { MovieQuery } from "@/App";
-import { Box, Container, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { useOutletContext } from "react-router-dom";
 import MovieGrid from "./MovieGrid";
 import MovieHeading from "./MovieHeading";
@@ -12,17 +12,13 @@ const Home = () => {
   const shouldShowTrendingPeople = !isSearching && !isFilteringByGenre;
 
   return (
-    <Box width="100%" maxW="100vw" overflowX="hidden">
-      <Container maxW="container.xl" p={0}>
-        <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
-          {shouldShowTrendingPeople && <TrendingPeople />}
-          <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
-            <MovieHeading movieQuery={movieQuery} />
-            <MovieGrid movieQuery={movieQuery} />
-          </VStack>
-        </VStack>
-      </Container>
-    </Box>
+    <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
+      {shouldShowTrendingPeople && <TrendingPeople />}
+      <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
+        <MovieHeading movieQuery={movieQuery} />
+        <MovieGrid movieQuery={movieQuery} />
+      </VStack>
+    </VStack>
   );
 };
 

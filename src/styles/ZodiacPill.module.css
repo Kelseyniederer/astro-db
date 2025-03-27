@@ -97,7 +97,7 @@
 
 /* Element colors - Air */
 .air {
-  background-color: var(--chakra-colors-gray-700);
+  background-color: var(--chakra-colors-gray-500);
 }
 
 .air.light {
@@ -105,7 +105,7 @@
 }
 
 .air .icon {
-  color: var(--chakra-colors-gray-400);
+  color: var(--chakra-colors-gray-300);
 }
 
 .air.light .icon {

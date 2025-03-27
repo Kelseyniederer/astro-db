@@ -1,9 +1,10 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import apiClient from "../services/api-client";
 import CastCard from "./CastCard";
 import TrendingPeopleSkeleton from "./TrendingPeopleSkeleton";
 import ScrollContainer from "./common/ScrollContainer";
+import SectionHeading from "./common/SectionHeading";
 
 interface Person {
   id: number;
@@ -76,9 +77,7 @@ const TrendingPeople = () => {
 
   return (
     <Box>
-      <Heading size="md" mb={4}>
-        Trending People
-      </Heading>
+      <SectionHeading noMargin>Trending People</SectionHeading>
       {isLoading ? (
         <TrendingPeopleSkeleton />
       ) : (

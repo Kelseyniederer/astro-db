@@ -1,6 +1,7 @@
-import { Heading, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { MovieQuery } from "../App";
 import movieGenres from "../data/genres";
+import SectionHeading from "./common/SectionHeading";
 
 interface Props {
   movieQuery: MovieQuery;
@@ -16,17 +17,8 @@ const MovieHeading = ({ movieQuery }: Props) => {
     : "Discover Movies & TV Shows";
 
   return (
-    <VStack mb={8} gap={2} align="center">
-      <Heading
-        as="h2"
-        size="lg"
-        color="gray.600"
-        _dark={{ color: "gray.400" }}
-        alignSelf="flex-start"
-        mb={4}
-      >
-        {heading}
-      </Heading>
+    <VStack gap={2} align="stretch">
+      <SectionHeading>{heading}</SectionHeading>
     </VStack>
   );
 };

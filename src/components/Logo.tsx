@@ -37,9 +37,9 @@ const Logo = ({ resetQuery }: Props) => {
       }}
     >
       <Text
-        fontSize="2xl"
-        fontWeight="bold"
-        letterSpacing="tight"
+        fontSize="24px"
+        fontWeight="normal"
+        letterSpacing="-0.5px"
         marginLeft={0}
         paddingLeft={0}
         color={textColor}
@@ -52,8 +52,8 @@ const Logo = ({ resetQuery }: Props) => {
       >
         AstroDB
       </Text>
-      <Icon as={PiPlanet} boxSize={7} color={iconColor} marginLeft={2} />
-      <Icon as={BiCameraMovie} boxSize={7} color={iconColor} marginLeft={2} />
+      <Icon as={PiPlanet} boxSize={6} color={iconColor} marginLeft={2} />
+      <Icon as={BiCameraMovie} boxSize={6} color={iconColor} marginLeft={2} />
     </HStack>
   );
 };

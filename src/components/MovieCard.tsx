@@ -118,7 +118,7 @@ const MovieCard = ({ movie }: Props) => {
             alignItems="flex-start"
             gap={2}
           >
-            <Text fontWeight="semibold" fontSize="sm" noOfLines={2} flex="1">
+            <Text fontSize="sm" noOfLines={2} flex="1" letterSpacing="-0.3px">
               {displayTitle}
             </Text>
             {movie.media_type !== "person" && movie.vote_average > 0 && (

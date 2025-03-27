@@ -14,9 +14,9 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
 
     const handleScroll = (e: Event) => {
       const target = e.target as HTMLDivElement;
-      setShowLeftBlur(target.scrollLeft > 20);
+      setShowLeftBlur(target.scrollLeft > 0);
       setShowRightBlur(
-        target.scrollLeft < target.scrollWidth - target.clientWidth - 20
+        target.scrollLeft < target.scrollWidth - target.clientWidth - 5
       );
     };
 
@@ -32,12 +32,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
     }, []);
 
     return (
-      <Box
-        position="relative"
-        maxW={fullWidth ? "100%" : "calc(100vw - 240px)"}
-        ml={fullWidth ? 0 : "-6"}
-        {...props}
-      >
+      <Box position="relative" width="100%" overflow="hidden" {...props}>
         {/* Left blur gradient */}
         {showLeftBlur && (
           <Box
@@ -45,7 +40,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             left={0}
             top={0}
             bottom={0}
-            width="60px"
+            width="40px"
             zIndex={1}
             pointerEvents="none"
             bgGradient={`linear(to-r, ${blurColor} 0%, ${blurColor}90 30%, transparent 100%)`}
@@ -59,7 +54,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             right={0}
             top={0}
             bottom={0}
-            width="60px"
+            width="40px"
             zIndex={1}
             pointerEvents="none"
             bgGradient={`linear(to-l, ${blurColor} 0%, ${blurColor}90 30%, transparent 100%)`}
@@ -72,8 +67,6 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
           spacing={4}
           overflowX="auto"
           py={4}
-          pl={6}
-          pr={6}
           alignItems="stretch"
           sx={{
             "&::-webkit-scrollbar": {
@@ -82,6 +75,8 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             scrollbarWidth: "none",
             display: "flex",
             flexWrap: "nowrap",
+            paddingInlineStart: "0",
+            paddingInlineEnd: "40px",
           }}
         >
           {children}

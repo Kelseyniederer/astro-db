@@ -43,10 +43,13 @@ const NavBar = ({ onSearch, resetQuery, onSelectGenre }: Props) => {
             <MenuButton
               as={Button}
               rightIcon={<ChevronDownIcon />}
-              leftIcon={<Icon as={TbMovie} />}
+              leftIcon={<Icon as={TbMovie} boxSize={5} />}
               variant="ghost"
               color={textColor}
               _hover={{ bg: menuHoverBg }}
+              fontWeight="normal"
+              fontSize="16px"
+              letterSpacing="-0.3px"
             >
               Genres
             </MenuButton>
@@ -57,6 +60,9 @@ const NavBar = ({ onSearch, resetQuery, onSelectGenre }: Props) => {
                   onClick={() => onSelectGenre?.(genre.id)}
                   _hover={{ bg: menuHoverBg }}
                   color={textColor}
+                  fontSize="16px"
+                  fontWeight="normal"
+                  letterSpacing="-0.3px"
                 >
                   {genre.name}
                 </MenuItem>
