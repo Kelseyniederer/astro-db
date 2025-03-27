@@ -71,6 +71,12 @@ const MovieCard = ({ movie }: Props) => {
     });
   };
 
+  console.log("Movie data:", {
+    mediaType: movie.media_type,
+    birthday: movie.birthday,
+    character: movie.character,
+  });
+
   return (
     <Card
       ref={cardRef}
@@ -127,9 +133,9 @@ const MovieCard = ({ movie }: Props) => {
               </Box>
             )}
           </Box>
-          {movie.media_type === "person" && movie.birthday && (
+          {movie.media_type === "person" && (
             <Box mt={1}>
-              <ZodiacPill sign={getZodiacInfo(movie.birthday).sign} />
+              <ZodiacPill sign="Unknown" size="sm" />
             </Box>
           )}
         </Box>

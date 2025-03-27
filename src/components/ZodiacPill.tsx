@@ -61,7 +61,7 @@ export const ZodiacPill = ({ sign, size = "md" }: ZodiacPillProps) => {
   return (
     <div className={pillClassName}>
       <div className={styles.content}>
-        {Icon && <Icon className={iconClassName} />}
+        {sign !== "Unknown" && <Icon className={iconClassName} />}
         <span className={styles.text}>{sign}</span>
       </div>
     </div>

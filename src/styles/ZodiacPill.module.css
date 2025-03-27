@@ -120,6 +120,23 @@
   color: var(--chakra-colors-gray-700);
 }
 
+/* Element colors - Unknown */
+.unknown {
+  background-color: var(--chakra-colors-gray-700);
+}
+
+.unknown.light {
+  background-color: var(--chakra-colors-gray-200);
+}
+
+.unknown .text {
+  color: white;
+}
+
+.unknown.light .text {
+  color: var(--chakra-colors-gray-800);
+}
+
 /* Icon sizes */
 .icon {
   display: inline-block;

@@ -43,11 +43,9 @@ const CastCard = ({
             {episodeCount && (
               <Text className={styles.episodes}>{episodeCount} Episodes</Text>
             )}
-            {zodiacSign !== "Unknown" && (
-              <div className={styles.zodiacContainer}>
-                <ZodiacPill sign={zodiacSign} size="sm" />
-              </div>
-            )}
+            <div className={styles.zodiacContainer}>
+              <ZodiacPill sign={zodiacSign} size="sm" />
+            </div>
           </div>
         </div>
       </div>
