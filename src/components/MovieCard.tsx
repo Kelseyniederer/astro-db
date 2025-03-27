@@ -110,12 +110,12 @@ const MovieCard = ({ movie }: Props) => {
           />
         )}
       </Box>
-      <CardBody py={2}>
-        <Box display="flex" flexDirection="column">
+      <CardBody py={2} height="45px" display="flex" alignItems="center">
+        <Box display="flex" flexDirection="column" width="100%">
           <Box
             display="flex"
             justifyContent="space-between"
-            alignItems="flex-start"
+            alignItems="center"
             gap={2}
           >
             <Text fontSize="sm" noOfLines={2} flex="1" letterSpacing="-0.3px">

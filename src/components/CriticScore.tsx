@@ -12,14 +12,15 @@ const CriticScore = ({ score }: Props) => {
   return (
     <HStack gap={1}>
       <Text
-        fontSize="md"
-        fontWeight="bold"
+        fontSize="sm"
+        fontWeight="normal"
+        letterSpacing="-0.3px"
         color="white"
         _light={{ color: "gray.800" }}
       >
         {displayScore}
       </Text>
-      <Icon as={FaStar} color="yellow.400" boxSize="14px" />
+      <Icon as={FaStar} color="yellow.400" boxSize="12px" />
     </HStack>
   );
 };
