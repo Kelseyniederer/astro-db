@@ -22,7 +22,7 @@ const useMovies = (movieQuery: MovieQuery) => {
     ? "/search/multi"
     : movieQuery.genreId
     ? "/discover/movie"
-    : "/trending/all/day";
+    : "/trending/movie/day";
 
   const { data, error, isLoading } = useData<MovieApiResponse>(
     endpoint,
@@ -33,6 +33,7 @@ const useMovies = (movieQuery: MovieQuery) => {
         include_adult: false,
         language: "en-US",
         page: 1,
+        media_type: movieQuery.searchText ? ["movie", "tv"] : undefined,
       },
     },
     [movieQuery]
