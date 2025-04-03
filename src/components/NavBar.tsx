@@ -31,10 +31,8 @@ const NavBar = ({ onSearch, resetQuery, onSelectGenre }: Props) => {
 
   return (
     <Box
-      padding="10px"
-      bg={bgColor}
-      borderBottom="1px"
-      borderColor={useColorModeValue("gray.200", "gray.700")}
+      padding="0.75rem 1rem"
+      bg={useColorModeValue("white", "rgb(20, 24, 33)")}
     >
       <Flex justify="space-between" align="center">
         <HStack spacing={4}>

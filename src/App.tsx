@@ -79,13 +79,8 @@ function App() {
           left={0}
           right={0}
           zIndex={1000}
-          bg={useColorModeValue(
-            "rgba(255, 255, 255, 0.8)",
-            "rgba(26, 32, 44, 0.8)"
-          )}
-          backdropFilter="blur(10px)"
-          borderBottom="1px"
-          borderColor={useColorModeValue("gray.200", "gray.700")}
+          bg={useColorModeValue("rgba(255, 255, 255, 0.8)", "rgb(20, 24, 33)")}
+          backdropFilter="blur(8px)"
         >
           <NavBar
             onSearch={handleSearch}
