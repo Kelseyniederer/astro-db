@@ -1,0 +1,67 @@
+.scrollContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.title {
+  margin-bottom: 1rem;
+  color: var(--chakra-colors-gray-200);
+}
+
+.scrollArea {
+  position: relative;
+  width: 100%;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+.scrollContent {
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 0.5rem 0;
+}
+
+.scrollContent::-webkit-scrollbar {
+  display: none;
+}
+
+.leftShadow {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.rightShadow {
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.8), transparent);
+}
+
+.scrollButton {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: unset !important;
+  backdrop-filter: blur(8px);
+}
+
+.scrollButton:hover {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Ensure content can extend to screen edges */
+@media screen and (min-width: 1024px) {
+  .scrollArea {
+    margin: 0 calc(-50vw + 50%);
+    padding: 8px calc(50vw - 50%);
+  }
+}
+
+/* Add padding to the first and last items to ensure they don't get cut off by the shadow */
+.scrollArea > *:first-child {
+  margin-left: 8px;
+}
+
+.scrollArea > *:last-child {
+  margin-right: 8px;
+}
