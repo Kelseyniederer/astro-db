@@ -12,13 +12,13 @@ interface Props extends HeadingProps {
 
 const SectionHeading = ({ children, noMargin = false, ...props }: Props) => {
   return (
-    <Box mb={noMargin ? 0 : 6}>
+    <Box mb={noMargin ? 0 : 4}>
       <Heading
-        size="lg"
-        fontWeight="normal"
+        size="md"
+        fontWeight="semibold"
         color={useColorModeValue("gray.800", "white")}
-        letterSpacing="-0.5px"
-        fontSize="24px"
+        letterSpacing="-0.3px"
+        fontSize="16px"
         {...props}
       >
         {children}

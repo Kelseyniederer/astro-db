@@ -41,7 +41,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
       const scrollContainer = scrollRef.current;
       if (!scrollContainer) return;
 
-      const scrollAmount = scrollContainer.clientWidth * 0.75; // Scroll 75% of container width
+      const scrollAmount = scrollContainer.clientWidth * 0.75;
       const newScrollLeft =
         direction === "left"
           ? Math.max(0, scrollContainer.scrollLeft - scrollAmount)
@@ -60,7 +60,6 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
       const scrollContainer = scrollRef.current;
       if (scrollContainer) {
         scrollContainer.addEventListener("scroll", handleScroll);
-        // Check initial state
         handleScroll({ target: scrollContainer } as unknown as Event);
         return () =>
           scrollContainer.removeEventListener("scroll", handleScroll);
@@ -86,7 +85,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
               aria-label="Scroll left"
               icon={<ChevronLeftIcon boxSize={6} />}
               position="absolute"
-              left={3}
+              left={6}
               top="50%"
               transform="translateY(-50%)"
               zIndex={3}
@@ -118,7 +117,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
               aria-label="Scroll right"
               icon={<ChevronRightIcon boxSize={6} />}
               position="absolute"
-              right={3}
+              right={6}
               top="50%"
               transform="translateY(-50%)"
               zIndex={3}
@@ -139,6 +138,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
           spacing={4}
           overflowX="auto"
           py={4}
+          px={6} // Match the container padding
           alignItems="stretch"
           sx={{
             "&::-webkit-scrollbar": {
@@ -147,8 +147,6 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             scrollbarWidth: "none",
             display: "flex",
             flexWrap: "nowrap",
-            paddingInlineStart: fullWidth ? "0" : "0",
-            paddingInlineEnd: "40px",
           }}
           onScroll={(e) => handleScroll(e as unknown as Event)}
         >
