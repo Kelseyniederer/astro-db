@@ -195,9 +195,7 @@ const ActorProfile = () => {
           biography={person.biography}
         />
       </Grid>
-      {person.birthday && (
-        <AstrologyProfile birthday={person.birthday} name={""} bio={""} />
-      )}
+      {person.birthday && <AstrologyProfile birthday={person.birthday} />}
       <ActorFilmography movies={movies} title="Filmography" />
     </Container>
   );
