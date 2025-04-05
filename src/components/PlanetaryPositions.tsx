@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import {
   TbZodiacAquarius,
   TbZodiacAries,
@@ -13,6 +13,7 @@ import {
   TbZodiacTaurus,
   TbZodiacVirgo,
 } from "react-icons/tb";
+import ZodiacPill from "./ZodiacPill";
 
 interface Planet {
   name: string;
@@ -54,50 +55,15 @@ const getElementColor = (sign: string) => {
 
 export const PlanetaryPositions = ({ planets }: PlanetaryPositionsProps) => {
   return (
-    <Box>
-      <Heading size="xl" mb={4} color="white">
-        Planetary Positions
-      </Heading>
-      <Grid templateColumns="1fr" gap={2}>
-        {planets.map((planet) => {
-          const Icon = zodiacIcons[planet.sign as keyof typeof zodiacIcons];
-          const bgColor = getElementColor(planet.sign);
-
-          return (
-            <Box
-              key={planet.name}
-              bg="gray.700"
-              borderRadius="md"
-              p={2.5}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Text fontSize="md" color="white">
-                {planet.name}
-                {planet.isRetrograde && (
-                  <Text as="span" color="gray.400" ml={1}>
-                    (R)
-                  </Text>
-                )}
-              </Text>
-              <Flex
-                align="center"
-                gap={1.5}
-                bg={bgColor}
-                px={2.5}
-                py={0.5}
-                borderRadius="full"
-              >
-                {Icon && <Icon color="white" size={16} />}
-                <Text color="white" fontSize="sm">
-                  {planet.sign}
-                </Text>
-              </Flex>
-            </Box>
-          );
-        })}
-      </Grid>
-    </Box>
+    <Flex gap={4} flexWrap="wrap" justify="flex-start">
+      {planets.map((planet) => (
+        <Flex key={planet.name} align="center" gap={2}>
+          <Text fontSize="md" color="gray.100">
+            {planet.name}
+          </Text>
+          <ZodiacPill sign={planet.sign} size="sm" />
+        </Flex>
+      ))}
+    </Flex>
   );
 };

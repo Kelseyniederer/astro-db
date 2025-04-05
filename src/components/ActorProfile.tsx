@@ -178,7 +178,7 @@ const ActorProfile = () => {
         templateColumns={{
           base: "repeat(auto-fit, minmax(200px, 1fr))",
           md: "300px 1fr",
-          lg: "300px 1fr 400px",
+          lg: "2 1fr 400px",
         }}
         gap={6}
         mb={12}
@@ -194,14 +194,10 @@ const ActorProfile = () => {
           birthday={person.birthday}
           biography={person.biography}
         />
-
-        {person.birthday && (
-          <Box>
-            <AstrologyProfile birthday={person.birthday} />
-          </Box>
-        )}
       </Grid>
-
+      {person.birthday && (
+        <AstrologyProfile birthday={person.birthday} name={""} bio={""} />
+      )}
       <ActorFilmography movies={movies} title="Filmography" />
     </Container>
   );
