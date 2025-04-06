@@ -47,6 +47,7 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
       width="100%"
       position="relative"
       paddingBottom="150%"
+      top={3}
     >
       <img
         src={`https://image.tmdb.org/t/p/w300${src}`}

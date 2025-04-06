@@ -1,6 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 import { usePlanetaryData } from "../../hooks/usePlanetaryData";
+import { ScrollContainer } from "../ScrollContainer";
 import { ZodiacPill } from "../ZodiacPill";
 
 interface AstrologyProfileProps {
@@ -18,8 +19,7 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
     }
   }, [fetchPlanetaryData]);
 
-  // First row: Sun through Mars
-  const firstRowPlanets = [
+  const planets = [
     "Sun",
     "Moon",
     "Mercury",
@@ -31,32 +31,12 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
     "Neptune",
     "Pluto",
   ];
-  // Second row: Jupiter through Pluto
-  const secondRowPlanets: string | string[] = [];
 
   return (
-    <Flex direction="column" gap={4}>
-      {/* First Row */}
-      <Flex gap={4} wrap="wrap">
+    <ScrollContainer>
+      <Flex gap={6} minW="max-content" mb={8}>
         {planetaryData
-          ?.filter((planet) => firstRowPlanets.includes(planet.name))
-          .map((planet) => (
-            <Flex key={planet.name} align="left" gap={2}>
-              <Text color="gray.400">{planet.name}</Text>
-              <ZodiacPill sign={planet.sign} size="sm" />
-              {planet.isRetro === "true" && (
-                <Text color="gray.400" fontSize="sm">
-                  (R)
-                </Text>
-              )}
-            </Flex>
-          ))}
-      </Flex>
-
-      {/* Second Row */}
-      <Flex gap={6} wrap="wrap">
-        {planetaryData
-          ?.filter((planet) => secondRowPlanets.includes(planet.name))
+          ?.filter((planet) => planets.includes(planet.name))
           .map((planet) => (
             <Flex key={planet.name} align="center" gap={2}>
               <Text color="gray.400">{planet.name}</Text>
@@ -69,6 +49,6 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
             </Flex>
           ))}
       </Flex>
-    </Flex>
+    </ScrollContainer>
   );
 };
