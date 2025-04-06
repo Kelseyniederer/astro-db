@@ -34,7 +34,7 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
 
   return (
     <ScrollContainer>
-      <Flex gap={6} minW="max-content" mb={8}>
+      <Flex gap={6} minW="max-content">
         {planetaryData
           ?.filter((planet) => planets.includes(planet.name))
           .map((planet) => (

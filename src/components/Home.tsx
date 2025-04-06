@@ -12,9 +12,14 @@ const Home = () => {
   const shouldShowTrendingPeople = !isSearching && !isFilteringByGenre;
 
   return (
-    <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
+    <VStack
+      spacing={{ base: 3, md: 6 }}
+      align="stretch"
+      width="100%"
+      px={{ base: 4, md: 6 }}
+    >
       {shouldShowTrendingPeople && <TrendingPeople />}
-      <VStack spacing={{ base: 4, md: 6 }} align="stretch" width="100%">
+      <VStack spacing={{ base: 3, md: 6 }} align="stretch" width="100%">
         <MovieHeading movieQuery={movieQuery} />
         <MovieGrid movieQuery={movieQuery} />
       </VStack>

@@ -135,10 +135,10 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
         {/* Scroll content */}
         <HStack
           ref={scrollRef}
-          spacing={4}
+          spacing={0}
           overflowX="auto"
           py={4}
-          px={6} // Match the container padding
+          px={6}
           alignItems="stretch"
           sx={{
             "&::-webkit-scrollbar": {

@@ -81,18 +81,26 @@ const TrendingPeople = () => {
       {isLoading ? (
         <TrendingPeopleSkeleton />
       ) : (
-        <ScrollContainer>
-          {people.map((person) => (
-            <CastCard
-              key={person.id}
-              id={person.id}
-              name={person.name}
-              character=""
-              profilePath={person.profile_path}
-              birthday={person.birthday || undefined}
-            />
-          ))}
-        </ScrollContainer>
+        <Box mt={{ base: 2, md: 4 }}>
+          <ScrollContainer>
+            {people.map((person) => (
+              <Box
+                key={person.id}
+                minW={{ base: "120px", md: "160px" }}
+                maxW={{ base: "120px", md: "160px" }}
+                mr={8}
+              >
+                <CastCard
+                  id={person.id}
+                  name={person.name}
+                  character=""
+                  profilePath={person.profile_path}
+                  birthday={person.birthday || undefined}
+                />
+              </Box>
+            ))}
+          </ScrollContainer>
+        </Box>
       )}
     </Box>
   );

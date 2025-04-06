@@ -47,10 +47,10 @@ const MovieCard = ({ movie }: Props) => {
       onClick={handleClick}
       cursor="pointer"
       overflow="hidden"
-      height="375px"
-      width="250px"
+      aspectRatio="2/3"
+      width="100%"
       position="relative"
-      borderRadius="lg"
+      borderRadius="md"
       _hover={{
         transform: "scale(1.03)",
         transition: "transform 0.15s ease-in",
