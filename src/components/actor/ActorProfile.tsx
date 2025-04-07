@@ -1,10 +1,10 @@
 import { Box, Button, Container, Grid, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useData from "../hooks/useData";
-import usePersonMovies from "../hooks/usePersonMovies";
-import { ActorFilmography } from "./actor/ActorFilmography";
-import { AstrologyProfile } from "./actor/AstrologyProfile";
+import useData from "../../hooks/useData";
+import usePersonMovies from "../../hooks/usePersonMovies";
+import { ActorFilmography } from "./ActorFilmography";
+import { AstrologyProfile } from "./AstrologyProfile";
 
 interface Actor {
   id: number;
@@ -25,34 +25,37 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
     return (
       <Box
         bg="gray.700"
-        borderRadius="md"
+        borderRadius="xl"
         p={4}
         textAlign="center"
-        height="180px"
-        width="120px"
+        height="300px"
         display="flex"
         alignItems="center"
         justifyContent="center"
         _light={{ bg: "gray.100" }}
       >
-        <Text color="gray.400">No Image</Text>
+        <Text color="gray.400">No Profile Image Available</Text>
       </Box>
     );
   }
 
   return (
     <Box
-      borderRadius="md"
+      borderRadius="xl"
       overflow="hidden"
-      shadow="md"
-      width="120px"
-      height="180px"
+      shadow="lg"
+      width="100%"
       position="relative"
+      paddingBottom="150%"
+      top={3}
     >
       <img
-        src={`https://image.tmdb.org/t/p/w185${src}`}
+        src={`https://image.tmdb.org/t/p/w300${src}`}
         alt={alt}
         style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
           width: "100%",
           height: "100%",
           objectFit: "cover",
@@ -70,6 +73,7 @@ interface BioSectionProps {
 }
 
 const formatDate = (dateStr: string) => {
+  // Split the date string and convert to numbers
   const [year, month, day] = dateStr.split("-").map(Number);
   const months = [
     "January",
@@ -85,6 +89,7 @@ const formatDate = (dateStr: string) => {
     "November",
     "December",
   ];
+  // Use the exact numbers from the API without any conversion
   return `${months[month - 1]} ${day}, ${year}`;
 };
 
@@ -95,14 +100,14 @@ const BioSection = ({
   biography,
 }: BioSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const maxLength = 300;
+  const maxLength = 300; // Show first 300 characters initially
 
   const shouldShowButton = biography && biography.length > maxLength;
   const displayedBio = isExpanded ? biography : biography?.slice(0, maxLength);
 
   return (
     <Box>
-      <Box>
+      <Box mb={6}>
         <Text
           as="h1"
           fontSize="3xl"
@@ -124,7 +129,7 @@ const BioSection = ({
         {birthday && (
           <Text
             fontSize="lg"
-            mb={2}
+            mb={4}
             color="gray.700"
             _dark={{ color: "gray.300" }}
           >
@@ -198,14 +203,15 @@ const ActorProfile = () => {
     <Container maxW="container.xl" py={8}>
       <Grid
         templateColumns={{
-          base: "120px 1fr",
-          md: "120px 1fr",
+          base: "repeat(auto-fit, minmax(200px, 1fr))",
+          md: "300px 1fr",
+          lg: "2 1fr 400px",
         }}
         gap={6}
-        mb={8}
+        mb={12}
         alignItems="start"
       >
-        <Box>
+        <Box maxW="300px" width="100%" mx={{ base: "auto", md: 0 }}>
           <ProfileImage src={person.profile_path} alt={person.name} />
         </Box>
 

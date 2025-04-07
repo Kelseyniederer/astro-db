@@ -1,6 +1,6 @@
 import { createHashRouter } from "react-router-dom";
 import App from "./App";
-import ActorProfile from "./components/ActorProfile";
+import ActorProfile from "./components/actor/ActorProfile";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./components/Home";
 import MovieDetails from "./components/MovieDetails";

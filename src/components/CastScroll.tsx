@@ -24,15 +24,16 @@ const CastScroll = ({ cast, title = "Series Cast" }: Props) => {
       </Heading>
       <ScrollContainer fullWidth>
         {cast.map((member) => (
-          <CastCard
-            key={member.id}
-            id={member.id}
-            name={member.name}
-            character={member.character}
-            profilePath={member.profile_path}
-            birthday={member.birthday}
-            episodeCount={member.episode_count}
-          />
+          <Box key={member.id} mr={6}>
+            <CastCard
+              id={member.id}
+              name={member.name}
+              character={member.character}
+              profilePath={member.profile_path}
+              birthday={member.birthday}
+              episodeCount={member.episode_count}
+            />
+          </Box>
         ))}
       </ScrollContainer>
     </Box>

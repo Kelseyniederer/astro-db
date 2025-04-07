@@ -129,6 +129,7 @@ export const ActorFilmography = ({
                 key={`${credit.id}-${credit.media_type}`}
                 minW="200px"
                 maxW="200px"
+                mr={6}
               >
                 <Link to={`/${credit.media_type}/${credit.id}`}>
                   <Box
