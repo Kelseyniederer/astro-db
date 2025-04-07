@@ -34,17 +34,19 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
 
   return (
     <Box
-      ml={{ base: -8, md: 0 }}
+      ml={{ base: -14, md: -14 }}
       mt={{ base: 0, md: 0 }}
-      pb={{ base: 4, md: 0 }}
+      pb={{ base: 8, md: 8 }}
     >
       <ScrollContainer>
-        <Flex gap={6} minW="max-content">
+        <Flex gap={3} minW="max-content" pl={6}>
           {planetaryData
             ?.filter((planet) => planets.includes(planet.name))
             .map((planet) => (
-              <Flex key={planet.name} align="center" gap={2}>
-                <Text color="gray.400">{planet.name}</Text>
+              <Flex key={planet.name} align="center" gap={1.5}>
+                <Text color="gray.400" fontSize="sm">
+                  {planet.name}
+                </Text>
                 <ZodiacPill sign={planet.sign} size="sm" />
                 {planet.isRetro === "true" && (
                   <Text color="gray.400" fontSize="sm">
