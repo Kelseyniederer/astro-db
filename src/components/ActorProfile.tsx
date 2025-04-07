@@ -1,5 +1,5 @@
-import { Box, Container, Grid, Text } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { Box, Button, Container, Grid, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useData from "../hooks/useData";
 import usePersonMovies from "../hooks/usePersonMovies";
@@ -98,45 +98,71 @@ const BioSection = ({
   department,
   birthday,
   biography,
-}: BioSectionProps) => (
-  <Box>
-    <Box mb={6}>
-      <Text
-        as="h1"
-        fontSize="3xl"
-        fontWeight="bold"
-        mb={2}
-        color="black"
-        _dark={{ color: "white" }}
-      >
-        {name}
-      </Text>
-      <Text fontSize="xl" color="gray.600" _dark={{ color: "gray.400" }} mb={2}>
-        {department || "Actor"}
-      </Text>
-      {birthday && (
+}: BioSectionProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const maxLength = 300; // Show first 300 characters initially
+
+  const shouldShowButton = biography && biography.length > maxLength;
+  const displayedBio = isExpanded ? biography : biography?.slice(0, maxLength);
+
+  return (
+    <Box>
+      <Box mb={6}>
         <Text
-          fontSize="lg"
-          mb={4}
-          color="gray.700"
-          _dark={{ color: "gray.300" }}
+          as="h1"
+          fontSize="3xl"
+          fontWeight="bold"
+          mb={2}
+          color="black"
+          _dark={{ color: "white" }}
         >
-          Born: {formatDate(birthday)}
+          {name}
         </Text>
+        <Text
+          fontSize="xl"
+          color="gray.600"
+          _dark={{ color: "gray.400" }}
+          mb={2}
+        >
+          {department || "Actor"}
+        </Text>
+        {birthday && (
+          <Text
+            fontSize="lg"
+            mb={4}
+            color="gray.700"
+            _dark={{ color: "gray.300" }}
+          >
+            Born: {formatDate(birthday)}
+          </Text>
+        )}
+      </Box>
+      {biography && (
+        <Box>
+          <Text
+            fontSize="lg"
+            lineHeight="tall"
+            color="gray.800"
+            _dark={{ color: "gray.100" }}
+          >
+            {displayedBio}
+            {!isExpanded && shouldShowButton && "..."}
+          </Text>
+          {shouldShowButton && (
+            <Button
+              variant="link"
+              colorScheme="blue"
+              mt={2}
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? "Show Less" : "Read More"}
+            </Button>
+          )}
+        </Box>
       )}
     </Box>
-    {biography && (
-      <Text
-        fontSize="lg"
-        lineHeight="tall"
-        color="gray.800"
-        _dark={{ color: "gray.100" }}
-      >
-        {biography}
-      </Text>
-    )}
-  </Box>
-);
+  );
+};
 
 const ActorProfile = () => {
   const { id } = useParams();
