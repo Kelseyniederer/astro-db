@@ -34,12 +34,15 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
 
   return (
     <Box
-      ml={{ base: -14, md: -14 }}
+      ml={{ base: -14, md: 0 }}
       mt={{ base: 0, md: 0 }}
       pb={{ base: 8, md: 8 }}
     >
+      <Text fontSize="2xl" fontWeight="semibold" mb={3} color="gray.200">
+        Planets
+      </Text>
       <ScrollContainer>
-        <Flex gap={3} minW="max-content" pl={6}>
+        <Flex gap={3} minW="max-content">
           {planetaryData
             ?.filter((planet) => planets.includes(planet.name))
             .map((planet) => (
