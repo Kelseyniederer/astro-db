@@ -1,7 +1,9 @@
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
   BoxProps,
   HStack,
+  IconButton,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -15,37 +17,36 @@ interface ScrollContainerProps extends BoxProps {
 const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
   ({ children, fullWidth = false, ...props }, ref) => {
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [showLeftBlur, setShowLeftBlur] = useState(false);
-    const [showRightBlur, setShowRightBlur] = useState(true);
+    const [showLeftArrow, setShowLeftArrow] = useState(false);
+    const [showRightArrow, setShowRightArrow] = useState(true);
     const { colorMode } = useColorMode();
 
+    const arrowBg = useColorModeValue("white", "gray.800");
+    const arrowColor = useColorModeValue("gray.800", "white");
+    const arrowHoverBg = useColorModeValue("gray.100", "gray.700");
     const gradientStart = useColorModeValue(
-      "rgba(255, 255, 255, 0.5)",
-      "rgba(26, 32, 44, 0.9)"
+      "rgba(255, 255, 255, 0.95)",
+      "rgba(26, 32, 44, 0.95)"
     );
 
-    const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-      const target = event.currentTarget;
-      const scrollLeft = target.scrollLeft;
-      const scrollWidth = target.scrollWidth;
-      const clientWidth = target.clientWidth;
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        setShowLeftArrow(scrollLeft > 5);
+        setShowRightArrow(
+          Math.ceil(scrollLeft) < scrollWidth - clientWidth - 5
+        );
+      }
+    };
 
-      console.log(
-        `Scroll position: ${scrollLeft}/${scrollWidth - clientWidth}`
-      );
-
-      // Only show left blur if we've scrolled right
-      const shouldShowLeft = scrollLeft > 5;
-      // Only show right blur if we haven't scrolled all the way right
-      const shouldShowRight =
-        Math.ceil(scrollLeft) < scrollWidth - clientWidth - 5;
-
-      console.log(
-        `Should show left: ${shouldShowLeft}, right: ${shouldShowRight}`
-      );
-
-      setShowLeftBlur(shouldShowLeft);
-      setShowRightBlur(shouldShowRight);
+    const scroll = (direction: "left" | "right") => {
+      if (scrollRef.current) {
+        const scrollAmount = 300;
+        scrollRef.current.scrollBy({
+          left: direction === "left" ? -scrollAmount : scrollAmount,
+          behavior: "smooth",
+        });
+      }
     };
 
     // Initial check on mount
@@ -53,38 +54,42 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
       const scrollContainer = scrollRef.current;
       if (scrollContainer) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
-        setShowRightBlur(scrollLeft < scrollWidth - clientWidth - 5);
+        setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 5);
       }
     }, []);
 
     return (
       <Box position="relative" width="100%" overflow="hidden" {...props}>
-        {showLeftBlur && (
-          <Box
-            position="absolute"
-            left={0}
-            top={0}
-            bottom={0}
-            width="60px"
-            zIndex={2}
-            pointerEvents="none"
-            background={`linear-gradient(to right, ${gradientStart}, transparent)`}
-            transition="opacity 0.2s"
-          />
-        )}
-
-        {showRightBlur && (
-          <Box
-            position="absolute"
-            right={0}
-            top={0}
-            bottom={0}
-            width="60px"
-            zIndex={2}
-            pointerEvents="none"
-            background={`linear-gradient(to left, ${gradientStart}, transparent)`}
-            transition="opacity 0.2s"
-          />
+        {showLeftArrow && (
+          <>
+            <Box
+              position="absolute"
+              left={0}
+              top={0}
+              bottom={0}
+              width="120px"
+              zIndex={1}
+              pointerEvents="none"
+              background={`linear-gradient(to right, ${gradientStart}, transparent)`}
+              transition="opacity 0.2s"
+            />
+            <IconButton
+              aria-label="Scroll left"
+              icon={<ChevronLeftIcon boxSize={6} />}
+              position="absolute"
+              left={4}
+              top="50%"
+              transform="translateY(-50%)"
+              zIndex={2}
+              rounded="full"
+              bg={arrowBg}
+              color={arrowColor}
+              _hover={{ bg: arrowHoverBg }}
+              onClick={() => scroll("left")}
+              size="sm"
+              boxShadow="lg"
+            />
+          </>
         )}
 
         <HStack
@@ -106,6 +111,38 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
         >
           {children}
         </HStack>
+
+        {showRightArrow && (
+          <>
+            <Box
+              position="absolute"
+              right={0}
+              top={0}
+              bottom={0}
+              width="120px"
+              zIndex={1}
+              pointerEvents="none"
+              background={`linear-gradient(to left, ${gradientStart}, transparent)`}
+              transition="opacity 0.2s"
+            />
+            <IconButton
+              aria-label="Scroll right"
+              icon={<ChevronRightIcon boxSize={6} />}
+              position="absolute"
+              right={4}
+              top="50%"
+              transform="translateY(-50%)"
+              zIndex={2}
+              rounded="full"
+              bg={arrowBg}
+              color={arrowColor}
+              _hover={{ bg: arrowHoverBg }}
+              onClick={() => scroll("right")}
+              size="sm"
+              boxShadow="lg"
+            />
+          </>
+        )}
       </Box>
     );
   }
