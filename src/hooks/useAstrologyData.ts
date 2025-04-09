@@ -95,7 +95,7 @@ export const useAstrologyData = (
               house_system: "Placidus",
               language: "en",
             },
-          }).then((response) => {
+          }).then((response: any) => {
             astrologyCache.set(requestData, "natal", response);
             return response;
           }),
