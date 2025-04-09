@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import apiClient from "../services/api-client";
+import apiClient from "../services/movieClient";
 import CastCard from "./CastCard";
 import TrendingPeopleSkeleton from "./TrendingPeopleSkeleton";
 import ScrollContainer from "./common/ScrollContainer";

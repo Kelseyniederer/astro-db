@@ -1,9 +1,8 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
   BoxProps,
   HStack,
-  IconButton,
+  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { forwardRef, ReactNode, useEffect, useRef, useState } from "react";
@@ -18,121 +17,76 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
     const scrollRef = useRef<HTMLDivElement>(null);
     const [showLeftBlur, setShowLeftBlur] = useState(false);
     const [showRightBlur, setShowRightBlur] = useState(true);
+    const { colorMode } = useColorMode();
 
-    // Use theme-aware colors with stronger opacity
-    const startColor = useColorModeValue(
-      "rgba(255, 255, 255, 0.95)",
-      "rgba(26, 32, 44, 0.95)"
-    );
-    const endColor = useColorModeValue(
-      "rgba(255, 255, 255, 0)",
-      "rgba(26, 32, 44, 0)"
+    const gradientStart = useColorModeValue(
+      "rgba(255, 255, 255, 0.5)",
+      "rgba(26, 32, 44, 0.9)"
     );
 
-    const handleScroll = (e: Event) => {
-      const target = e.target as HTMLDivElement;
-      const { scrollLeft, scrollWidth, clientWidth } = target;
+    const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+      const target = event.currentTarget;
+      const scrollLeft = target.scrollLeft;
+      const scrollWidth = target.scrollWidth;
+      const clientWidth = target.clientWidth;
 
-      setShowLeftBlur(scrollLeft > 0);
-      setShowRightBlur(scrollLeft < scrollWidth - clientWidth - 5);
+      console.log(
+        `Scroll position: ${scrollLeft}/${scrollWidth - clientWidth}`
+      );
+
+      // Only show left blur if we've scrolled right
+      const shouldShowLeft = scrollLeft > 5;
+      // Only show right blur if we haven't scrolled all the way right
+      const shouldShowRight =
+        Math.ceil(scrollLeft) < scrollWidth - clientWidth - 5;
+
+      console.log(
+        `Should show left: ${shouldShowLeft}, right: ${shouldShowRight}`
+      );
+
+      setShowLeftBlur(shouldShowLeft);
+      setShowRightBlur(shouldShowRight);
     };
 
-    const scroll = (direction: "left" | "right") => {
-      const scrollContainer = scrollRef.current;
-      if (!scrollContainer) return;
-
-      const scrollAmount = scrollContainer.clientWidth * 0.75;
-      const newScrollLeft =
-        direction === "left"
-          ? Math.max(0, scrollContainer.scrollLeft - scrollAmount)
-          : Math.min(
-              scrollContainer.scrollWidth - scrollContainer.clientWidth,
-              scrollContainer.scrollLeft + scrollAmount
-            );
-
-      scrollContainer.scrollTo({
-        left: newScrollLeft,
-        behavior: "smooth",
-      });
-    };
-
+    // Initial check on mount
     useEffect(() => {
       const scrollContainer = scrollRef.current;
       if (scrollContainer) {
-        scrollContainer.addEventListener("scroll", handleScroll);
-        handleScroll({ target: scrollContainer } as unknown as Event);
-        return () =>
-          scrollContainer.removeEventListener("scroll", handleScroll);
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+        setShowRightBlur(scrollLeft < scrollWidth - clientWidth - 5);
       }
     }, []);
 
     return (
       <Box position="relative" width="100%" overflow="hidden" {...props}>
-        {/* Left blur gradient and button */}
         {showLeftBlur && (
-          <>
-            <Box
-              position="absolute"
-              left={0}
-              top={0}
-              bottom={0}
-              width="60px"
-              zIndex={2}
-              pointerEvents="none"
-              background={`linear-gradient(to right, ${startColor}, ${endColor})`}
-            />
-            <IconButton
-              aria-label="Scroll left"
-              icon={<ChevronLeftIcon boxSize={6} />}
-              position="absolute"
-              left={6}
-              top="50%"
-              transform="translateY(-50%)"
-              zIndex={3}
-              onClick={() => scroll("left")}
-              rounded="full"
-              size="sm"
-              bg="blackAlpha.700"
-              _hover={{ bg: "blackAlpha.800" }}
-              _active={{ bg: "blackAlpha.900" }}
-              color="white"
-            />
-          </>
+          <Box
+            position="absolute"
+            left={0}
+            top={0}
+            bottom={0}
+            width="60px"
+            zIndex={2}
+            pointerEvents="none"
+            background={`linear-gradient(to right, ${gradientStart}, transparent)`}
+            transition="opacity 0.2s"
+          />
         )}
 
-        {/* Right blur gradient and button */}
         {showRightBlur && (
-          <>
-            <Box
-              position="absolute"
-              right={0}
-              top={0}
-              bottom={0}
-              width="60px"
-              zIndex={2}
-              pointerEvents="none"
-              background={`linear-gradient(to left, ${startColor}, ${endColor})`}
-            />
-            <IconButton
-              aria-label="Scroll right"
-              icon={<ChevronRightIcon boxSize={6} />}
-              position="absolute"
-              right={6}
-              top="50%"
-              transform="translateY(-50%)"
-              zIndex={3}
-              onClick={() => scroll("right")}
-              rounded="full"
-              size="sm"
-              bg="blackAlpha.700"
-              _hover={{ bg: "blackAlpha.800" }}
-              _active={{ bg: "blackAlpha.900" }}
-              color="white"
-            />
-          </>
+          <Box
+            position="absolute"
+            right={0}
+            top={0}
+            bottom={0}
+            width="60px"
+            zIndex={2}
+            pointerEvents="none"
+            background={`linear-gradient(to left, ${gradientStart}, transparent)`}
+            transition="opacity 0.2s"
+          />
         )}
 
-        {/* Scroll content */}
         <HStack
           ref={scrollRef}
           spacing={0}
@@ -148,7 +102,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             display: "flex",
             flexWrap: "nowrap",
           }}
-          onScroll={(e) => handleScroll(e as unknown as Event)}
+          onScroll={handleScroll}
         >
           {children}
         </HStack>

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import apiClient from "../services/api-client";
+import apiClient from "../services/movieClient";
 import CastScroll from "./CastScroll";
 import GenrePill from "./common/GenrePill";
 

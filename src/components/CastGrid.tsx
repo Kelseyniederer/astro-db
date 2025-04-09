@@ -1,6 +1,6 @@
 import { SimpleGrid, Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import apiClient from "../services/api-client"; // ✅ Use Axios directly
+import apiClient from "../services/movieClient"; // ✅ Use Axios directly
 import CastCard from "./CastCard";
 
 export interface CastMember {

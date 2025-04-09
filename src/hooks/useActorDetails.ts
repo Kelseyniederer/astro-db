@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../services/api-client"; // ✅ Axios instance
+import apiClient from "../services/movieClient"; // ✅ Axios instance
 
 interface ActorDetails {
   id: number;
@@ -9,7 +9,6 @@ interface ActorDetails {
   biography?: string;
   place_of_birth?: string;
 }
-
 
 const useActorDetails = (actorId: number | null) => {
   const [actor, setActor] = useState<ActorDetails | null>(null);
@@ -21,6 +20,7 @@ const useActorDetails = (actorId: number | null) => {
 
     const fetchActorDetails = async () => {
       try {
+        setLoading(true);
         const response = await apiClient.get<ActorDetails>(
           `/person/${actorId}`
         );

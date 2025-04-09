@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { useEffect, useRef, useState } from "react";
-import apiClient from "../services/api-client";
+import apiClient from "../services/movieClient";
 
 const useData = <T>(
   endpoint: string,

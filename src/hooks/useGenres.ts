@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons";
-import apiClient from "../services/api-client";
+import apiClient from "../services/movieClient";
 
 export interface Genre {
   id: number;

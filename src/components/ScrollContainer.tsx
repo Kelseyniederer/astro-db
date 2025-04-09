@@ -1,5 +1,11 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, Flex, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  IconButton,
+  useBreakpointValue,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 
 interface ScrollContainerProps {
@@ -8,15 +14,29 @@ interface ScrollContainerProps {
 
 export const ScrollContainer = ({ children }: ScrollContainerProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [showLeftArrow, setShowLeftArrow] = useState(false);
-  const [showRightArrow, setShowRightArrow] = useState(true);
+  const [showLeftGradient, setShowLeftGradient] = useState(false);
+  const [showRightGradient, setShowRightGradient] = useState(true);
   const showArrows = useBreakpointValue({ base: false, md: true });
+
+  // Use color mode aware gradients with higher opacity
+  const gradientColor = useColorModeValue(
+    "rgba(255, 255, 255, 0.95)",
+    "rgba(26, 32, 44, 0.95)"
+  );
 
   const checkScroll = () => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    setShowLeftArrow(scrollLeft > 0);
-    setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 5);
+    console.log(
+      `Scroll check - left: ${scrollLeft}, width: ${scrollWidth}, client: ${clientWidth}`
+    );
+
+    const isAtStart = scrollLeft <= 5;
+    const isAtEnd = Math.ceil(scrollLeft) >= scrollWidth - clientWidth - 5;
+
+    setShowLeftGradient(!isAtStart);
+    setShowRightGradient(!isAtEnd);
+    console.log(`Gradients - left: ${!isAtStart}, right: ${!isAtEnd}`);
   };
 
   useEffect(() => {
@@ -36,7 +56,57 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
 
   return (
     <Flex position="relative" width="100%" mx={8}>
-      {showArrows && showLeftArrow && (
+      {/* Outer container with fixed gradients */}
+      <Box position="relative" width="100%" overflow="hidden">
+        {/* Left gradient */}
+        {showLeftGradient && (
+          <Box
+            position="absolute"
+            left={0}
+            top={0}
+            bottom={0}
+            width="40px"
+            pointerEvents="none"
+            zIndex={10}
+            bgGradient={`linear(to-r, ${gradientColor}, transparent)`}
+            transition="opacity 0.2s"
+          />
+        )}
+
+        {/* Right gradient */}
+        {showRightGradient && (
+          <Box
+            position="absolute"
+            right={0}
+            top={0}
+            bottom={0}
+            width="40px"
+            pointerEvents="none"
+            zIndex={10}
+            bgGradient={`linear(to-l, ${gradientColor}, transparent)`}
+            transition="opacity 0.2s"
+          />
+        )}
+
+        {/* Scrollable content */}
+        <Box
+          ref={scrollRef}
+          overflowX="auto"
+          width="100%"
+          css={{
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            scrollbarWidth: "none",
+          }}
+          onScroll={checkScroll}
+        >
+          {children}
+        </Box>
+      </Box>
+
+      {/* Arrow buttons */}
+      {showArrows && showLeftGradient && (
         <IconButton
           aria-label="Scroll left"
           icon={<ChevronLeftIcon boxSize={4} />}
@@ -44,7 +114,7 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
           left={-8}
           top="50%"
           transform="translateY(-50%)"
-          zIndex={2}
+          zIndex={11}
           onClick={() => scroll("left")}
           size="sm"
           variant="ghost"
@@ -52,50 +122,7 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
           _hover={{ bg: "transparent", color: "white" }}
         />
       )}
-      <Box
-        ref={scrollRef}
-        overflowX="auto"
-        width="100%"
-        css={{
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
-          scrollbarWidth: "none",
-        }}
-        onScroll={checkScroll}
-        position="relative"
-        _before={{
-          content: '""',
-          position: "absolute",
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: "30px",
-          background:
-            "linear-gradient(to right, rgba(26, 32, 44, 0.9), transparent)",
-          pointerEvents: "none",
-          opacity: showLeftArrow ? 1 : 0,
-          transition: "opacity 0.2s",
-          zIndex: 1,
-        }}
-        _after={{
-          content: '""',
-          position: "absolute",
-          right: 0,
-          top: 0,
-          bottom: 0,
-          width: "30px",
-          background:
-            "linear-gradient(to left, rgba(26, 32, 44, 0.9), transparent)",
-          pointerEvents: "none",
-          opacity: showRightArrow ? 1 : 0,
-          transition: "opacity 0.2s",
-          zIndex: 1,
-        }}
-      >
-        {children}
-      </Box>
-      {showArrows && showRightArrow && (
+      {showArrows && showRightGradient && (
         <IconButton
           aria-label="Scroll right"
           icon={<ChevronRightIcon boxSize={4} />}
@@ -103,7 +130,7 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
           right={-8}
           top="50%"
           transform="translateY(-50%)"
-          zIndex={2}
+          zIndex={11}
           onClick={() => scroll("right")}
           size="sm"
           variant="ghost"
