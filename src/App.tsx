@@ -1,5 +1,5 @@
 import { Box, ChakraProvider, useColorModeValue } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Outlet,
   useLocation,
@@ -9,6 +9,7 @@ import {
 import "./app.css";
 import ColorModeManager from "./components/ColorModeManager";
 import NavBar from "./components/NavBar";
+import { SearchInputHandle } from "./components/SearchInput";
 import movieGenres from "./data/genres";
 import { Genre } from "./hooks/useGenres";
 import theme from "./theme";
@@ -25,6 +26,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const searchInputRef = useRef<SearchInputHandle>(null);
 
   useEffect(() => {
     const genreParam = searchParams.get("genre");
@@ -43,19 +45,61 @@ function App() {
     }
   }, [searchParams]);
 
+  // Clear search and scroll to top when location changes
+  useEffect(() => {
+    // Scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    // Clear search if navigating to a detail page
+    if (
+      location.pathname.startsWith("/movie/") ||
+      location.pathname.startsWith("/tv/") ||
+      location.pathname.startsWith("/person/")
+    ) {
+      setMovieQuery((prev) => ({
+        ...prev,
+        searchText: undefined,
+      }));
+    }
+  }, [location.pathname]);
+
   const handleSearch = (searchText: string) => {
-    setMovieQuery((prev) => ({ ...prev, searchText }));
-    if (location.pathname !== "/") {
-      navigate("/");
+    // Update the search state
+    setMovieQuery((prev) => ({
+      ...prev,
+      searchText: searchText || undefined,
+      // Only clear genre if actively searching
+      genreId: searchText ? undefined : prev.genreId,
+    }));
+
+    // Only clear genre and navigate if actively searching
+    if (searchText) {
+      setSelectedGenre(null);
+      setSearchParams({});
+      if (location.pathname !== "/") {
+        navigate("/");
+      }
     }
   };
 
   const handleSelectGenre = (genreId: number) => {
     const genre = movieGenres.find((g) => g.id === genreId);
     if (genre) {
-      setSelectedGenre(genre);
-      setMovieQuery((prev) => ({ ...prev, genreId }));
-      setSearchParams({ genre: genreId.toString() });
+      // Reset everything first
+      setMovieQuery({});
+      setSelectedGenre(null);
+      setSearchParams({});
+
+      // Then set the new genre state
+      setTimeout(() => {
+        setSelectedGenre(genre);
+        setMovieQuery({ genreId });
+        setSearchParams({ genre: genreId.toString() });
+      }, 0);
+
       if (location.pathname !== "/") {
         navigate("/");
       }
@@ -86,6 +130,7 @@ function App() {
             onSearch={handleSearch}
             resetQuery={resetQuery}
             onSelectGenre={handleSelectGenre}
+            searchInputRef={searchInputRef}
           />
         </Box>
         <Box maxW="1400px" mx="auto" px={6} pt="80px">
