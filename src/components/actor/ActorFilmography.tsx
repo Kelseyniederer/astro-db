@@ -1,12 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Heading,
-  IconButton,
-  Image,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import noImage from "../../assets/no-image-placeholder-6f3882e0.webp";
@@ -100,29 +92,6 @@ export const ActorFilmography = ({
 
       {sortedMovies.length > 0 ? (
         <Box position="relative">
-          <IconButton
-            aria-label="Scroll left"
-            icon={<ChevronLeftIcon />}
-            position="absolute"
-            left={2}
-            top="50%"
-            transform="translateY(-50%)"
-            zIndex={2}
-            onClick={() => scroll("left")}
-            display={scrollPosition <= 0 ? "none" : "flex"}
-            colorScheme="blackAlpha"
-          />
-          <IconButton
-            aria-label="Scroll right"
-            icon={<ChevronRightIcon />}
-            position="absolute"
-            right={2}
-            top="50%"
-            transform="translateY(-50%)"
-            zIndex={2}
-            onClick={() => scroll("right")}
-            colorScheme="blackAlpha"
-          />
           <ScrollContainer ref={scrollRef} fullWidth>
             {sortedMovies.map((credit) => (
               <Box
