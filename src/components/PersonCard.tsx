@@ -1,6 +1,6 @@
-import { Image } from "@chakra-ui/react";
+import { Box, Image, Text, VStack } from "@chakra-ui/react";
 import { Person } from "../hooks/useTrendingPeople";
-import styles from "../styles/MovieCard.module.css";
+import useZodiacSign from "../hooks/useZodiacSign";
 import ZodiacPill from "./ZodiacPill";
 
 interface Props {
@@ -12,31 +12,52 @@ const PersonCard = ({ person }: Props) => {
     ? `https://image.tmdb.org/t/p/w500${person.profile_path}`
     : "";
 
+  const { zodiacSign } = useZodiacSign(person.birthday || undefined);
+
   return (
-    <div className={styles.card}>
-      <div className={styles.imageContainer}>
+    <Box>
+      <Box
+        overflow="hidden"
+        borderRadius="lg"
+        position="relative"
+        aspectRatio="2/3"
+        mb={2}
+      >
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={person.name}
-            className={styles.image}
+            width="100%"
+            height="100%"
             objectFit="cover"
           />
         ) : (
-          <div className={styles.placeholderIcon}>No Image</div>
+          <Box
+            width="100%"
+            height="100%"
+            bg="gray.700"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            color="gray.400"
+          >
+            No Image
+          </Box>
         )}
-      </div>
-      <div className={styles.cardBody}>
-        <div className={styles.content}>
-          <div className={styles.titleRow}>
-            <h3 className={styles.title}>{person.name}</h3>
-          </div>
-          <div className={styles.zodiacContainer}>
-            <ZodiacPill birthday={person.birthday} />
-          </div>
-        </div>
-      </div>
-    </div>
+      </Box>
+      <VStack spacing={1} align="center">
+        <Text
+          fontWeight="semibold"
+          fontSize="md"
+          noOfLines={1}
+          textAlign="center"
+          width="100%"
+        >
+          {person.name}
+        </Text>
+        <ZodiacPill sign={zodiacSign} size="sm" />
+      </VStack>
+    </Box>
   );
 };
 

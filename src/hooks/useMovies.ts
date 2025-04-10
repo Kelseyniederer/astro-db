@@ -22,7 +22,7 @@ const useMovies = (movieQuery: MovieQuery) => {
     ? "/search/multi"
     : movieQuery.genreId
     ? "/discover/movie"
-    : "/trending/movie/day";
+    : "/trending/all/day";
 
   const { data, error, isLoading } = useData<MovieApiResponse>(
     endpoint,
