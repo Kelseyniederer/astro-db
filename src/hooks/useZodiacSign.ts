@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const getZodiacSign = (month: number, day: number): string => {
   // Zodiac date ranges
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return "Aries";
+  if ((month === 3 && day >= 2) || (month === 4 && day < 19)) return "Aries";
   if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return "Taurus";
   if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return "Gemini";
   if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return "Cancer";
@@ -15,9 +15,9 @@ const getZodiacSign = (month: number, day: number): string => {
     return "Sagittarius";
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19))
     return "Capricorn";
-  if ((month === 1 && day >= 20) || (month === 2 && day <= 18))
+  if ((month === 1 && day >= 20) || (month === 2 && day < 18))
     return "Aquarius";
-  if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) return "Pisces";
+  if ((month === 2 && day >= 18) || (month === 3 && day <= 20)) return "Pisces";
   return "Unknown";
 };
 

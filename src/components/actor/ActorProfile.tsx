@@ -211,7 +211,7 @@ const ActorProfile = () => {
         mb={12}
         alignItems="start"
       >
-        <Box maxW="300px" width="100%" mx={{ base: "auto", md: 0 }}>
+        <Box maxW="250px" width="100%" mx={{ base: "auto", md: 0 }}>
           <ProfileImage src={person.profile_path} alt={person.name} />
         </Box>
 
