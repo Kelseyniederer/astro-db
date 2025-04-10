@@ -18,25 +18,23 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
   const [showRightGradient, setShowRightGradient] = useState(true);
   const showArrows = useBreakpointValue({ base: false, md: true });
 
-  // Use color mode aware gradients with higher opacity
+  // Use color mode aware styles
   const gradientColor = useColorModeValue(
     "rgba(255, 255, 255, 0.95)",
     "rgba(26, 32, 44, 0.95)"
   );
+  const arrowColor = useColorModeValue("gray.600", "gray.400");
+  const arrowHoverColor = useColorModeValue("gray.800", "white");
+  const arrowHoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
 
   const checkScroll = () => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    console.log(
-      `Scroll check - left: ${scrollLeft}, width: ${scrollWidth}, client: ${clientWidth}`
-    );
-
     const isAtStart = scrollLeft <= 5;
     const isAtEnd = Math.ceil(scrollLeft) >= scrollWidth - clientWidth - 5;
 
     setShowLeftGradient(!isAtStart);
     setShowRightGradient(!isAtEnd);
-    console.log(`Gradients - left: ${!isAtStart}, right: ${!isAtEnd}`);
   };
 
   useEffect(() => {
@@ -55,7 +53,7 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
   };
 
   return (
-    <Flex position="relative" width="100%" mx={8}>
+    <Flex position="relative" width="100%" mx={2}>
       {/* Outer container with fixed gradients */}
       <Box position="relative" width="100%" overflow="hidden">
         {/* Left gradient */}
@@ -118,8 +116,9 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
           onClick={() => scroll("left")}
           size="sm"
           variant="ghost"
-          color="gray.400"
-          _hover={{ bg: "transparent", color: "white" }}
+          color={arrowColor}
+          _hover={{ bg: arrowHoverBg, color: arrowHoverColor }}
+          borderRadius="md"
         />
       )}
       {showArrows && showRightGradient && (
@@ -134,8 +133,9 @@ export const ScrollContainer = ({ children }: ScrollContainerProps) => {
           onClick={() => scroll("right")}
           size="sm"
           variant="ghost"
-          color="gray.400"
-          _hover={{ bg: "transparent", color: "white" }}
+          color={arrowColor}
+          _hover={{ bg: arrowHoverBg, color: arrowHoverColor }}
+          borderRadius="md"
         />
       )}
     </Flex>

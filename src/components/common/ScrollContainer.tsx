@@ -49,7 +49,6 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
       }
     };
 
-    // Initial check on mount
     useEffect(() => {
       const scrollContainer = scrollRef.current;
       if (scrollContainer) {
@@ -60,38 +59,6 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
 
     return (
       <Box position="relative" width="100%" overflow="hidden" {...props}>
-        {showLeftArrow && (
-          <>
-            <Box
-              position="absolute"
-              left={0}
-              top={0}
-              bottom={0}
-              width="120px"
-              zIndex={1}
-              pointerEvents="none"
-              background={`linear-gradient(to right, ${gradientStart}, transparent)`}
-              transition="opacity 0.2s"
-            />
-            <IconButton
-              aria-label="Scroll left"
-              icon={<ChevronLeftIcon boxSize={6} />}
-              position="absolute"
-              left={4}
-              top="50%"
-              transform="translateY(-50%)"
-              zIndex={2}
-              rounded="full"
-              bg={arrowBg}
-              color={arrowColor}
-              _hover={{ bg: arrowHoverBg }}
-              onClick={() => scroll("left")}
-              size="sm"
-              boxShadow="lg"
-            />
-          </>
-        )}
-
         <HStack
           ref={scrollRef}
           spacing={0}
@@ -112,36 +79,64 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
           {children}
         </HStack>
 
-        {showRightArrow && (
-          <>
-            <Box
-              position="absolute"
-              right={0}
-              top={0}
-              bottom={0}
-              width="120px"
-              zIndex={1}
-              pointerEvents="none"
-              background={`linear-gradient(to left, ${gradientStart}, transparent)`}
-              transition="opacity 0.2s"
+        {/* Navigation Controls */}
+        {showLeftArrow && (
+          <Box
+            position="absolute"
+            left={0}
+            top={0}
+            bottom={0}
+            width="120px"
+            display="flex"
+            alignItems="center"
+            paddingLeft={4}
+            background={`linear-gradient(to right, ${gradientStart}, transparent)`}
+            zIndex={2}
+          >
+            <IconButton
+              aria-label="Scroll left"
+              icon={<ChevronLeftIcon boxSize={6} />}
+              onClick={() => scroll("left")}
+              rounded="full"
+              backgroundColor={arrowBg}
+              color={arrowColor}
+              _hover={{ bg: arrowHoverBg }}
+              size="sm"
+              boxShadow="lg"
+              position="relative"
+              zIndex={3}
             />
+          </Box>
+        )}
+
+        {showRightArrow && (
+          <Box
+            position="absolute"
+            right={0}
+            top={0}
+            bottom={0}
+            width="120px"
+            display="flex"
+            alignItems="center"
+            justifyContent="flex-end"
+            paddingRight={4}
+            background={`linear-gradient(to left, ${gradientStart}, transparent)`}
+            zIndex={2}
+          >
             <IconButton
               aria-label="Scroll right"
               icon={<ChevronRightIcon boxSize={6} />}
-              position="absolute"
-              right={4}
-              top="50%"
-              transform="translateY(-50%)"
-              zIndex={2}
+              onClick={() => scroll("right")}
               rounded="full"
-              bg={arrowBg}
+              backgroundColor={arrowBg}
               color={arrowColor}
               _hover={{ bg: arrowHoverBg }}
-              onClick={() => scroll("right")}
               size="sm"
               boxShadow="lg"
+              position="relative"
+              zIndex={3}
             />
-          </>
+          </Box>
         )}
       </Box>
     );
