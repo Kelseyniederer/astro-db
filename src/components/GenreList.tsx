@@ -1,11 +1,4 @@
-import {
-  Button,
-  Heading,
-  HStack,
-  Icon,
-  List,
-  ListItem,
-} from "@chakra-ui/react";
+import { Icon, MenuItem, MenuList, useColorModeValue } from "@chakra-ui/react";
 import movieGenres from "../data/genres";
 import { Genre } from "../hooks/useGenres";
 
@@ -15,47 +8,36 @@ interface Props {
 }
 
 const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
+  const menuHoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
+  const menuBg = useColorModeValue("white", "gray.700");
+  const textColor = useColorModeValue("gray.800", "gray.200");
+  const activeColor = useColorModeValue("blue.500", "blue.300");
+
   return (
-    <>
-      <Heading as="h2" paddingBottom={1} fontSize="lg">
-        Genres
-      </Heading>
-      <List spacing={0.5}>
-        {movieGenres.map((genre: Genre) => (
-          <ListItem key={genre.id}>
-            <HStack spacing={2}>
-              {genre.icon && (
-                <Icon
-                  as={genre.icon}
-                  boxSize={4}
-                  color={
-                    genre.id === selectedGenre?.id ? "blue.500" : "gray.500"
-                  }
-                />
-              )}
-              <Button
-                width="full"
-                justifyContent="flex-start"
-                variant="ghost"
-                onClick={() => onSelectGenre(genre)}
-                fontSize="sm"
-                fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
-                color={genre.id === selectedGenre?.id ? "blue.500" : undefined}
-                height="32px"
-                padding={2}
-                _hover={{
-                  color: "blue.400",
-                  bg: "whiteAlpha.100",
-                  _light: { bg: "blackAlpha.50" },
-                }}
-              >
-                {genre.name}
-              </Button>
-            </HStack>
-          </ListItem>
-        ))}
-      </List>
-    </>
+    <MenuList maxH="400px" overflowY="auto" bg={menuBg}>
+      {movieGenres.map((genre) => (
+        <MenuItem
+          key={genre.id}
+          onClick={() => onSelectGenre(genre)}
+          _hover={{ bg: menuHoverBg }}
+          color={genre.id === selectedGenre?.id ? activeColor : textColor}
+          fontSize="16px"
+          fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
+          letterSpacing="-0.3px"
+          sx={{ cursor: "pointer !important" }}
+        >
+          {genre.icon && (
+            <Icon
+              as={genre.icon}
+              boxSize={4}
+              mr={2}
+              color={genre.id === selectedGenre?.id ? activeColor : "gray.500"}
+            />
+          )}
+          {genre.name}
+        </MenuItem>
+      ))}
+    </MenuList>
   );
 };
 

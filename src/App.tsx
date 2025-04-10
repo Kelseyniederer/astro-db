@@ -53,7 +53,7 @@ function App() {
       behavior: "smooth",
     });
 
-    // Clear search if navigating to a detail page
+    // Clear search and genre if navigating to a detail page
     if (
       location.pathname.startsWith("/movie/") ||
       location.pathname.startsWith("/tv/") ||
@@ -62,7 +62,10 @@ function App() {
       setMovieQuery((prev) => ({
         ...prev,
         searchText: undefined,
+        genreId: undefined,
       }));
+      setSelectedGenre(null);
+      setSearchParams({});
     }
   }, [location.pathname]);
 
@@ -131,6 +134,7 @@ function App() {
             resetQuery={resetQuery}
             onSelectGenre={handleSelectGenre}
             searchInputRef={searchInputRef}
+            selectedGenre={selectedGenre}
           />
         </Box>
         <Box maxW="1400px" mx="auto" px={6} pt="80px">

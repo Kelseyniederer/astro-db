@@ -7,14 +7,13 @@ import {
   Icon,
   Menu,
   MenuButton,
-  MenuItem,
-  MenuList,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { RefObject } from "react";
 import { TbMovie } from "react-icons/tb";
-import movieGenres from "../data/genres";
+import { Genre } from "../hooks/useGenres";
 import ColorModeSwitch from "./ColorModeSwitch";
+import GenreList from "./GenreList";
 import Logo from "./Logo";
 import SearchInput, { SearchInputHandle } from "./SearchInput";
 
@@ -23,6 +22,7 @@ interface Props {
   resetQuery: () => void;
   onSelectGenre?: (genreId: number) => void;
   searchInputRef: RefObject<SearchInputHandle>;
+  selectedGenre: Genre | null;
 }
 
 const NavBar = ({
@@ -30,16 +30,18 @@ const NavBar = ({
   resetQuery,
   onSelectGenre,
   searchInputRef,
+  selectedGenre,
 }: Props) => {
   const textColor = useColorModeValue("gray.800", "gray.200");
   const menuHoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
   const menuBg = useColorModeValue("white", "gray.700");
+  const activeColor = useColorModeValue("blue.500", "blue.300");
 
-  const handleGenreSelect = (genreId: number) => {
+  const handleGenreSelect = (genre: Genre) => {
     if (searchInputRef.current) {
       searchInputRef.current.clearInput();
     }
-    onSelectGenre?.(genreId);
+    onSelectGenre?.(genre.id);
   };
 
   return (
@@ -56,31 +58,19 @@ const NavBar = ({
               rightIcon={<ChevronDownIcon />}
               leftIcon={<Icon as={TbMovie} boxSize={5} />}
               variant="ghost"
-              color={textColor}
+              color={selectedGenre ? activeColor : textColor}
               _hover={{ bg: menuHoverBg }}
-              fontWeight="normal"
+              fontWeight={selectedGenre ? "bold" : "normal"}
               fontSize="16px"
               letterSpacing="-0.3px"
               sx={{ cursor: "pointer !important" }}
             >
-              Genres
+              {selectedGenre ? selectedGenre.name : "Genres"}
             </MenuButton>
-            <MenuList maxH="400px" overflowY="auto" bg={menuBg}>
-              {movieGenres.map((genre) => (
-                <MenuItem
-                  key={genre.id}
-                  onClick={() => handleGenreSelect(genre.id)}
-                  _hover={{ bg: menuHoverBg }}
-                  color={textColor}
-                  fontSize="16px"
-                  fontWeight="normal"
-                  letterSpacing="-0.3px"
-                  sx={{ cursor: "pointer !important" }}
-                >
-                  {genre.name}
-                </MenuItem>
-              ))}
-            </MenuList>
+            <GenreList
+              onSelectGenre={handleGenreSelect}
+              selectedGenre={selectedGenre}
+            />
           </Menu>
         </HStack>
         <HStack spacing={4}>
