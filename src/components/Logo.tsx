@@ -50,7 +50,7 @@ const Logo = ({ resetQuery }: Props) => {
           },
         }}
       >
-        AstroDB
+        AstroMovieDB
       </Text>
       <Icon as={PiPlanet} boxSize={6} color={iconColor} marginLeft={2} />
       <Icon as={BiCameraMovie} boxSize={6} color={iconColor} marginLeft={2} />

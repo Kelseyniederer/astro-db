@@ -9,13 +9,14 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { RefObject } from "react";
 import { TbMovie } from "react-icons/tb";
+import { Link as RouterLink } from "react-router-dom";
 import movieGenres from "../data/genres";
 import ColorModeSwitch from "./ColorModeSwitch";
-import Logo from "./Logo";
 import SearchInput, { SearchInputHandle } from "./SearchInput";
 
 interface Props {
@@ -50,7 +51,18 @@ const NavBar = ({
     >
       <Flex justify="space-between" align="center">
         <HStack spacing={4}>
-          <Logo resetQuery={resetQuery} />
+          <Box
+            as={RouterLink}
+            to="/"
+            display="flex"
+            alignItems="center"
+            sx={{ cursor: "pointer" }}
+            _hover={{ opacity: 0.8 }}
+          >
+            <Text fontSize="2xl" fontWeight="bold">
+              AstroMovieDb
+            </Text>
+          </Box>
           <Menu>
             <MenuButton
               as={Button}
@@ -62,6 +74,7 @@ const NavBar = ({
               fontWeight="normal"
               fontSize="16px"
               letterSpacing="-0.3px"
+              sx={{ cursor: "pointer !important" }}
             >
               Genres
             </MenuButton>
@@ -75,6 +88,7 @@ const NavBar = ({
                   fontSize="16px"
                   fontWeight="normal"
                   letterSpacing="-0.3px"
+                  sx={{ cursor: "pointer !important" }}
                 >
                   {genre.name}
                 </MenuItem>
