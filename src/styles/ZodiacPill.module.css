@@ -5,6 +5,11 @@
 }
 
 /* Size variants */
+.xs {
+  font-size: 0.625rem;
+  padding: 0.125rem 0.5rem;
+}
+
 .sm {
   font-size: 0.75rem;
 }
@@ -141,6 +146,11 @@
 .icon {
   display: inline-block;
   vertical-align: middle;
+}
+
+.icon.xs {
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
 .icon.sm {

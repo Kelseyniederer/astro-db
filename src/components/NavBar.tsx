@@ -53,10 +53,10 @@ const NavBar = ({
       height={{ base: "60px", md: "72px" }}
       bg={useColorModeValue("white", "rgb(20, 24, 33)")}
     >
-      <Flex
-        height="100%"
-        justify="space-between"
-        align="center"
+      <Flex 
+        height="100%" 
+        justify="space-between" 
+        align="center" 
         px={{ base: "0.5rem", md: "1rem" }}
       >
         <HStack spacing={{ base: 2, md: 4 }} flex={1} height="100%">
@@ -109,12 +109,7 @@ const NavBar = ({
             </Flex>
           </Show>
           <Show above="md">
-            <Box
-              fontSize={{ base: "xl", md: "2xl" }}
-              height="100%"
-              display="flex"
-              alignItems="center"
-            >
+            <Box fontSize={{ base: "xl", md: "2xl" }} height="100%" display="flex" alignItems="center">
               <Logo resetQuery={resetQuery} />
             </Box>
             <Menu>

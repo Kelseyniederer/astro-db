@@ -64,7 +64,7 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
           spacing={0}
           overflowX="auto"
           py={4}
-          px={6}
+          px={{ base: 1, md: 4 }}
           alignItems="stretch"
           sx={{
             "&::-webkit-scrollbar": {
@@ -73,6 +73,9 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             scrollbarWidth: "none",
             display: "flex",
             flexWrap: "nowrap",
+            justifyContent: "flex-start",
+            width: "100%",
+            gap: { base: "0.5rem", md: "1rem" },
           }}
           onScroll={handleScroll}
         >
@@ -86,10 +89,10 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             left={0}
             top={0}
             bottom={0}
-            width="120px"
+            width={{ base: "40px", md: "120px" }}
             display="flex"
             alignItems="center"
-            paddingLeft={4}
+            paddingLeft={{ base: 1, md: 4 }}
             background={`linear-gradient(to right, ${gradientStart}, transparent)`}
             zIndex={2}
           >
@@ -115,11 +118,11 @@ const ScrollContainer = forwardRef<HTMLDivElement, ScrollContainerProps>(
             right={0}
             top={0}
             bottom={0}
-            width="120px"
+            width={{ base: "40px", md: "120px" }}
             display="flex"
             alignItems="center"
             justifyContent="flex-end"
-            paddingRight={4}
+            paddingRight={{ base: 1, md: 4 }}
             background={`linear-gradient(to left, ${gradientStart}, transparent)`}
             zIndex={2}
           >

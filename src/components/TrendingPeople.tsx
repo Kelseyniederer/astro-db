@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useBreakpointValue } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import apiClient from "../services/movieClient";
 import CastCard from "./CastCard";
@@ -18,6 +18,9 @@ const TrendingPeople = () => {
   const [isLoading, setIsLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const cardSize = useBreakpointValue({ base: "small", md: "normal" }) as
+    | "small"
+    | "normal";
 
   useEffect(() => {
     const fetchTrendingPeople = async () => {
@@ -32,10 +35,6 @@ const TrendingPeople = () => {
                 birthday: personDetails.data.birthday,
               };
             } catch (error) {
-              console.error(
-                `Error fetching birthday for ${person.name}:`,
-                error
-              );
               return {
                 ...person,
                 birthday: null,
@@ -49,7 +48,7 @@ const TrendingPeople = () => {
         );
         setPeople(filteredPeople);
       } catch (error) {
-        console.error("Error fetching trending people:", error);
+        setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
@@ -76,21 +75,45 @@ const TrendingPeople = () => {
   if (people.length === 0 && !isLoading) return null;
 
   return (
-    <Box>
+    <Box width="100%" maxW="container.xl" mx="auto">
       <SectionHeading noMargin pt={4}>
         Trending People
       </SectionHeading>
       {isLoading ? (
         <TrendingPeopleSkeleton />
       ) : (
-        <Box mt={{ base: 2, md: 4 }}>
+        <Box mt={{ base: 2, md: 4 }} px={{ base: 0, md: 2 }} width="100%">
           <ScrollContainer>
             {people.map((person) => (
               <Box
                 key={person.id}
-                minW={{ base: "120px", md: "160px" }}
-                maxW={{ base: "120px", md: "160px" }}
-                mr={8}
+                minW={{ base: "75px", md: "160px" }}
+                maxW={{ base: "75px", md: "160px" }}
+                mr={{ base: 2, md: 4 }}
+                className="person-card-container"
+                sx={{
+                  '[class*="card_card"]': {
+                    width: { base: "75px !important", md: "140px" },
+                  },
+                  '[class*="card_image"]': {
+                    width: { base: "75px !important", md: "140px" },
+                    height: { base: "110px !important", md: "210px" },
+                  },
+                  '[class*="card_info"]': {
+                    minHeight: { base: "50px", md: "80px" },
+                    padding: { base: "0.25rem", md: 2 },
+                  },
+                  '[class*="card_name"]': {
+                    fontSize: { base: "9px", md: "sm" },
+                    marginBottom: { base: "2px", md: 1 },
+                    lineHeight: { base: 1.2, md: 1.2 },
+                  },
+                  '[class*="card_zodiacContainer"]': {
+                    marginTop: { base: "2px", md: "auto" },
+                    transform: { base: "scale(0.85)", md: "none" },
+                    transformOrigin: "center",
+                  },
+                }}
               >
                 <CastCard
                   id={person.id}
@@ -98,6 +121,7 @@ const TrendingPeople = () => {
                   character=""
                   profilePath={person.profile_path}
                   birthday={person.birthday || undefined}
+                  size={cardSize}
                 />
               </Box>
             ))}

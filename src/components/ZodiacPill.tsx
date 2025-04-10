@@ -17,7 +17,7 @@ import styles from "../styles/ZodiacPill.module.css";
 
 interface ZodiacPillProps {
   sign: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xs";
 }
 
 const zodiacIcons = {
@@ -53,7 +53,6 @@ export const ZodiacPill = ({ sign, size = "md" }: ZodiacPillProps) => {
   const element = getElement(sign);
   const Icon = zodiacIcons[sign as keyof typeof zodiacIcons];
 
-  const iconClassName = `${styles.icon} ${styles[size]}`;
   const pillClassName = `${styles.pill} ${styles[element]} ${styles[size]} ${
     colorMode === "light" ? styles.light : ""
   }`;
@@ -61,7 +60,18 @@ export const ZodiacPill = ({ sign, size = "md" }: ZodiacPillProps) => {
   return (
     <div className={pillClassName}>
       <div className={styles.content}>
-        {sign !== "Unknown" && <Icon className={iconClassName} />}
+        {sign !== "Unknown" && Icon && (
+          <Icon
+            style={{
+              width: size === "xs" ? 12 : size === "sm" ? 14 : 16,
+              height: size === "xs" ? 12 : size === "sm" ? 14 : 16,
+              display: "inline-block",
+              verticalAlign: "middle",
+              marginRight: "0.25rem",
+              flexShrink: 0
+            }}
+          />
+        )}
         <span className={styles.text}>{sign}</span>
       </div>
     </div>
