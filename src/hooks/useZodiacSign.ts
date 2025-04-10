@@ -15,9 +15,9 @@ const getZodiacSign = (month: number, day: number): string => {
     return "Sagittarius";
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19))
     return "Capricorn";
-  if ((month === 1 && day >= 20) || (month === 2 && day < 18))
+  if ((month === 1 && day >= 20) || (month === 2 && day <= 18))
     return "Aquarius";
-  if ((month === 2 && day >= 18) || (month === 3 && day <= 20)) return "Pisces";
+  if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) return "Pisces";
   return "Unknown";
 };
 
@@ -38,7 +38,7 @@ const useZodiacSign = (birthday?: string) => {
     const month = date.getMonth() + 1; // getMonth() returns 0-11
     const day = date.getDate();
 
-    setZodiacSign(getZodiacSign(month, day));
+    setZodiacSign(getZodiacSign(month, day + 1));
 
     setFormattedBirthday(
       new Intl.DateTimeFormat("en-US", {
