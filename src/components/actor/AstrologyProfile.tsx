@@ -1,7 +1,7 @@
 import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 import { usePlanetaryData } from "../../hooks/usePlanetaryData";
-import { ScrollContainer } from "../ScrollContainer";
+import { ScrollContainer } from "../PlanetsScrollContainer";
 import { ZodiacPill } from "../ZodiacPill";
 
 interface AstrologyProfileProps {

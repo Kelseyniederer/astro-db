@@ -77,7 +77,9 @@ const TrendingPeople = () => {
 
   return (
     <Box>
-      <SectionHeading noMargin>Trending People</SectionHeading>
+      <SectionHeading noMargin pt={4}>
+        Trending People
+      </SectionHeading>
       {isLoading ? (
         <TrendingPeopleSkeleton />
       ) : (
