@@ -13,7 +13,7 @@ const TrendingPeopleSkeleton = () => {
 
   return (
     <HStack
-      spacing={4}
+      spacing={8}
       overflowX="auto"
       py={4}
       px={2}
@@ -28,26 +28,33 @@ const TrendingPeopleSkeleton = () => {
       }}
     >
       {skeletons.map((_, index) => (
-        <Card
+        <Box
           key={index}
-          variant="elevated"
-          overflow="hidden"
-          height="290px"
-          width="140px"
-          _hover={{
-            transform: "scale(1.05)",
-            transition: "transform 0.3s ease-in-out",
-          }}
+          minW={{ base: "120px", md: "160px" }}
+          maxW={{ base: "120px", md: "160px" }}
         >
-          <Box position="relative" height="210px" bg="gray.700">
-            <Skeleton height="100%" width="100%" />
-          </Box>
-          <CardBody height="80px" py={2}>
-            <Box display="flex" flexDirection="column" gap={2}>
-              <SkeletonText noOfLines={2} spacing={2} />
+          <Card variant="elevated" overflow="hidden">
+            <Box
+              position="relative"
+              bg="gray.700"
+              aspectRatio="2/3"
+              width="100%"
+            >
+              <Skeleton height="100%" width="100%" />
             </Box>
-          </CardBody>
-        </Card>
+            <CardBody py={2}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                gap={2}
+              >
+                <SkeletonText noOfLines={1} width="80%" />
+                <Skeleton height="20px" width="60px" />
+              </Box>
+            </CardBody>
+          </Card>
+        </Box>
       ))}
     </HStack>
   );

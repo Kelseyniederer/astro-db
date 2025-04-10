@@ -11,6 +11,7 @@ const Logo = ({ resetQuery }: Props) => {
   const navigate = useNavigate();
   const iconColor = useColorModeValue("gray.600", "white.400");
   const textColor = useColorModeValue("gray.800", "white");
+  const hoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
 
   const handleClick = () => {
     resetQuery();
@@ -24,14 +25,16 @@ const Logo = ({ resetQuery }: Props) => {
       spacing={0}
       alignItems="center"
       margin={0}
-      paddingLeft="15px"
       position="relative"
       left={0}
       minWidth="fit-content"
+      borderRadius="md"
+      px={3}
+      py={2}
+      _hover={{ bg: hoverBg }}
       sx={{
         "&": {
           margin: "0 !important",
-          padding: "0 0 0 15px !important",
           gap: "0 !important",
         },
       }}
@@ -53,7 +56,13 @@ const Logo = ({ resetQuery }: Props) => {
         AstroMovieDB
       </Text>
       <Icon as={PiPlanet} boxSize={6} color={iconColor} marginLeft={2} />
-      <Icon as={BiCameraMovie} boxSize={6} color={iconColor} marginLeft={2} />
+      <Icon
+        as={BiCameraMovie}
+        boxSize={6}
+        color={iconColor}
+        marginLeft={2}
+        marginRight={1}
+      />
     </HStack>
   );
 };
