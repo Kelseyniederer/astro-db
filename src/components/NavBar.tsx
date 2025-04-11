@@ -141,6 +141,24 @@ const NavBar = ({
           </Show>
         </HStack>
 
+        {/* Center Section: Search (Desktop) */}
+        <Show above="md">
+          <Box
+            position="absolute"
+            left="50%"
+            transform="translateX(-50%)"
+            width="auto"
+            maxW="600px"
+            minW={{ md: "300px", lg: "400px" }}
+          >
+            <SearchInput
+              ref={searchInputRef}
+              onSearch={onSearch}
+              resetQuery={resetQuery}
+            />
+          </Box>
+        </Show>
+
         {/* Right Section: Search and Theme Switch */}
         <HStack
           spacing={{ base: 1, md: 3 }}
@@ -160,24 +178,15 @@ const NavBar = ({
                 icon={<SearchIcon />}
                 onClick={onToggle}
                 variant="ghost"
-          <Show above="md">
-            <Box minW={{ md: "200px", lg: "300px" }}>
-              <SearchInput
-                ref={searchInputRef}
-          <Show above="md">
-            <Box minW={{ md: "200px", lg: "300px" }}>
-              <SearchInput
-                ref={searchInputRef}
-                onSearch={onSearch}
-                resetQuery={resetQuery}
+                size="sm"
               />
             </Box>
-          </Show>
-                onSearch={onSearch}
-                resetQuery={resetQuery}
-              />
-            </Box>
-          </Show>
+          </Hide>
+          <ColorModeSwitch />
+        </HStack>
+      </Flex>
+    </Box>
+  );
 };
 
 export default NavBar;
