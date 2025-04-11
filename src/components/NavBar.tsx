@@ -64,7 +64,6 @@ const NavBar = ({
         px={0}
         maxW="100%"
         mx="auto"
-        position="relative"
       >
         {/* Left Section: Logo and Genre Menu */}
         <HStack
@@ -141,27 +140,9 @@ const NavBar = ({
           </Show>
         </HStack>
 
-        {/* Center Section: Search (Desktop) */}
-        <Show above="md">
-          <Box
-            position="absolute"
-            left="50%"
-            transform="translateX(-50%)"
-            width="auto"
-            maxW="600px"
-            minW={{ md: "300px", lg: "400px" }}
-          >
-            <SearchInput
-              ref={searchInputRef}
-              onSearch={onSearch}
-              resetQuery={resetQuery}
-            />
-          </Box>
-        </Show>
-
         {/* Right Section: Search and Theme Switch */}
         <HStack
-          spacing={{ base: 1, md: 3 }}
+          spacing={3}
           height="100%"
           alignItems="center"
           pr={{ base: 2, md: 4 }}
@@ -182,6 +163,15 @@ const NavBar = ({
               />
             </Box>
           </Hide>
+          <Show above="md">
+            <Box width={{ md: "250px", lg: "300px" }}>
+              <SearchInput
+                ref={searchInputRef}
+                onSearch={onSearch}
+                resetQuery={resetQuery}
+              />
+            </Box>
+          </Show>
           <ColorModeSwitch />
         </HStack>
       </Flex>
