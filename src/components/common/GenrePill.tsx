@@ -28,8 +28,8 @@ const GenrePill = ({ genreId, name }: Props) => {
       <Box
         bg="gray.700"
         _light={{ bg: "gray.100" }}
-        px={3}
-        py={1}
+        px={{ base: 2, lg: 3 }}
+        py={{ base: 0.5, lg: 1 }}
         borderRadius="full"
         cursor="pointer"
         transition="all 0.2s"
@@ -40,7 +40,7 @@ const GenrePill = ({ genreId, name }: Props) => {
         }}
       >
         <Text
-          fontSize="sm"
+          fontSize={{ base: "xs", lg: "sm" }}
           color="whiteAlpha.900"
           _light={{ color: "gray.700" }}
         >

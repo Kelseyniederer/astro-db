@@ -213,8 +213,15 @@ const TvDetails = () => {
 
       {/* Cast Section */}
       {castWithBirthdays.length > 0 && (
-        <Box mb={8}>
-          <CastScroll cast={castWithBirthdays} title="Cast" />
+        <Box mt={6}>
+          <Heading size={{ base: "sm", md: "md" }} mb={3}>
+            Cast
+          </Heading>
+          <CastScroll
+            cast={castWithBirthdays}
+            size={{ base: "small", md: "large" }}
+            title=""
+          />
         </Box>
       )}
     </Container>

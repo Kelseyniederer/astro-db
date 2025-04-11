@@ -1,4 +1,4 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import CastCard from "./CastCard";
 import ScrollContainer from "./common/ScrollContainer";
 
@@ -14,17 +14,15 @@ interface CastMember {
 interface Props {
   cast: CastMember[];
   title?: string;
+  size?: "small" | "normal" | "large" | { base: "small"; md: "large" };
 }
 
-const CastScroll = ({ cast, title = "Series Cast" }: Props) => {
+const CastScroll = ({ cast, size = "normal" }: Props) => {
   return (
     <Box>
-      <Heading size="md" mb={4}>
-        {title}
-      </Heading>
       <ScrollContainer fullWidth>
         {cast.map((member) => (
-          <Box key={member.id} mr={6}>
+          <Box key={member.id} mr={{ base: 3, md: 8 }}>
             <CastCard
               id={member.id}
               name={member.name}
@@ -32,6 +30,7 @@ const CastScroll = ({ cast, title = "Series Cast" }: Props) => {
               profilePath={member.profile_path}
               birthday={member.birthday}
               episodeCount={member.episode_count}
+              size="large"
             />
           </Box>
         ))}

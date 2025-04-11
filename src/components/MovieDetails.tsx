@@ -98,19 +98,24 @@ const MovieDetails = () => {
   }
 
   return (
-    <Container maxW="container.xl" py={8}>
+    <Container maxW="container.xl" py={{ base: 4, lg: 8 }}>
       {/* Header Section */}
       <Grid
-        templateColumns={{ base: "200px 1fr", lg: "300px 1fr" }}
-        gap={{ base: 4, lg: 8 }}
-        mb={12}
+        templateColumns={{ base: "120px 1fr", lg: "300px 1fr" }}
+        gap={{ base: 3, lg: 8 }}
+        mb={{ base: 6, lg: 12 }}
       >
         {/* Movie Poster */}
         <GridItem>
           {movie.poster_path ? (
-            <Box width="100%" borderRadius="xl" overflow="hidden" shadow="lg">
+            <Box
+              width="100%"
+              borderRadius={{ base: "md", lg: "xl" }}
+              overflow="hidden"
+              shadow={{ base: "md", lg: "lg" }}
+            >
               <Image
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
                 alt={movie.title}
                 width="100%"
                 height="auto"
@@ -120,35 +125,37 @@ const MovieDetails = () => {
           ) : (
             <Box
               bg="gray.700"
-              borderRadius="xl"
+              borderRadius={{ base: "md", lg: "xl" }}
               p={4}
               textAlign="center"
-              height={{ base: "300px", lg: "400px" }}
+              height={{ base: "180px", lg: "400px" }}
               width="100%"
               display="flex"
               alignItems="center"
               justifyContent="center"
             >
-              <Text color="gray.400">No Poster Available</Text>
+              <Text color="gray.400" fontSize={{ base: "xs", lg: "md" }}>
+                No Poster Available
+              </Text>
             </Box>
           )}
         </GridItem>
 
         {/* Movie Info */}
         <GridItem>
-          <Stack gap={{ base: 2, lg: 4 }}>
+          <Stack gap={{ base: 1, lg: 4 }}>
             <Box>
               <Heading
                 as="h1"
-                size={{ base: "lg", md: "xl", lg: "2xl" }}
-                mb={2}
+                size={{ base: "sm", lg: "2xl" }}
+                mb={{ base: 0.5, lg: 2 }}
                 textAlign="left"
               >
                 {movie.title}
               </Heading>
               {movie.tagline && (
                 <Text
-                  fontSize={{ base: "md", lg: "xl" }}
+                  fontSize={{ base: "xs", lg: "xl" }}
                   color="gray.400"
                   fontStyle="italic"
                   textAlign="left"
@@ -159,7 +166,7 @@ const MovieDetails = () => {
             </Box>
 
             {movie.release_date && (
-              <Text fontSize="lg">
+              <Text fontSize={{ base: "xs", lg: "lg" }}>
                 Released:{" "}
                 {new Date(movie.release_date).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -170,23 +177,27 @@ const MovieDetails = () => {
             )}
 
             {movie.runtime && (
-              <Text fontSize="lg">
+              <Text fontSize={{ base: "xs", lg: "lg" }}>
                 Runtime: {Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
               </Text>
             )}
 
             {movie.vote_average && (
-              <Text fontSize="lg">
+              <Text fontSize={{ base: "xs", lg: "lg" }}>
                 Rating: {movie.vote_average.toFixed(1)}/10
               </Text>
             )}
 
             {movie.genres && movie.genres.length > 0 && (
               <Box>
-                <Text fontSize="lg" fontWeight="bold" mb={2}>
+                <Text
+                  fontSize={{ base: "xs", lg: "lg" }}
+                  fontWeight="bold"
+                  mb={{ base: 0.5, lg: 2 }}
+                >
                   Genres
                 </Text>
-                <Box display="flex" gap={2} flexWrap="wrap">
+                <Box display="flex" gap={{ base: 1, lg: 2 }} flexWrap="wrap">
                   {movie.genres.map((genre) => (
                     <GenrePill
                       key={genre.id}
@@ -200,10 +211,14 @@ const MovieDetails = () => {
 
             {movie.overview && (
               <Box>
-                <Text fontSize="lg" fontWeight="bold" mb={2}>
+                <Text
+                  fontSize={{ base: "xs", lg: "lg" }}
+                  fontWeight="bold"
+                  mb={{ base: 0.5, lg: 2 }}
+                >
                   Overview
                 </Text>
-                <Text fontSize="lg" lineHeight="tall">
+                <Text fontSize={{ base: "xs", lg: "lg" }}>
                   {movie.overview}
                 </Text>
               </Box>
@@ -214,8 +229,15 @@ const MovieDetails = () => {
 
       {/* Cast Section */}
       {castWithBirthdays.length > 0 && (
-        <Box mb={8}>
-          <CastScroll cast={castWithBirthdays} title="Cast" />
+        <Box mt={{ base: 4, lg: 8 }}>
+          <Text
+            fontSize={{ base: "sm", lg: "lg" }}
+            fontWeight="bold"
+            mb={{ base: 2, lg: 3 }}
+          >
+            Cast
+          </Text>
+          <CastScroll cast={castWithBirthdays} size="small" />
         </Box>
       )}
     </Container>

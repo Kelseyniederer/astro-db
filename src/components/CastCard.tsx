@@ -12,7 +12,7 @@ interface CastCardProps {
   profilePath?: string;
   birthday?: string;
   episodeCount?: number;
-  size?: "small" | "normal";
+  size?: "small" | "normal" | "large";
 }
 
 const CastCard = ({
@@ -26,12 +26,15 @@ const CastCard = ({
 }: CastCardProps) => {
   const { zodiacSign } = useZodiacSign(birthday);
 
-  const cardWidth = size === "small" ? "75px" : "140px";
-  const imageHeight = size === "small" ? "110px" : "210px";
-  const infoHeight = size === "small" ? "50px" : "80px";
-  const infoPadding = size === "small" ? 0.75 : 2;
-  const nameSize = size === "small" ? "9px" : "sm";
-  const marginBottom = size === "small" ? "2px" : 1;
+  const cardWidth =
+    size === "small" ? "75px" : size === "large" ? "180px" : "140px";
+  const imageHeight =
+    size === "small" ? "110px" : size === "large" ? "220px" : "210px";
+  const infoHeight =
+    size === "small" ? "50px" : size === "large" ? "100px" : "80px";
+  const infoPadding = size === "small" ? 0.75 : size === "large" ? 2.5 : 2;
+  const nameSize = size === "small" ? "9px" : size === "large" ? "md" : "sm";
+  const marginBottom = size === "small" ? "2px" : size === "large" ? 2 : 1;
 
   return (
     <Link to={`/person/${id}`}>

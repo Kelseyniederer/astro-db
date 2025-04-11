@@ -1,11 +1,13 @@
 .card {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  width: 140px;
-  border-radius: var(--chakra-radii-md);
+  width: 120px !important;
+  border-radius: var(--chakra-radii-sm);
   overflow: hidden;
   background-color: var(--chakra-colors-white);
   border: 1px solid var(--chakra-colors-gray-200);
+  display: flex;
+  flex-direction: column;
 }
 
 [data-theme="dark"] .card {
@@ -17,28 +19,50 @@
   transform: scale(1.05);
 }
 
+@media (min-width: 48em) {
+  .card {
+    width: 140px !important;
+    border-radius: var(--chakra-radii-md);
+  }
+}
+
 .content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
 }
 
 .image {
-  width: 140px;
-  height: 210px;
+  width: 120px !important;
+  height: 180px !important;
   object-fit: cover;
+  display: block;
+  margin-bottom: -4px;
+}
+
+@media (min-width: 48em) {
+  .image {
+    width: 140px !important;
+    height: 210px !important;
+  }
 }
 
 .info {
-  display: flex;
-  flex-direction: column;
-  padding: var(--chakra-space-2);
-  flex: 1;
-  min-height: 80px;
+  padding: 0;
+  margin-top: 0;
+  background-color: inherit;
+}
+
+@media (min-width: 48em) {
+  .info {
+    padding: var(--chakra-space-2);
+    min-height: 80px;
+  }
 }
 
 .name {
-  font-size: var(--chakra-fontSizes-sm);
+  font-size: 13px !important;
+  line-height: 1;
   font-weight: var(--chakra-fontWeights-bold);
   text-align: center;
   width: 100%;
@@ -46,7 +70,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: var(--chakra-space-1);
+  padding-top: 2px;
+  margin: 0;
+}
+
+@media (min-width: 48em) {
+  .name {
+    font-size: var(--chakra-fontSizes-sm) !important;
+    line-height: normal;
+    margin-bottom: var(--chakra-space-1);
+  }
 }
 
 [data-theme="dark"] .name {
@@ -54,14 +87,24 @@
 }
 
 .character {
-  font-size: var(--chakra-fontSizes-xs);
+  font-size: 11px !important;
+  line-height: 1;
   color: var(--chakra-colors-gray-600);
   text-align: center;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: var(--chakra-space-1);
+  padding-bottom: 2px;
+  margin: 0;
+}
+
+@media (min-width: 48em) {
+  .character {
+    font-size: var(--chakra-fontSizes-xs) !important;
+    line-height: normal;
+    margin-bottom: var(--chakra-space-1);
+  }
 }
 
 [data-theme="dark"] .character {
