@@ -17,12 +17,17 @@ interface Props {
   size?: "small" | "normal" | "large" | { base: "small"; md: "large" };
 }
 
-const CastScroll = ({ cast, size = "normal" }: Props) => {
+const CastScroll = ({ cast }: Props) => {
   return (
     <Box>
       <ScrollContainer fullWidth>
         {cast.map((member) => (
-          <Box key={member.id} mr={{ base: 3, md: 8 }}>
+          <Box
+            key={member.id}
+            minW={{ base: "90px", md: "180px" }}
+            maxW={{ base: "90px", md: "180px" }}
+            mr={{ base: 3, md: 4 }}
+          >
             <CastCard
               id={member.id}
               name={member.name}
@@ -30,7 +35,7 @@ const CastScroll = ({ cast, size = "normal" }: Props) => {
               profilePath={member.profile_path}
               birthday={member.birthday}
               episodeCount={member.episode_count}
-              size="large"
+              size={{ base: "small", md: "large" }}
             />
           </Box>
         ))}

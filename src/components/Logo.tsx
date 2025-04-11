@@ -40,7 +40,7 @@ const Logo = ({ resetQuery }: Props) => {
       }}
     >
       <Text
-        fontSize={{ base: "md", md: "lg" }}
+        fontSize={{ base: "md", md: "2xl" }}
         fontWeight="normal"
         letterSpacing="-0.5px"
         marginLeft={0}

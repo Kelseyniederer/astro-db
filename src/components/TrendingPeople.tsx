@@ -76,44 +76,21 @@ const TrendingPeople = () => {
 
   return (
     <Box width="100%" maxW="container.xl" mx="auto">
-      <SectionHeading noMargin pt={4}>
+      <SectionHeading noMargin pt={{ base: 2, md: 4 }}>
         Trending People
       </SectionHeading>
       {isLoading ? (
         <TrendingPeopleSkeleton />
       ) : (
-        <Box mt={{ base: 2, md: 4 }} px={{ base: 0, md: 2 }} width="100%">
+        <Box mt={{ base: 2, md: 4 }} px={{ base: 2, md: 2 }} width="100%">
           <ScrollContainer>
             {people.map((person) => (
               <Box
                 key={person.id}
-                minW={{ base: "75px", md: "160px" }}
-                maxW={{ base: "75px", md: "160px" }}
-                mr={{ base: 2, md: 4 }}
+                minW={{ base: "90px", md: "140px" }}
+                maxW={{ base: "90px", md: "140px" }}
+                mr={{ base: 3, md: 4 }}
                 className="person-card-container"
-                sx={{
-                  '[class*="card_card"]': {
-                    width: { base: "75px !important", md: "140px" },
-                  },
-                  '[class*="card_image"]': {
-                    width: { base: "75px !important", md: "140px" },
-                    height: { base: "110px !important", md: "210px" },
-                  },
-                  '[class*="card_info"]': {
-                    minHeight: { base: "50px", md: "80px" },
-                    padding: { base: "0.25rem", md: 2 },
-                  },
-                  '[class*="card_name"]': {
-                    fontSize: { base: "9px", md: "sm" },
-                    marginBottom: { base: "2px", md: 1 },
-                    lineHeight: { base: 1.2, md: 1.2 },
-                  },
-                  '[class*="card_zodiacContainer"]': {
-                    marginTop: { base: "2px", md: "auto" },
-                    transform: { base: "scale(0.85)", md: "none" },
-                    transformOrigin: "center",
-                  },
-                }}
               >
                 <CastCard
                   id={person.id}

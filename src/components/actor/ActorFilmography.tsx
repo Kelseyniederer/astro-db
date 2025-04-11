@@ -169,10 +169,12 @@ export const ActorFilmography = ({
                               : "N/A"}
                           </Text>
                           {credit.vote_average > 0 && (
-                            <CriticScore
-                              score={credit.vote_average}
-                              size={{ base: "xs", md: "sm" }}
-                            />
+                            <Box
+                              transform={{ base: "scale(0.8)", md: "scale(1)" }}
+                              transformOrigin="right"
+                            >
+                              <CriticScore score={credit.vote_average} />
+                            </Box>
                           )}
                         </Box>
                       </VStack>
