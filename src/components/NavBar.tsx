@@ -55,17 +55,23 @@ const NavBar = ({
       bg={useColorModeValue("white", "rgb(20, 24, 33)")}
       position="relative"
       zIndex={1}
+      width="100%"
     >
       <Flex
         height="100%"
         justify="space-between"
         align="center"
-        px={{ base: "0.5rem", md: "1rem" }}
-        maxW="container.xl"
+        px={0}
+        maxW="100%"
         mx="auto"
+        position="relative"
       >
         {/* Left Section: Logo and Genre Menu */}
-        <HStack spacing={{ base: 2, md: 6 }} height="100%">
+        <HStack
+          spacing={{ base: 2, md: 6 }}
+          height="100%"
+          pl={{ base: 2, md: 4 }}
+        >
           {/* Mobile Search Toggle */}
           <Hide above="md">
             <Box position="relative" width="100%" height="100%">
@@ -136,16 +142,12 @@ const NavBar = ({
         </HStack>
 
         {/* Right Section: Search and Theme Switch */}
-        <HStack spacing={{ base: 1, md: 3 }} height="100%" alignItems="center">
-          <Show above="md">
-            <Box minW={{ md: "200px", lg: "300px" }}>
-              <SearchInput
-                ref={searchInputRef}
-                onSearch={onSearch}
-                resetQuery={resetQuery}
-              />
-            </Box>
-          </Show>
+        <HStack
+          spacing={{ base: 1, md: 3 }}
+          height="100%"
+          alignItems="center"
+          pr={{ base: 2, md: 4 }}
+        >
           <Hide above="md">
             <Box
               opacity={isOpen ? 0 : 1}
@@ -158,15 +160,24 @@ const NavBar = ({
                 icon={<SearchIcon />}
                 onClick={onToggle}
                 variant="ghost"
-                size="sm"
+          <Show above="md">
+            <Box minW={{ md: "200px", lg: "300px" }}>
+              <SearchInput
+                ref={searchInputRef}
+          <Show above="md">
+            <Box minW={{ md: "200px", lg: "300px" }}>
+              <SearchInput
+                ref={searchInputRef}
+                onSearch={onSearch}
+                resetQuery={resetQuery}
               />
             </Box>
-          </Hide>
-          <ColorModeSwitch />
-        </HStack>
-      </Flex>
-    </Box>
-  );
+          </Show>
+                onSearch={onSearch}
+                resetQuery={resetQuery}
+              />
+            </Box>
+          </Show>
 };
 
 export default NavBar;
