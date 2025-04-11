@@ -28,7 +28,7 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
         borderRadius="xl"
         p={4}
         textAlign="center"
-        height="300px"
+        height={{ base: "200px", md: "300px" }}
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -46,8 +46,8 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
       shadow="lg"
       width="100%"
       position="relative"
-      paddingBottom="150%"
-      top={3}
+      paddingBottom={{ base: "150%", md: "150%" }}
+      top={0}
     >
       <img
         src={`https://image.tmdb.org/t/p/w300${src}`}
@@ -58,7 +58,8 @@ const ProfileImage = ({ src, alt }: ProfileImageProps) => {
           left: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover",
+          objectFit: "contain",
+          backgroundColor: "rgb(20, 24, 33)",
         }}
       />
     </Box>
@@ -100,17 +101,17 @@ const BioSection = ({
   biography,
 }: BioSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const maxLength = 300; // Show first 300 characters initially
+  const maxLength = 300;
 
   const shouldShowButton = biography && biography.length > maxLength;
   const displayedBio = isExpanded ? biography : biography?.slice(0, maxLength);
 
   return (
-    <Box>
-      <Box mb={6}>
+    <Box maxW="100%" overflowX="hidden">
+      <Box mb={{ base: 3, md: 6 }}>
         <Text
           as="h1"
-          fontSize="3xl"
+          fontSize={{ base: "xl", md: "2xl" }}
           fontWeight="bold"
           mb={2}
           color="black"
@@ -119,17 +120,17 @@ const BioSection = ({
           {name}
         </Text>
         <Text
-          fontSize="xl"
+          fontSize={{ base: "md", md: "lg" }}
           color="gray.600"
           _dark={{ color: "gray.400" }}
           mb={2}
         >
-          {department || "Actor"}
+          {department || "Acting"}
         </Text>
         {birthday && (
           <Text
-            fontSize="lg"
-            mb={4}
+            fontSize={{ base: "sm", md: "md" }}
+            mb={{ base: 2, md: 4 }}
             color="gray.700"
             _dark={{ color: "gray.300" }}
           >
@@ -140,10 +141,13 @@ const BioSection = ({
       {biography && (
         <Box>
           <Text
-            fontSize="lg"
+            fontSize={{ base: "sm", md: "md" }}
             lineHeight="tall"
             color="gray.800"
             _dark={{ color: "gray.100" }}
+            whiteSpace="pre-wrap"
+            overflowWrap="break-word"
+            wordBreak="break-word"
           >
             {displayedBio}
             {!isExpanded && shouldShowButton && "..."}
@@ -153,6 +157,8 @@ const BioSection = ({
               variant="link"
               colorScheme="blue"
               mt={2}
+              size={{ base: "xs", md: "sm" }}
+              fontSize={{ base: "sm", md: "md" }}
               onClick={() => setIsExpanded(!isExpanded)}
             >
               {isExpanded ? "Show Less" : "Read More"}
@@ -200,18 +206,22 @@ const ActorProfile = () => {
   }
 
   return (
-    <Container maxW="container.xl" py={8}>
+    <Container maxW="container.xl" py={{ base: 4, md: 8 }}>
       <Grid
         templateColumns={{
-          base: "repeat(auto-fit, minmax(200px, 1fr))",
+          base: "150px 1fr",
           md: "300px 1fr",
           lg: "2 1fr 400px",
         }}
-        gap={6}
-        mb={12}
+        gap={{ base: 4, md: 6 }}
+        mb={{ base: 6, md: 12 }}
         alignItems="start"
       >
-        <Box maxW="222px" width="100%" mx={{ base: "auto", md: 0 }}>
+        <Box
+          maxW={{ base: "150px", md: "300px" }}
+          width="100%"
+          mx={{ base: 0, md: 0 }}
+        >
           <ProfileImage src={person.profile_path} alt={person.name} />
         </Box>
 

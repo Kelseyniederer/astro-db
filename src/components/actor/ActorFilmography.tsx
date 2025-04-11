@@ -82,8 +82,8 @@ export const ActorFilmography = ({
     <Box>
       <Heading
         as="h2"
-        size="xl"
-        mb={8}
+        fontSize={{ base: "xl", md: "2xl" }}
+        mb={{ base: 4, md: 8 }}
         color="black"
         _dark={{ color: "white" }}
       >
@@ -96,9 +96,9 @@ export const ActorFilmography = ({
             {sortedMovies.map((credit) => (
               <Box
                 key={`${credit.id}-${credit.media_type}`}
-                minW="200px"
-                maxW="200px"
-                mr={6}
+                minW={{ base: "140px", md: "200px" }}
+                maxW={{ base: "140px", md: "200px" }}
+                mr={{ base: 3, md: 6 }}
               >
                 <Link to={`/${credit.media_type}/${credit.id}`}>
                   <Box
@@ -111,7 +111,7 @@ export const ActorFilmography = ({
                     bg="white"
                     borderWidth="1px"
                     borderColor="gray.200"
-                    height="420px"
+                    height={{ base: "300px", md: "420px" }}
                     _dark={{
                       bg: "gray.800",
                       borderColor: "gray.700",
@@ -125,14 +125,21 @@ export const ActorFilmography = ({
                       }
                       alt={credit.title || credit.name}
                       width="100%"
-                      height="300px"
+                      height={{ base: "210px", md: "300px" }}
                       objectFit="cover"
                     />
-                    <Box p={3} height="120px">
-                      <VStack spacing={1} align="stretch" height="100%">
+                    <Box
+                      p={{ base: 2, md: 3 }}
+                      height={{ base: "90px", md: "120px" }}
+                    >
+                      <VStack
+                        spacing={{ base: 0.5, md: 1 }}
+                        align="stretch"
+                        height="100%"
+                      >
                         <Text
                           fontWeight="bold"
-                          fontSize="sm"
+                          fontSize={{ base: "xs", md: "sm" }}
                           overflow="hidden"
                           textOverflow="ellipsis"
                           whiteSpace="nowrap"
@@ -149,7 +156,7 @@ export const ActorFilmography = ({
                           mt="auto"
                         >
                           <Text
-                            fontSize="xs"
+                            fontSize={{ base: "2xs", md: "xs" }}
                             color="gray.700"
                             _dark={{ color: "gray.400" }}
                           >
@@ -162,7 +169,10 @@ export const ActorFilmography = ({
                               : "N/A"}
                           </Text>
                           {credit.vote_average > 0 && (
-                            <CriticScore score={credit.vote_average} />
+                            <CriticScore
+                              score={credit.vote_average}
+                              size={{ base: "xs", md: "sm" }}
+                            />
                           )}
                         </Box>
                       </VStack>
@@ -174,7 +184,11 @@ export const ActorFilmography = ({
           </ScrollContainer>
         </Box>
       ) : (
-        <Text fontSize="lg" color="gray.700" _dark={{ color: "gray.400" }}>
+        <Text
+          fontSize={{ base: "md", md: "lg" }}
+          color="gray.700"
+          _dark={{ color: "gray.400" }}
+        >
           No {title.toLowerCase()} found.
         </Text>
       )}

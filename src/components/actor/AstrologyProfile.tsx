@@ -36,25 +36,42 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
 
   return (
     <Box
-      ml={{ base: -14, md: 0 }}
-      mt={{ base: 0, md: 0 }}
-      pb={{ base: 8, md: 8 }}
+      ml={{ base: 0, md: 0 }}
+      mt={{ base: 4, md: 6 }}
+      pb={{ base: 4, md: 8 }}
+      width="100%"
+      overflow="hidden"
     >
-      <Text fontSize="2xl" fontWeight="semibold" mb={3} color={headingColor}>
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight="semibold"
+        mb={{ base: 2, md: 3 }}
+        color={headingColor}
+        pl={0}
+      >
         Planets
       </Text>
       <ScrollContainer>
-        <Flex gap={3} minW="max-content" justifyContent="flex-start">
+        <Flex
+          gap={{ base: 2, md: 3 }}
+          minW="max-content"
+          justifyContent="flex-start"
+          pl={0}
+        >
           {planetaryData
             ?.filter((planet) => planets.includes(planet.name))
             .map((planet) => (
-              <Flex key={planet.name} align="center" gap={1.5}>
-                <Text color={textColor} fontSize="sm">
+              <Flex key={planet.name} align="center" gap={{ base: 1, md: 1.5 }}>
+                <Text
+                  color={textColor}
+                  fontSize={{ base: "xs", md: "sm" }}
+                  minW={{ base: "5px", md: "auto" }}
+                >
                   {planet.name}
                 </Text>
-                <ZodiacPill sign={planet.sign} size="sm" />
+                <ZodiacPill sign={planet.sign} size="xs" />
                 {planet.isRetro === "true" && (
-                  <Text color={textColor} fontSize="sm">
+                  <Text color={textColor} fontSize={{ base: "xs", md: "sm" }}>
                     (R)
                   </Text>
                 )}
