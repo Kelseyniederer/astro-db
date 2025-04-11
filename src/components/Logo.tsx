@@ -29,8 +29,8 @@ const Logo = ({ resetQuery }: Props) => {
       left={0}
       minWidth="fit-content"
       borderRadius="md"
-      px={3}
-      py={2}
+      px={2}
+      py={1.5}
       _hover={{ bg: hoverBg }}
       sx={{
         "&": {
@@ -40,7 +40,7 @@ const Logo = ({ resetQuery }: Props) => {
       }}
     >
       <Text
-        fontSize="24px"
+        fontSize={{ base: "md", md: "lg" }}
         fontWeight="normal"
         letterSpacing="-0.5px"
         marginLeft={0}
@@ -55,13 +55,17 @@ const Logo = ({ resetQuery }: Props) => {
       >
         AstroMovieDB
       </Text>
-      <Icon as={PiPlanet} boxSize={6} color={iconColor} marginLeft={2} />
+      <Icon
+        as={PiPlanet}
+        boxSize={{ base: 4, md: 5 }}
+        color={iconColor}
+        marginLeft={1.5}
+      />
       <Icon
         as={BiCameraMovie}
-        boxSize={6}
+        boxSize={{ base: 4, md: 5 }}
         color={iconColor}
-        marginLeft={2}
-        marginRight={1}
+        marginLeft={1.5}
       />
     </HStack>
   );

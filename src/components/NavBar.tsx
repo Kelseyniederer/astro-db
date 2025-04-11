@@ -53,14 +53,17 @@ const NavBar = ({
       height={{ base: "60px", md: "72px" }}
       bg={useColorModeValue("white", "rgb(20, 24, 33)")}
     >
-      <Flex 
-        height="100%" 
-        justify="space-between" 
-        align="center" 
+      <Flex
+        height="100%"
+        justify="space-between"
+        align="center"
         px={{ base: "0.5rem", md: "1rem" }}
+        maxW="container.xl"
+        mx="auto"
       >
         <HStack spacing={{ base: 2, md: 4 }} flex={1} height="100%">
-          <Show below="md">
+          {/* Mobile Search Toggle */}
+          <Show breakpoint="(max-width: 769px)">
             <Flex
               width="100%"
               transition="all 0.2s"
@@ -77,7 +80,6 @@ const NavBar = ({
                 height="100%"
                 display="flex"
                 alignItems="center"
-                fontSize={{ base: "xl", md: "2xl" }}
               >
                 <Logo resetQuery={resetQuery} />
               </Box>
@@ -108,8 +110,10 @@ const NavBar = ({
               </Box>
             </Flex>
           </Show>
-          <Show above="md">
-            <Box fontSize={{ base: "xl", md: "2xl" }} height="100%" display="flex" alignItems="center">
+
+          {/* Desktop/Tablet Navigation */}
+          <Show breakpoint="(min-width: 770px)">
+            <Box height="100%" display="flex" alignItems="center">
               <Logo resetQuery={resetQuery} />
             </Box>
             <Menu>
@@ -121,8 +125,9 @@ const NavBar = ({
                 color={selectedGenre ? activeColor : textColor}
                 _hover={{ bg: menuHoverBg }}
                 fontWeight={selectedGenre ? "bold" : "normal"}
-                fontSize="16px"
+                fontSize={{ base: "sm", md: "md" }}
                 letterSpacing="-0.3px"
+                px={{ base: 2, md: 4 }}
                 sx={{ cursor: "pointer !important" }}
               >
                 {selectedGenre ? selectedGenre.name : "Genres"}
@@ -135,15 +140,17 @@ const NavBar = ({
           </Show>
         </HStack>
 
-        <HStack spacing={{ base: 1, md: 2 }} height="100%" alignItems="center">
-          <Show above="md">
-            <SearchInput
-              ref={searchInputRef}
-              onSearch={onSearch}
-              resetQuery={resetQuery}
-            />
+        <HStack spacing={{ base: 1, md: 3 }} height="100%" alignItems="center">
+          <Show breakpoint="(min-width: 770px)">
+            <Box minW={{ md: "200px", lg: "300px" }}>
+              <SearchInput
+                ref={searchInputRef}
+                onSearch={onSearch}
+                resetQuery={resetQuery}
+              />
+            </Box>
           </Show>
-          <Show below="md">
+          <Show breakpoint="(max-width: 769px)">
             <IconButton
               aria-label="Search"
               icon={<SearchIcon />}

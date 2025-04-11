@@ -99,19 +99,19 @@ const TvDetails = () => {
   }
 
   return (
-    <Container maxW="container.xl" py={8}>
+    <Container maxW="container.xl" py={{ base: 4, md: 8 }}>
       {/* Header Section */}
       <Grid
-        templateColumns={{ base: "200px 1fr", lg: "300px 1fr" }}
-        gap={{ base: 4, lg: 8 }}
-        mb={12}
+        templateColumns={{ base: "150px 1fr", md: "250px 1fr" }}
+        gap={{ base: 3, md: 6 }}
+        mb={8}
       >
         {/* TV Show Poster */}
         <GridItem>
           {tvShow.poster_path ? (
-            <Box width="100%" borderRadius="xl" overflow="hidden" shadow="lg">
+            <Box width="100%" borderRadius="lg" overflow="hidden" shadow="md">
               <Image
-                src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w342${tvShow.poster_path}`}
                 alt={tvShow.name}
                 width="100%"
                 height="auto"
@@ -121,16 +121,18 @@ const TvDetails = () => {
           ) : (
             <Box
               bg="gray.700"
-              borderRadius="xl"
-              p={4}
+              borderRadius="lg"
+              p={3}
               textAlign="center"
-              height={{ base: "300px", lg: "400px" }}
+              height={{ base: "225px", md: "300px" }}
               width="100%"
               display="flex"
               alignItems="center"
               justifyContent="center"
             >
-              <Text color="gray.400">No Poster Available</Text>
+              <Text color="gray.400" fontSize="sm">
+                No Poster Available
+              </Text>
             </Box>
           )}
         </GridItem>
