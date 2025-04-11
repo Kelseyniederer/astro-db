@@ -17,14 +17,16 @@ const MovieGrid = ({ movieQuery }: Props) => {
   return (
     <Grid
       templateColumns={{
-        base: "repeat(3, 1fr)",
-        md: "repeat(auto-fill, minmax(180px, 1fr))",
+        base: "repeat(auto-fill, minmax(100px, 1fr))",
+        sm: "repeat(auto-fill, minmax(120px, 1fr))",
+        md: "repeat(auto-fill, minmax(150px, 1fr))",
+        lg: "repeat(auto-fill, minmax(180px, 1fr))",
       }}
-      gap={{ base: "8px", md: "24px" }}
+      gap={{ base: 3, sm: 4, md: 6 }}
       width="100%"
       alignItems="stretch"
       minH="200px"
-      px={{ base: "4px", md: "24px" }}
+      px={{ base: 2, sm: 4, md: 6 }}
     >
       {isLoading &&
         skeletons.map((_, index) => <MovieCardSkeleton key={index} />)}

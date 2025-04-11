@@ -79,7 +79,13 @@ const MovieCard = ({ movie }: Props) => {
   const hasImage = isPerson ? movie.profile_path : movie.poster_path;
 
   return (
-    <Box onClick={handleClick} cursor="pointer" position="relative">
+    <Box
+      onClick={handleClick}
+      cursor="pointer"
+      position="relative"
+      width="100%"
+      height="100%"
+    >
       <Box
         overflow="hidden"
         aspectRatio="2/3"
@@ -131,7 +137,7 @@ const MovieCard = ({ movie }: Props) => {
         )}
       </Box>
       {isPerson && (
-        <VStack spacing={1} align="center" mt={2}>
+        <VStack spacing={1} align="center" mt={2} width="100%">
           <Text
             fontWeight="semibold"
             fontSize="md"
@@ -145,7 +151,7 @@ const MovieCard = ({ movie }: Props) => {
         </VStack>
       )}
       {!isPerson && !hasImage && (
-        <Box mt={2} textAlign="center">
+        <Box mt={2} textAlign="center" width="100%">
           <Text fontSize="xs" color="gray.500">
             No poster available
           </Text>
