@@ -81,6 +81,7 @@ const NavBar = ({
                 height="100%"
                 display="flex"
                 alignItems="center"
+                pointerEvents={isOpen ? "none" : "auto"}
               >
                 <Logo resetQuery={resetQuery} />
               </Box>
@@ -94,20 +95,19 @@ const NavBar = ({
                 transition="all 0.2s"
                 transform={isOpen ? "translateX(0)" : "translateX(100%)"}
                 opacity={isOpen ? 1 : 0}
+                pointerEvents={isOpen ? "auto" : "none"}
+                onClick={() => searchInputRef.current?.focus()}
+                px={2}
               >
-                {isOpen && (
-                  <SearchInput
-                    ref={searchInputRef}
-                    onSearch={(text) => {
-                      onSearch(text);
-                      if (!text) onToggle();
-                    }}
-                    resetQuery={() => {
-                      resetQuery();
-                      onToggle();
-                    }}
-                  />
-                )}
+                <SearchInput
+                  ref={searchInputRef}
+                  onSearch={onSearch}
+                  resetQuery={() => {
+                    resetQuery();
+                  }}
+                  autoFocus={isOpen}
+                  onClose={onToggle}
+                />
               </Box>
             </Flex>
           </Hide>
@@ -152,13 +152,20 @@ const NavBar = ({
             </Box>
           </Show>
           <Hide above="md">
-            <IconButton
-              aria-label="Search"
-              icon={<SearchIcon />}
-              onClick={onToggle}
-              variant="ghost"
-              size="sm"
-            />
+            <Box
+              opacity={isOpen ? 0 : 1}
+              transform={isOpen ? "scale(0)" : "scale(1)"}
+              transition="all 0.2s"
+              pointerEvents={isOpen ? "none" : "auto"}
+            >
+              <IconButton
+                aria-label="Search"
+                icon={<SearchIcon />}
+                onClick={onToggle}
+                variant="ghost"
+                size="sm"
+              />
+            </Box>
           </Hide>
           <ColorModeSwitch />
         </HStack>

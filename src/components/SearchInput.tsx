@@ -1,24 +1,34 @@
-import { SearchIcon } from "@chakra-ui/icons";
+import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   onSearch: (searchText: string) => void;
   resetQuery: () => void;
+  autoFocus?: boolean;
+  onClose?: () => void;
 }
 
 export interface SearchInputHandle {
   clearInput: () => void;
+  focus: () => void;
 }
 
 const SearchInput = forwardRef<SearchInputHandle, Props>(
-  ({ onSearch, resetQuery }, ref) => {
+  ({ onSearch, resetQuery, autoFocus, onClose }, ref) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,41 +39,54 @@ const SearchInput = forwardRef<SearchInputHandle, Props>(
     const iconColor = useColorModeValue("gray.500", "gray.400");
     const focusIconColor = useColorModeValue("gray.600", "white");
 
+    const handleClearInput = useCallback(() => {
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+    }, []);
+
     useEffect(() => {
-      // Clear search input when navigating to detail pages
-      if (
+      if (autoFocus && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, [autoFocus]);
+
+    useEffect(() => {
+      const isDetailPage =
         location.pathname.startsWith("/movie/") ||
         location.pathname.startsWith("/tv/") ||
-        location.pathname.startsWith("/person/")
-      ) {
-        if (inputRef.current) {
-          inputRef.current.value = "";
-          // Just clear the search state without affecting navigation
-          onSearch("");
-        }
+        location.pathname.startsWith("/person/");
+
+      if (isDetailPage) {
+        handleClearInput();
+        onSearch("");
       }
-    }, [location.pathname, onSearch]);
+    }, [location.pathname, handleClearInput, onSearch]);
 
-    useImperativeHandle(ref, () => ({
-      clearInput: () => {
-        if (inputRef.current) {
-          inputRef.current.value = "";
+    useImperativeHandle(
+      ref,
+      () => ({
+        clearInput: () => {
+          handleClearInput();
           onSearch("");
-        }
-      },
-    }));
+        },
+        focus: () => {
+          inputRef.current?.focus();
+        },
+      }),
+      [handleClearInput, onSearch]
+    );
 
-    const handleSearch = () => {
+    const handleSearch = useCallback(() => {
       if (inputRef.current) {
         const searchText = inputRef.current.value.trim();
         onSearch(searchText);
 
-        // Only navigate to home if we're searching and not already there
         if (searchText && location.pathname !== "/") {
           navigate("/");
         }
       }
-    };
+    }, [onSearch, location.pathname, navigate]);
 
     return (
       <form
@@ -120,13 +143,30 @@ const SearchInput = forwardRef<SearchInputHandle, Props>(
                 resetQuery();
               } else {
                 onSearch(value);
-                // Only navigate to home when actively searching
                 if (location.pathname !== "/") {
                   navigate("/");
                 }
               }
             }}
+            pr="2.5rem" // Make room for the close button
           />
+          {onClose && (
+            <InputRightElement>
+              <CloseIcon
+                color={iconColor}
+                boxSize={3}
+                cursor="pointer"
+                onClick={() => {
+                  handleClearInput();
+                  onClose();
+                }}
+                _hover={{
+                  color: focusIconColor,
+                }}
+                transition="all 0.2s"
+              />
+            </InputRightElement>
+          )}
         </InputGroup>
       </form>
     );
