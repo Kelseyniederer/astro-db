@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Flex,
+  Hide,
   HStack,
   Icon,
   IconButton,
@@ -63,7 +64,7 @@ const NavBar = ({
       >
         <HStack spacing={{ base: 2, md: 4 }} flex={1} height="100%">
           {/* Mobile Search Toggle */}
-          <Show breakpoint="(max-width: 769px)">
+          <Hide above="md">
             <Flex
               width="100%"
               transition="all 0.2s"
@@ -109,10 +110,10 @@ const NavBar = ({
                 )}
               </Box>
             </Flex>
-          </Show>
+          </Hide>
 
           {/* Desktop/Tablet Navigation */}
-          <Show breakpoint="(min-width: 770px)">
+          <Show above="md">
             <Box height="100%" display="flex" alignItems="center">
               <Logo resetQuery={resetQuery} />
             </Box>
@@ -141,7 +142,7 @@ const NavBar = ({
         </HStack>
 
         <HStack spacing={{ base: 1, md: 3 }} height="100%" alignItems="center">
-          <Show breakpoint="(min-width: 770px)">
+          <Show above="md">
             <Box minW={{ md: "200px", lg: "300px" }}>
               <SearchInput
                 ref={searchInputRef}
@@ -150,7 +151,7 @@ const NavBar = ({
               />
             </Box>
           </Show>
-          <Show breakpoint="(max-width: 769px)">
+          <Hide above="md">
             <IconButton
               aria-label="Search"
               icon={<SearchIcon />}
@@ -158,7 +159,7 @@ const NavBar = ({
               variant="ghost"
               size="sm"
             />
-          </Show>
+          </Hide>
           <ColorModeSwitch />
         </HStack>
       </Flex>
