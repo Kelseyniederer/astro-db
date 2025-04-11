@@ -18,7 +18,7 @@ const MovieHeading = ({ movieQuery }: Props) => {
 
   return (
     <VStack gap={2} align="stretch">
-      <SectionHeading>{heading}</SectionHeading>
+      <SectionHeading pt={4}>{heading}</SectionHeading>
     </VStack>
   );
 };

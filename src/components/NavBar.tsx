@@ -53,6 +53,8 @@ const NavBar = ({
     <Box
       height={{ base: "60px", md: "72px" }}
       bg={useColorModeValue("white", "rgb(20, 24, 33)")}
+      position="relative"
+      zIndex={1}
     >
       <Flex
         height="100%"
@@ -62,54 +64,46 @@ const NavBar = ({
         maxW="container.xl"
         mx="auto"
       >
-        <HStack spacing={{ base: 2, md: 4 }} flex={1} height="100%">
+        {/* Left Section: Logo and Genre Menu */}
+        <HStack spacing={{ base: 2, md: 6 }} height="100%">
           {/* Mobile Search Toggle */}
           <Hide above="md">
-            <Flex
-              width="100%"
-              transition="all 0.2s"
-              alignItems="center"
-              height="100%"
-              position="relative"
-            >
-              <Box
-                opacity={isOpen ? 0 : 1}
-                transform={isOpen ? "translateX(-100%)" : "translateX(0)"}
-                transition="all 0.2s"
-                position="absolute"
-                left={0}
-                height="100%"
-                display="flex"
+            <Box position="relative" width="100%" height="100%">
+              <Flex
                 alignItems="center"
-                pointerEvents={isOpen ? "none" : "auto"}
+                height="100%"
+                opacity={isOpen ? 0 : 1}
+                visibility={isOpen ? "hidden" : "visible"}
+                transition="all 0.2s"
               >
                 <Logo resetQuery={resetQuery} />
-              </Box>
+              </Flex>
+
               <Box
-                position="absolute"
+                position={isOpen ? "fixed" : "absolute"}
+                top={0}
                 left={0}
-                width="100%"
-                height="100%"
+                right={0}
+                height="60px"
+                bg={useColorModeValue("white", "rgb(20, 24, 33)")}
                 display="flex"
                 alignItems="center"
-                transition="all 0.2s"
-                transform={isOpen ? "translateX(0)" : "translateX(100%)"}
+                px={4}
+                transform={isOpen ? "translateY(0)" : "translateY(-100%)"}
                 opacity={isOpen ? 1 : 0}
-                pointerEvents={isOpen ? "auto" : "none"}
-                onClick={() => searchInputRef.current?.focus()}
-                px={2}
+                visibility={isOpen ? "visible" : "hidden"}
+                transition="all 0.2s"
+                zIndex={2}
               >
                 <SearchInput
                   ref={searchInputRef}
                   onSearch={onSearch}
-                  resetQuery={() => {
-                    resetQuery();
-                  }}
+                  resetQuery={resetQuery}
                   autoFocus={isOpen}
                   onClose={onToggle}
                 />
               </Box>
-            </Flex>
+            </Box>
           </Hide>
 
           {/* Desktop/Tablet Navigation */}
@@ -141,6 +135,7 @@ const NavBar = ({
           </Show>
         </HStack>
 
+        {/* Right Section: Search and Theme Switch */}
         <HStack spacing={{ base: 1, md: 3 }} height="100%" alignItems="center">
           <Show above="md">
             <Box minW={{ md: "200px", lg: "300px" }}>
