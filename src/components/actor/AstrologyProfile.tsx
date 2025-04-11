@@ -1,4 +1,11 @@
-import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Hide,
+  Show,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 import { usePlanetaryData } from "../../hooks/usePlanetaryData";
 import { ScrollContainer } from "../PlanetsScrollContainer";
@@ -69,7 +76,12 @@ export const AstrologyProfile = ({ birthday }: AstrologyProfileProps) => {
                 >
                   {planet.name}
                 </Text>
-                <ZodiacPill sign={planet.sign} size="xs" />
+                <Hide above="md">
+                  <ZodiacPill sign={planet.sign} size="xs" />
+                </Hide>
+                <Show above="md">
+                  <ZodiacPill sign={planet.sign} size="sm" />
+                </Show>
                 {planet.isRetro === "true" && (
                   <Text color={textColor} fontSize={{ base: "xs", md: "sm" }}>
                     (R)

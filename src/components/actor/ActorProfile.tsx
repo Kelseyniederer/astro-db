@@ -218,7 +218,7 @@ const ActorProfile = () => {
         alignItems="start"
       >
         <Box
-          maxW={{ base: "150px", md: "300px" }}
+          maxW={{ base: "150px", md: "222px" }}
           width="100%"
           mx={{ base: 0, md: 0 }}
         >

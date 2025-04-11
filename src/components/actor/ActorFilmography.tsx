@@ -83,7 +83,7 @@ export const ActorFilmography = ({
       <Heading
         as="h2"
         fontSize={{ base: "xl", md: "2xl" }}
-        mb={{ base: 4, md: 8 }}
+        mb={{ base: 2, md: 4 }}
         color="black"
         _dark={{ color: "white" }}
       >
