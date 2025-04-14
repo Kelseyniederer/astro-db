@@ -70,21 +70,28 @@ function App() {
   }, [location.pathname]);
 
   const handleSearch = (searchText: string) => {
-    // Update the search state
+    // Ignore empty searches completely
+    if (!searchText.trim()) return;
+
+    const isDetailPage =
+      location.pathname.startsWith("/movie/") ||
+      location.pathname.startsWith("/tv/") ||
+      location.pathname.startsWith("/person/");
+
+    // Set search state
     setMovieQuery((prev) => ({
       ...prev,
-      searchText: searchText || undefined,
-      // Only clear genre if actively searching
-      genreId: searchText ? undefined : prev.genreId,
+      searchText,
+      genreId: undefined,
     }));
 
-    // Only clear genre and navigate if actively searching
-    if (searchText) {
-      setSelectedGenre(null);
-      setSearchParams({});
-      if (location.pathname !== "/") {
+    // If on detail page, navigate after a small delay to ensure state is set
+    if (isDetailPage) {
+      setTimeout(() => {
+        setSelectedGenre(null);
+        setSearchParams({ search: searchText });
         navigate("/");
-      }
+      }, 0);
     }
   };
 
