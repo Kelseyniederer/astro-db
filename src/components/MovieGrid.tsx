@@ -17,7 +17,7 @@ const MovieGrid = ({ movieQuery }: Props) => {
   return (
     <Grid
       templateColumns={{
-        base: "repeat(auto-fill, minmax(100px, 1fr))",
+        base: "repeat(auto-fill, minmax(90px, 1fr))",
         sm: "repeat(auto-fill, minmax(120px, 1fr))",
         md: "repeat(auto-fill, minmax(150px, 1fr))",
         lg: "repeat(auto-fill, minmax(180px, 1fr))",
