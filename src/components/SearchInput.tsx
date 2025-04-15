@@ -47,7 +47,11 @@ const SearchInput = forwardRef<SearchInputHandle, Props>(
 
     useEffect(() => {
       if (autoFocus && inputRef.current) {
-        inputRef.current.focus();
+        // Small delay to ensure focus happens after animation starts
+        const timer = setTimeout(() => {
+          inputRef.current?.focus();
+        }, 100);
+        return () => clearTimeout(timer);
       }
     }, [autoFocus]);
 
