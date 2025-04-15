@@ -286,13 +286,6 @@ const ActorProfile = () => {
       {/* Filmography Section */}
       {movies.length > 0 && (
         <Box>
-          <Text
-            fontSize={{ base: "sm", lg: "lg" }}
-            fontWeight="bold"
-            mb={{ base: 2, lg: 3 }}
-          >
-            Filmography
-          </Text>
           <ActorFilmography movies={movies} />
         </Box>
       )}
