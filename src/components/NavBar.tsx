@@ -13,8 +13,9 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
 import { TbMovie } from "react-icons/tb";
+import { useLocation } from "react-router-dom";
 import { Genre } from "../hooks/useGenres";
 import ColorModeSwitch from "./ColorModeSwitch";
 import GenreList from "./GenreList";
@@ -40,7 +41,16 @@ const NavBar = ({
   const menuHoverBg = useColorModeValue("gray.100", "whiteAlpha.200");
   const menuBg = useColorModeValue("white", "rgb(20, 24, 33)");
   const activeColor = useColorModeValue("blue.500", "blue.300");
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle, onClose } = useDisclosure();
+  const location = useLocation();
+
+  // Close search bar only when navigating to detail pages
+  useEffect(() => {
+    const isDetailPage = /^\/(movie|tv|person)\/\d+/.test(location.pathname);
+    if (isDetailPage) {
+      onClose();
+    }
+  }, [location.pathname, onClose]);
 
   const handleGenreSelect = (genre: Genre) => {
     if (searchInputRef.current) {
@@ -79,13 +89,29 @@ const NavBar = ({
                 height="100%"
                 opacity={isOpen ? 0 : 1}
                 visibility={isOpen ? "hidden" : "visible"}
-                transition="all 0.2s"
+                transition="all 0.3s ease-in-out"
               >
                 <Logo resetQuery={resetQuery} />
               </Flex>
 
+              {/* Backdrop */}
               <Box
-                position={isOpen ? "fixed" : "absolute"}
+                position="fixed"
+                top={0}
+                left={0}
+                right={0}
+                bottom={0}
+                bg="blackAlpha.600"
+                opacity={isOpen ? 1 : 0}
+                visibility={isOpen ? "visible" : "hidden"}
+                transition="all 0.3s ease-in-out"
+                zIndex={1}
+                onClick={onToggle}
+              />
+
+              {/* Search Bar */}
+              <Box
+                position="fixed"
                 top={0}
                 left={0}
                 right={0}
@@ -94,11 +120,12 @@ const NavBar = ({
                 display="flex"
                 alignItems="center"
                 px={4}
-                transform={isOpen ? "translateY(0)" : "translateY(-100%)"}
+                transform={isOpen ? "translateX(0)" : "translateX(100%)"}
                 opacity={isOpen ? 1 : 0}
                 visibility={isOpen ? "visible" : "hidden"}
-                transition="all 0.2s"
+                transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                 zIndex={2}
+                boxShadow={isOpen ? "lg" : "none"}
               >
                 <SearchInput
                   ref={searchInputRef}
@@ -150,8 +177,8 @@ const NavBar = ({
           <Hide above="md">
             <Box
               opacity={isOpen ? 0 : 1}
-              transform={isOpen ? "scale(0)" : "scale(1)"}
-              transition="all 0.2s"
+              transform={isOpen ? "translateX(100%)" : "translateX(0)"}
+              transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
               pointerEvents={isOpen ? "none" : "auto"}
             >
               <IconButton
