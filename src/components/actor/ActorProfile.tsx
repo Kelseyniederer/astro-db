@@ -1,4 +1,12 @@
-import { Box, Button, Container, Grid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Hide,
+  Show,
+  Text,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useData from "../../hooks/useData";
@@ -208,33 +216,125 @@ const ActorProfile = () => {
   return (
     <Container maxW="container.xl" py={{ base: 4, md: 8 }}>
       <Grid
-        templateColumns={{
-          base: "150px 1fr",
-          md: "300px 1fr",
-          lg: "2 1fr 400px",
-        }}
-        gap={{ base: 4, md: 6 }}
-        mb={{ base: 6, md: 12 }}
-        alignItems="start"
+        templateColumns={{ base: "120px 1fr", md: "250px 1fr" }}
+        gap={{ base: 3, md: 6 }}
+        mb={{ base: 6, lg: 8 }}
       >
-        <Box
-          maxW={{ base: "150px", md: "222px" }}
-          width="100%"
-          mx={{ base: 0, md: 0 }}
-        >
+        {/* Profile Image */}
+        <Box>
           <ProfileImage src={person.profile_path} alt={person.name} />
         </Box>
 
-        <BioSection
-          name={person.name}
-          department={person.known_for_department}
-          birthday={person.birthday}
-          biography={person.biography}
-        />
+        {/* Basic Info */}
+        <Box>
+          <Text
+            as="h1"
+            fontSize={{ base: "xl", md: "2xl" }}
+            fontWeight="bold"
+            mb={2}
+            color="black"
+            _dark={{ color: "white" }}
+          >
+            {person.name}
+          </Text>
+          <Text
+            fontSize={{ base: "md", md: "lg" }}
+            color="gray.600"
+            _dark={{ color: "gray.400" }}
+            mb={2}
+          >
+            {person.known_for_department || "Acting"}
+          </Text>
+          {person.birthday && (
+            <Text
+              fontSize={{ base: "sm", md: "md" }}
+              mb={{ base: 2, md: 4 }}
+              color="gray.700"
+              _dark={{ color: "gray.300" }}
+            >
+              Born: {formatDate(person.birthday)}
+            </Text>
+          )}
+
+          {/* Biography on Desktop */}
+          <Hide below="md">
+            {person.biography && (
+              <Box mt={4}>
+                <BiographySection biography={person.biography} />
+              </Box>
+            )}
+          </Hide>
+        </Box>
       </Grid>
-      {person.birthday && <AstrologyProfile birthday={person.birthday} />}
-      <ActorFilmography movies={movies} title="Filmography" />
+
+      {/* Biography on Mobile - Full Width */}
+      <Show below="md">
+        {person.biography && (
+          <Box width="100%" mb={{ base: 6, lg: 12 }}>
+            <BiographySection biography={person.biography} />
+          </Box>
+        )}
+      </Show>
+
+      {/* Astrology Section */}
+      {person.birthday && (
+        <Box mb={{ base: 6, lg: 8 }}>
+          <AstrologyProfile birthday={person.birthday} />
+        </Box>
+      )}
+
+      {/* Filmography Section */}
+      {movies.length > 0 && (
+        <Box>
+          <Text
+            fontSize={{ base: "sm", lg: "lg" }}
+            fontWeight="bold"
+            mb={{ base: 2, lg: 3 }}
+          >
+            Filmography
+          </Text>
+          <ActorFilmography movies={movies} />
+        </Box>
+      )}
     </Container>
+  );
+};
+
+// Add a new BiographySection component for the expandable biography
+const BiographySection = ({ biography }: { biography: string }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const maxLength = 300;
+
+  const shouldShowButton = biography.length > maxLength;
+  const displayedBio = isExpanded ? biography : biography.slice(0, maxLength);
+
+  return (
+    <>
+      <Text
+        fontSize={{ base: "sm", lg: "lg" }}
+        lineHeight="tall"
+        color="gray.800"
+        _dark={{ color: "gray.100" }}
+        whiteSpace="pre-wrap"
+        overflowWrap="break-word"
+        wordBreak="break-word"
+      >
+        {displayedBio}
+        {!isExpanded && shouldShowButton && "..."}
+      </Text>
+      {shouldShowButton && (
+        <Button
+          variant="link"
+          colorScheme="blue"
+          mt={2}
+          size={{ base: "xs", md: "sm" }}
+          fontSize={{ base: "sm", md: "md" }}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? "Show Less" : "Read More"}
+        </Button>
+      )}
+    </>
   );
 };
 
