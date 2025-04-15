@@ -102,9 +102,9 @@ const TvDetails = () => {
     <Container maxW="container.xl" py={{ base: 4, md: 8 }}>
       {/* Header Section */}
       <Grid
-        templateColumns={{ base: "150px 1fr", md: "250px 1fr" }}
+        templateColumns={{ base: "120px 1fr", md: "250px 1fr" }}
         gap={{ base: 3, md: 6 }}
-        mb={8}
+        mb={{ base: 6, lg: 8 }}
       >
         {/* TV Show Poster */}
         <GridItem>
@@ -124,13 +124,13 @@ const TvDetails = () => {
               borderRadius="lg"
               p={3}
               textAlign="center"
-              height={{ base: "225px", md: "300px" }}
+              height={{ base: "180px", md: "300px" }}
               width="100%"
               display="flex"
               alignItems="center"
               justifyContent="center"
             >
-              <Text color="gray.400" fontSize="sm">
+              <Text color="gray.400" fontSize={{ base: "xs", md: "sm" }}>
                 No Poster Available
               </Text>
             </Box>
@@ -139,19 +139,19 @@ const TvDetails = () => {
 
         {/* TV Show Info */}
         <GridItem>
-          <Stack gap={{ base: 2, lg: 4 }}>
+          <Stack gap={{ base: 1, lg: 4 }}>
             <Box>
               <Heading
                 as="h1"
-                size={{ base: "lg", md: "xl", lg: "2xl" }}
-                mb={2}
+                size={{ base: "sm", md: "xl", lg: "2xl" }}
+                mb={{ base: 0.5, lg: 2 }}
                 textAlign="left"
               >
                 {tvShow.name}
               </Heading>
               {tvShow.tagline && (
                 <Text
-                  fontSize={{ base: "md", lg: "xl" }}
+                  fontSize={{ base: "xs", lg: "xl" }}
                   color="gray.400"
                   fontStyle="italic"
                   textAlign="left"
@@ -162,7 +162,7 @@ const TvDetails = () => {
             </Box>
 
             {tvShow.first_air_date && (
-              <Text fontSize="lg">
+              <Text fontSize={{ base: "xs", lg: "lg" }}>
                 First Aired:{" "}
                 {new Date(tvShow.first_air_date).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -173,21 +173,27 @@ const TvDetails = () => {
             )}
 
             {tvShow.number_of_seasons && (
-              <Text fontSize="lg">Seasons: {tvShow.number_of_seasons}</Text>
+              <Text fontSize={{ base: "xs", lg: "lg" }}>
+                Seasons: {tvShow.number_of_seasons}
+              </Text>
             )}
 
             {tvShow.vote_average && (
-              <Text fontSize="lg">
+              <Text fontSize={{ base: "xs", lg: "lg" }}>
                 Rating: {tvShow.vote_average.toFixed(1)}/10
               </Text>
             )}
 
             {tvShow.genres && tvShow.genres.length > 0 && (
               <Box>
-                <Text fontSize="lg" fontWeight="bold" mb={2}>
+                <Text
+                  fontSize={{ base: "xs", lg: "lg" }}
+                  fontWeight="bold"
+                  mb={{ base: 0.5, lg: 2 }}
+                >
                   Genres
                 </Text>
-                <Box display="flex" gap={2} flexWrap="wrap">
+                <Box display="flex" gap={{ base: 1, lg: 2 }} flexWrap="wrap">
                   {tvShow.genres.map((genre) => (
                     <GenrePill
                       key={genre.id}
@@ -198,32 +204,35 @@ const TvDetails = () => {
                 </Box>
               </Box>
             )}
-
-            {tvShow.overview && (
-              <Box>
-                <Text fontSize="lg" fontWeight="bold" mb={2}>
-                  Overview
-                </Text>
-                <Text fontSize="lg" lineHeight="tall">
-                  {tvShow.overview}
-                </Text>
-              </Box>
-            )}
           </Stack>
         </GridItem>
       </Grid>
 
+      {/* Overview Section - Full Width on Mobile */}
+      <Box width="100%" mb={{ base: 6, lg: 12 }}>
+        <Text
+          fontSize={{ base: "sm", lg: "lg" }}
+          fontWeight="bold"
+          mb={{ base: 2, lg: 3 }}
+        >
+          Overview
+        </Text>
+        <Text fontSize={{ base: "sm", lg: "lg" }} lineHeight="tall">
+          {tvShow.overview}
+        </Text>
+      </Box>
+
       {/* Cast Section */}
       {castWithBirthdays.length > 0 && (
-        <Box mt={6}>
-          <Heading size={{ base: "sm", md: "md" }} mb={3}>
+        <Box>
+          <Text
+            fontSize={{ base: "sm", lg: "lg" }}
+            fontWeight="bold"
+            mb={{ base: 2, lg: 3 }}
+          >
             Cast
-          </Heading>
-          <CastScroll
-            cast={castWithBirthdays}
-            size={{ base: "small", md: "large" }}
-            title=""
-          />
+          </Text>
+          <CastScroll cast={castWithBirthdays} />
         </Box>
       )}
     </Container>

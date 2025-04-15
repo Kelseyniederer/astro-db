@@ -98,22 +98,17 @@ const MovieDetails = () => {
   }
 
   return (
-    <Container maxW="container.xl" py={{ base: 4, lg: 8 }}>
+    <Container maxW="container.xl" py={{ base: 4, md: 8 }}>
       {/* Header Section */}
       <Grid
-        templateColumns={{ base: "120px 1fr", lg: "300px 1fr" }}
-        gap={{ base: 3, lg: 8 }}
-        mb={{ base: 6, lg: 12 }}
+        templateColumns={{ base: "120px 1fr", md: "250px 1fr" }}
+        gap={{ base: 3, md: 6 }}
+        mb={{ base: 6, lg: 8 }}
       >
         {/* Movie Poster */}
         <GridItem>
           {movie.poster_path ? (
-            <Box
-              width="100%"
-              borderRadius={{ base: "md", lg: "xl" }}
-              overflow="hidden"
-              shadow={{ base: "md", lg: "lg" }}
-            >
+            <Box width="100%" borderRadius="lg" overflow="hidden" shadow="md">
               <Image
                 src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
                 alt={movie.title}
@@ -125,16 +120,16 @@ const MovieDetails = () => {
           ) : (
             <Box
               bg="gray.700"
-              borderRadius={{ base: "md", lg: "xl" }}
-              p={4}
+              borderRadius="lg"
+              p={3}
               textAlign="center"
-              height={{ base: "180px", lg: "400px" }}
+              height={{ base: "180px", md: "300px" }}
               width="100%"
               display="flex"
               alignItems="center"
               justifyContent="center"
             >
-              <Text color="gray.400" fontSize={{ base: "xs", lg: "md" }}>
+              <Text color="gray.400" fontSize={{ base: "xs", md: "sm" }}>
                 No Poster Available
               </Text>
             </Box>
@@ -208,28 +203,27 @@ const MovieDetails = () => {
                 </Box>
               </Box>
             )}
-
-            {movie.overview && (
-              <Box>
-                <Text
-                  fontSize={{ base: "xs", lg: "lg" }}
-                  fontWeight="bold"
-                  mb={{ base: 0.5, lg: 2 }}
-                >
-                  Overview
-                </Text>
-                <Text fontSize={{ base: "xs", lg: "lg" }}>
-                  {movie.overview}
-                </Text>
-              </Box>
-            )}
           </Stack>
         </GridItem>
       </Grid>
 
+      {/* Overview Section - Full Width on Mobile */}
+      <Box width="100%" mb={{ base: 6, lg: 12 }}>
+        <Text
+          fontSize={{ base: "sm", lg: "lg" }}
+          fontWeight="bold"
+          mb={{ base: 2, lg: 3 }}
+        >
+          Overview
+        </Text>
+        <Text fontSize={{ base: "sm", lg: "lg" }} lineHeight="tall">
+          {movie.overview}
+        </Text>
+      </Box>
+
       {/* Cast Section */}
       {castWithBirthdays.length > 0 && (
-        <Box mt={{ base: 4, lg: 8 }}>
+        <Box>
           <Text
             fontSize={{ base: "sm", lg: "lg" }}
             fontWeight="bold"
@@ -237,7 +231,7 @@ const MovieDetails = () => {
           >
             Cast
           </Text>
-          <CastScroll cast={castWithBirthdays} size="small" />
+          <CastScroll cast={castWithBirthdays} />
         </Box>
       )}
     </Container>

@@ -66,8 +66,13 @@ function App() {
       }));
       setSelectedGenre(null);
       setSearchParams({});
+
+      // Clear the search input
+      if (searchInputRef.current) {
+        searchInputRef.current.clearInput();
+      }
     }
-  }, [location.pathname]);
+  }, [location.pathname, setSearchParams]);
 
   const handleSearch = (searchText: string) => {
     // Ignore empty searches completely
